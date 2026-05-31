@@ -1,0 +1,66 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #e8e0d0;
+  background: #0f0d0b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #0f0d0b;
+}
+
+.console-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 40px 0 56px;
+}
+
+.hero-panel,
+.panel {
+  border: 1px solid rgba(232, 224, 208, 0.12);
+  border-radius: 24px;
+  background: rgba(24, 21, 17, 0.9);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.24);
+}
+
+.hero-panel {
+  padding: 36px;
+  margin-bottom: 22px;
+}
+
+.hero-panel h1,
+.panel h2,
+.stage-card h3 {
+  margin: 0;
+}
+
+.hero-panel h1 {
+  font-size: clamp(2.4rem, 8vw, 5.2rem);
+  line-height: 0.95;
+  max-width: 780px;
+}
+
+.hero-copy,
+.pilot-header p,
+.stage-body p,
+.decision-panel p,
+.note-line,
+.evidence-list dd {
+  color: #c0b4a1;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #cb9a5d;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
