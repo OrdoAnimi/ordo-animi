@@ -4,62 +4,72 @@
   "status": "complete",
   "sourcePath": "pilot/runs/pilot-001-architecture-review-board",
   "productQuestion": "Can VALOUR turn a high-pressure architecture leadership moment into a clearer decision conversation?",
+  "scenario": "A solution architect is preparing for an architecture review board under delivery pressure. The architect needs to present a cloud integration design clearly, avoid over-explaining, and make the decision, trade-off, and risk position understandable to the review board.",
+  "decision": "repeat",
   "stages": [
     {
       "id": "intake",
       "label": "Intake",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/intake.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Captures the user's role, architecture leadership challenge, review board context, starting confidence, desired outcome, main concern, and selected scenario."
     },
     {
       "id": "scenario-selection",
       "label": "Scenario Selection",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/scenario-selection.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Confirms Architecture Review Board as the correct VALOUR scenario because the user must convert technical judgement into decision language under challenge."
     },
     {
       "id": "preparation",
       "label": "Preparation",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/scenario-preparation.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Defines audience, stakeholders, decision required, context, risk, likely pushback, response options, opening frame, questions, and closing statement."
     },
     {
       "id": "rehearsal",
       "label": "Rehearsal",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/ai-rehearsal.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Runs simulated board challenge questions and shows how VALOUR improves broad or defensive answers into concise decision-oriented responses."
     },
     {
       "id": "language-refinement",
       "label": "Language Refinement",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/language-refinement.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Converts technical, uncertain, or defensive answers into executive, empathetic, boundary-setting, and decision-oriented language."
     },
     {
       "id": "after-action-review",
       "label": "After-Action Review",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/after-action-review.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Records what happened, what worked, what did not, where clarity improved, where composure was tested, feedback received, and ending confidence."
     },
     {
       "id": "pattern-report",
       "label": "Pattern Report",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/pattern-report.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Identifies the leadership pattern, primary strength, primary risk, best and hardest scenario types, development focus, and coaching note."
     },
     {
       "id": "evidence-record",
       "label": "Evidence Record",
       "sourceFile": "pilot/runs/pilot-001-architecture-review-board/evidence-record.md",
-      "status": "to-confirm",
-      "evidenceCaptured": true
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Summarises product evidence, confidence shift, observed improvement, product learning, remaining weakness, recommendation, and repeat decision."
     }
   ]
 }

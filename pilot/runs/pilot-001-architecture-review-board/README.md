@@ -1,23 +1,59 @@
-# Pilot Run 001: Architecture Review Board
+# Pilot 001: Architecture Review Board
 
-Status: Simulated pilot run
+Status: Complete working pilot run
 
-Purpose: Prove the VALOUR manual pilot loop end to end before building the Pilot Console.
+Product: VALOUR for Architecture Leadership
+
+Source path: `pilot/runs/pilot-001-architecture-review-board/`
 
 ## Scenario
 
-A solution architect is preparing for an architecture review board. The architect needs support for a cloud integration design under delivery pressure. The main risk is giving too much technical detail and failing to make the decision, trade-off, and risk position clear.
+A senior solution architect is preparing for an architecture review board under delivery pressure. The architect needs to present a cloud integration design clearly, avoid over-explaining, and make the decision, trade-off, and risk position understandable to the review board.
 
-## Run objective
+The enterprise context is anonymised. The run does not reference client names, real systems, proprietary designs, or confidential delivery details.
 
-Use the manual VALOUR pilot templates to prove that one user can move through the full workflow:
-
-Intake -> Scenario Selection -> Preparation -> Rehearsal -> Language Refinement -> After-Action Review -> Pattern Report -> Evidence Record.
-
-## Product question
+## Product Question
 
 Can VALOUR turn a high-pressure architecture leadership moment into a clearer decision conversation?
 
-## Success criteria
+## Run Objective
 
-This simulated run is successful when every stage has a completed working artefact and the final evidence record supports a clear product decision.
+Use the VALOUR loop end to end so the founder/operator has a realistic reference pattern for Pilot 002:
+
+Intake -> Scenario Selection -> Preparation -> Rehearsal -> Language Refinement -> After-Action Review -> Pattern Report -> Evidence Record.
+
+## Working Hypothesis
+
+The user is technically strong, but their default communication pattern is to add more implementation detail when challenged. The review board needs a decision frame first: recommendation, options, trade-off, risk position, and requested decision.
+
+## Outcome Summary
+
+Pilot 001 shows that VALOUR can help a technical leader:
+
+- move from technical explanation to decision framing
+- make trade-offs explicit
+- answer challenge without becoming defensive
+- improve cadence by shortening answers
+- close with clear conditions and next actions
+
+Starting confidence: 5/10
+
+Ending confidence: 8/10
+
+Product decision: Repeat
+
+## Artefacts
+
+- `intake.md`
+- `scenario-selection.md`
+- `scenario-preparation.md`
+- `ai-rehearsal.md`
+- `language-refinement.md`
+- `after-action-review.md`
+- `pattern-report.md`
+- `evidence-record.md`
+- `manifest.json`
+
+## Operator Note
+
+This pilot is ready to use as the reference pattern for a second architecture leadership run. Keep the console private and operator-led until the evidence model has been tested across more than one pilot.
