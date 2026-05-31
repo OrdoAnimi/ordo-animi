@@ -14,7 +14,7 @@ export function EvidencePanel({
         <div>
           <dt>Confidence shift</dt>
           <dd>
-            {evidence.startingConfidence ?? 'n/a'} ->{' '}
+            {evidence.startingConfidence ?? 'n/a'} {' -> '}
             {evidence.endingConfidence ?? 'n/a'}
           </dd>
         </div>
