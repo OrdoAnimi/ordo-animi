@@ -21,6 +21,14 @@ Ordo Animi is the parent concept. The first commercial product is **VALOUR for A
 5. `docs/04-go-to-market.md`
 6. `docs/05-funder-engagement-pack.md`
 7. `docs/06-valour-mvp.md`
+8. `docs/07-scenario-library.md`
+9. `docs/08-pilot-templates.md`
+10. `docs/09-outreach-copy.md`
+11. `docs/10-pitch-narrative.md`
+12. `docs/11-product-roadmap.md`
+13. `docs/12-operating-model.md`
+14. `docs/13-risk-and-ip-notes.md`
+15. `docs/14-funding-one-pager.md`
 
 ## First wedge
 
