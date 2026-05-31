@@ -18,73 +18,226 @@
       body {
         margin: 0;
         min-height: 100vh;
-        background: linear-gradient(135deg, #17130f 0%, #0d0c0b 100%);
+        background:
+          radial-gradient(circle at top left, rgba(203, 154, 93, 0.18), transparent 34rem),
+          linear-gradient(135deg, #17130f 0%, #0d0c0b 100%);
       }
 
-      .fallback-shell {
-        width: min(1040px, calc(100% - 32px));
+      .shell {
+        width: min(1160px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 48px 0;
+        padding: 42px 0 56px;
       }
 
-      .fallback-panel {
+      .panel {
         border: 1px solid rgba(232, 224, 208, 0.14);
-        border-radius: 28px;
-        background: rgba(24, 21, 17, 0.92);
+        border-radius: 26px;
+        background: rgba(24, 21, 17, 0.9);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero {
         padding: 36px;
-        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+        margin-bottom: 22px;
       }
 
       .eyebrow {
         margin: 0 0 12px;
         color: #cb9a5d;
         font-size: 0.75rem;
-        font-weight: 700;
+        font-weight: 800;
         letter-spacing: 0.16em;
         text-transform: uppercase;
       }
 
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
       h1 {
-        margin: 0;
-        font-size: clamp(2.4rem, 8vw, 5.2rem);
-        line-height: 0.95;
+        margin-bottom: 20px;
+        max-width: 780px;
+        font-size: clamp(2.5rem, 8vw, 5.3rem);
+        line-height: 0.94;
+        letter-spacing: -0.05em;
+      }
+
+      h2 {
+        margin-bottom: 12px;
+        font-size: 1.6rem;
+        letter-spacing: -0.03em;
+      }
+
+      h3 {
+        margin-bottom: 8px;
+        font-size: 1rem;
       }
 
       p {
         color: #c0b4a1;
         line-height: 1.65;
-        max-width: 760px;
       }
 
-      .status {
-        display: inline-block;
-        margin-top: 16px;
-        border: 1px solid rgba(203, 154, 93, 0.4);
+      .status-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(203, 154, 93, 0.38);
         border-radius: 999px;
-        padding: 8px 14px;
+        padding: 8px 13px;
         color: #f0cd96;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.8fr);
+        gap: 22px;
+      }
+
+      .stack {
+        display: grid;
+        gap: 22px;
+      }
+
+      .section {
+        padding: 26px;
+      }
+
+      .stages {
+        display: grid;
+        gap: 14px;
+      }
+
+      .stage {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 16px;
+        padding: 18px;
+        border: 1px solid rgba(232, 224, 208, 0.1);
+        border-radius: 18px;
+        background: rgba(0, 0, 0, 0.16);
+      }
+
+      .stage-number {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: rgba(203, 154, 93, 0.15);
+        color: #f0cd96;
+        font-weight: 900;
+      }
+
+      .stage p {
+        margin-bottom: 0;
+      }
+
+      .metric {
+        border-top: 1px solid rgba(232, 224, 208, 0.1);
+        padding-top: 14px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #f0cd96;
+      }
+
+      code {
+        color: #d7b47d;
+        overflow-wrap: anywhere;
+      }
+
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="root">
-      <main class="fallback-shell">
-        <section class="fallback-panel">
-          <p class="eyebrow">VALOUR Pilot Console v0.1</p>
-          <h1>Private operator workspace</h1>
-          <p>
-            Static fallback is visible. This confirms the browser can load the application shell even before React takes over.
-          </p>
-          <p>
-            Pilot mapping: pilot/runs/pilot-001-architecture-review-board/
-          </p>
-          <span class="status">fallback alive</span>
-        </section>
-      </main>
-    </div>
+    <main class="shell">
+      <section class="hero panel">
+        <p class="eyebrow">VALOUR Pilot Console v0.1</p>
+        <h1>Private operator workspace</h1>
+        <p>
+          Stable static baseline. This page intentionally has no React boot dependency, no client-side routing, and no generated runtime requirement. It exists to make the pilot console visible and deployable before application logic is reintroduced.
+        </p>
+        <div class="status-row">
+          <span class="pill">baseline alive</span>
+          <span class="pill">static deploy safe</span>
+          <span class="pill">pilot 001 mapped</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="stack">
+          <section class="panel section">
+            <p class="eyebrow">Pilot run</p>
+            <h2>Pilot 001: Architecture Review Board</h2>
+            <p>
+              A solution architect is preparing for an architecture review board under delivery pressure and needs to make the decision, trade-off, and risk position clear without drowning the room in technical detail.
+            </p>
+            <p><strong>Product question:</strong> Can VALOUR turn a high-pressure architecture leadership moment into a clearer decision conversation?</p>
+            <p><strong>Source:</strong> <code>pilot/runs/pilot-001-architecture-review-board/</code></p>
+          </section>
+
+          <section class="panel section">
+            <p class="eyebrow">VALOUR loop</p>
+            <h2>Workflow stages</h2>
+            <div class="stages">
+              <article class="stage"><div class="stage-number">01</div><div><h3>Intake</h3><p>Capture role, context, challenge, desired outcome, and starting confidence.</p></div></article>
+              <article class="stage"><div class="stage-number">02</div><div><h3>Scenario Selection</h3><p>Select the Architecture Review Board scenario from the VALOUR library.</p></div></article>
+              <article class="stage"><div class="stage-number">03</div><div><h3>Preparation</h3><p>Clarify audience, decision, context, risk, likely pushback, key message, opening frame, and close.</p></div></article>
+              <article class="stage"><div class="stage-number">04</div><div><h3>Rehearsal</h3><p>Challenge clarity, cadence, empathy, authority, and decision framing.</p></div></article>
+              <article class="stage"><div class="stage-number">05</div><div><h3>Language Refinement</h3><p>Convert technical explanation into useful leadership language.</p></div></article>
+              <article class="stage"><div class="stage-number">06</div><div><h3>After-Action Review</h3><p>Capture what happened, what worked, what failed, and whether VALOUR helped.</p></div></article>
+              <article class="stage"><div class="stage-number">07</div><div><h3>Pattern Report</h3><p>Identify the recurring leadership pattern and next development focus.</p></div></article>
+              <article class="stage"><div class="stage-number">08</div><div><h3>Evidence Record</h3><p>Close the pilot loop and decide whether to repeat, revise, pause, or archive.</p></div></article>
+            </div>
+          </section>
+        </div>
+
+        <aside class="stack">
+          <section class="panel section">
+            <p class="eyebrow">Evidence</p>
+            <h2>Run learning</h2>
+            <div class="metric"><strong>Confidence shift</strong><p>5 → 8</p></div>
+            <div class="metric"><strong>Main pattern</strong><p>The architect over-explains technical context when the room needs decision framing first.</p></div>
+            <div class="metric"><strong>Product learning</strong><p>VALOUR has a credible loop when it converts expert architecture thinking into clear leadership language before and after a high-stakes meeting.</p></div>
+          </section>
+
+          <section class="panel section">
+            <p class="eyebrow">Product decision</p>
+            <h2>Repeat</h2>
+            <p>
+              Pilot 001 is strong enough as a reference pattern, but not enough to claim repeatability across real users. The next step is a second pilot run using the same structure.
+            </p>
+          </section>
+
+          <section class="panel section">
+            <p class="eyebrow">Guardrail</p>
+            <h2>No platform drift</h2>
+            <p>
+              This console stays internal until the manual pilot proves the behaviour loop. The GTM offer remains the founder-led VALOUR Architecture Leadership Pilot.
+            </p>
+          </section>
+        </aside>
+      </section>
+    </main>
   </body>
 </html>
