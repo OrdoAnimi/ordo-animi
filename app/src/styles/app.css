@@ -12,7 +12,9 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #0f0d0b;
+  background:
+    radial-gradient(circle at top left, rgba(162, 114, 63, 0.18), transparent 32rem),
+    linear-gradient(135deg, #17130f 0%, #0d0c0b 100%);
 }
 
 .console-shell {
@@ -63,4 +65,118 @@ body {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+.pilot-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  padding: 28px;
+  margin-bottom: 22px;
+}
+
+.status-pill {
+  height: fit-content;
+  border: 1px solid rgba(203, 154, 93, 0.34);
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: #f0cd96;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.question-card,
+.objective-card,
+.next-step {
+  grid-column: 1 / -1;
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(232, 224, 208, 0.05);
+}
+
+.console-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.85fr);
+  gap: 22px;
+}
+
+.timeline-panel,
+.side-stack .panel {
+  padding: 24px;
+}
+
+.timeline,
+.side-stack,
+.note-stack,
+.evidence-list {
+  display: grid;
+  gap: 14px;
+}
+
+.stage-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid rgba(232, 224, 208, 0.08);
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.stage-index {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(203, 154, 93, 0.14);
+  color: #f0cd96;
+  font-weight: 800;
+}
+
+.stage-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.stage-status {
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: #f0cd96;
+  background: rgba(203, 154, 93, 0.12);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stage-meta {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+code {
+  overflow-wrap: anywhere;
+  color: #d7b47d;
+}
+
+.operator-note,
+.note-line {
+  border-left: 2px solid rgba(203, 154, 93, 0.4);
+  padding-left: 12px;
+}
+
+.decision-panel h2 {
+  text-transform: capitalize;
+  color: #f0cd96;
+}
+
+@media (max-width: 900px) {
+  .pilot-header,
+  .console-grid {
+    grid-template-columns: 1fr;
+  }
 }
