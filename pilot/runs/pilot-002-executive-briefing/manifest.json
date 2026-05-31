@@ -1,0 +1,75 @@
+{
+  "id": "pilot-002-executive-briefing",
+  "title": "Pilot 002: Executive Briefing",
+  "status": "complete",
+  "sourcePath": "pilot/runs/pilot-002-executive-briefing",
+  "productQuestion": "Can VALOUR help a technical leader convert a complex technology recommendation into a concise executive decision briefing?",
+  "scenario": "A technical leader needs to brief senior executives on a complex technology decision. The risk is going too deep into technical detail, losing executive attention, and failing to connect the recommendation to business risk, cost, timing, and decision options.",
+  "decision": "repeat",
+  "stages": [
+    {
+      "id": "intake",
+      "label": "Intake",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/intake.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Captures the technical leader role, executive briefing challenge, starting confidence, desired outcome, concern, and selected scenario."
+    },
+    {
+      "id": "scenario-selection",
+      "label": "Scenario Selection",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/scenario-selection.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Confirms Executive Briefing as the correct scenario because the user must compress technical judgement into business decision language."
+    },
+    {
+      "id": "preparation",
+      "label": "Preparation",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/scenario-preparation.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Defines executive audience, stakeholders, decision required, context, business risk, likely pushback, response options, opening frame, and close."
+    },
+    {
+      "id": "rehearsal",
+      "label": "Rehearsal",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/ai-rehearsal.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Runs simulated executive challenge questions and improves technical draft answers into concise business-focused responses."
+    },
+    {
+      "id": "language-refinement",
+      "label": "Language Refinement",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/language-refinement.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Converts detailed technical briefing language into executive, business, trade-off, and decision-oriented language."
+    },
+    {
+      "id": "after-action-review",
+      "label": "After-Action Review",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/after-action-review.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Records what happened, what worked, where clarity improved, where composure was tested, feedback received, and ending confidence."
+    },
+    {
+      "id": "pattern-report",
+      "label": "Pattern Report",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/pattern-report.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Identifies technical detail before executive relevance as the leadership pattern, plus strength, risk, scenario fit, development focus, and coaching note."
+    },
+    {
+      "id": "evidence-record",
+      "label": "Evidence Record",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/evidence-record.md",
+      "status": "complete",
+      "evidenceCaptured": true,
+      "summary": "Summarises product evidence, confidence shift, observed improvement, product learning, remaining weakness, recommendation, and repeat decision."
+    }
+  ]
+}

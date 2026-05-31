@@ -1,9 +1,18 @@
-# VALOUR Pilot Console v0.1 Build Plan
+# VALOUR Pilot Console Build Plan
 
-Status: Planning baseline  
+Status: Release 0.2 baseline
 Scope: Private pilot console  
 Product: VALOUR for Architecture Leadership  
-Primary pilot mapping: `pilot/runs/pilot-001-architecture-review-board/`
+Primary pilot mappings:
+
+- `pilot/runs/pilot-001-architecture-review-board/`
+- `pilot/runs/pilot-002-executive-briefing/`
+
+## Release 0.2 Note
+
+Release 0.2 adds the Repeatable Pilot Engine. It keeps the console static and private while proving the VALOUR loop can support a second complete pilot run.
+
+The app should show both Pilot 001 and Pilot 002, their workflow summaries, evidence summaries, and product decisions. No routing, backend, authentication, database, payment flow, AI API integration, or public-user features are required.
 
 ## Purpose
 
