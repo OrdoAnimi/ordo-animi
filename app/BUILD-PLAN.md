@@ -341,3 +341,51 @@ Every new feature must pass this test:
 Does this help the operator prepare, rehearse, review, or learn from a real architecture leadership moment?
 
 If not, it waits.
+
+## End-of-day Codex execution protocol
+
+Status: Active for 7 a.m. to end-of-day build execution.
+
+Execution model: ChatGPT is the planning, product, UX, and architecture control layer. Codex is the large-change implementation layer. Token usage is a hard constraint, so ChatGPT should avoid repeated micro-instructions and Codex should execute complete deployment slices without repeated confirmation prompts.
+
+Codex must work as the senior engineer and release operator for `app/`. It must inspect before changing, fix before expanding, and verify before committing. The working prototype target is a deployable private VALOUR Pilot Console that can run locally and be deployed as a static/internal prototype by end of day.
+
+Codex is authorised to execute the full implementation loop in one run: inspect, repair, implement, test, build, document, commit, and report. Codex must not stop for clarification unless the repository is missing, credentials are unavailable, or a destructive action would be required. Codex must prefer safe assumptions over blocking questions.
+
+The end-of-day prototype target is not a SaaS launch. It is a working internal prototype of the VALOUR Pilot Console that supports Pilot 001 and prepares the repository for Pilot 002. The product remains founder-led and pilot-first.
+
+Required working state by end of day:
+
+- The app renders visibly from `app/` without a blank screen.
+- The page title and primary surface say VALOUR Pilot Console v0.1.
+- The console maps directly to `pilot/runs/pilot-001-architecture-review-board/`.
+- Pilot 001 shows the VALOUR workflow in order.
+- Pilot 001 stage artefacts exist or are generated as markdown files.
+- `manifest.json` is the source of truth for the pilot run.
+- Stage status is no longer left as `to-confirm` where an artefact exists.
+- `npm install` succeeds.
+- `npm run build` succeeds.
+- The local preview/dev server shows a visible page.
+- The README explains how to run and deploy the prototype.
+- No backend, auth, database, payment flow, public SaaS shell, or AI API integration is introduced.
+
+Codex must use this repair-first sequence:
+
+1. Confirm `app/index.html` is being served.
+2. Confirm static render works.
+3. Restore or replace React only after static render is proven.
+4. Run `npm install`.
+5. Run `npm run build`.
+6. Fix all TypeScript, JSX, import, CSS, and runtime errors.
+7. Reintroduce the console panels only after the minimal render works.
+8. Create missing Pilot 001 artefact markdown files.
+9. Update Pilot 001 manifest statuses to match real artefacts.
+10. Add a Pilot 002 template folder only after Pilot 001 is stable.
+11. Run the final build again.
+12. Commit the working prototype.
+
+Codex must not overwrite product strategy documents unless directly instructed. Codex must not delete the existing Ordo Animi source-of-truth documents. Codex must not turn the project into a broad wellness product, generic coaching app, or full Ordo Animi platform. Codex must keep VALOUR as the first commercial wedge.
+
+Codex must make the smallest viable technical decisions that produce a working prototype. If React/Vite remains unstable, Codex may choose a static HTML prototype for the end-of-day deployment, but it must document that decision and preserve the React source for later rebuild. Visible working prototype beats incomplete framework purity.
+
+Codex must end with a concise release report containing what was changed, what was verified, how to run locally, what remains incomplete, and the next build step.
