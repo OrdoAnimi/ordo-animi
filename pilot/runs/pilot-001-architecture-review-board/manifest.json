@@ -1,0 +1,65 @@
+{
+  "id": "pilot-001-architecture-review-board",
+  "title": "Pilot 001: Architecture Review Board",
+  "status": "complete",
+  "sourcePath": "pilot/runs/pilot-001-architecture-review-board",
+  "productQuestion": "Can VALOUR turn a high-pressure architecture leadership moment into a clearer decision conversation?",
+  "stages": [
+    {
+      "id": "intake",
+      "label": "Intake",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/intake.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "scenario-selection",
+      "label": "Scenario Selection",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/scenario-selection.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "preparation",
+      "label": "Preparation",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/scenario-preparation.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "rehearsal",
+      "label": "Rehearsal",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/ai-rehearsal.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "language-refinement",
+      "label": "Language Refinement",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/language-refinement.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "after-action-review",
+      "label": "After-Action Review",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/after-action-review.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "pattern-report",
+      "label": "Pattern Report",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/pattern-report.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "evidence-record",
+      "label": "Evidence Record",
+      "sourceFile": "pilot/runs/pilot-001-architecture-review-board/evidence-record.md",
+      "status": "to-confirm",
+      "evidenceCaptured": true
+    }
+  ]
+}
