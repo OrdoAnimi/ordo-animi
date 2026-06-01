@@ -1,43 +1,48 @@
 # Ordo Animi
 
-Private founder workspace for the Ordo Animi product system.
+**Private — ZenCloud Global Consultants flagship AI product.**
 
-Ordo Animi is the parent concept. The first commercial product is **VALOUR for Architecture Leadership**: an AI-assisted leadership and communication copilot for architects and technical leaders who need to prepare for, rehearse, and review high-stakes conversations.
+*Ordo Animi* — Latin: *Order of the Mind* — is ZenCloud's agentic AI leadership platform.
+A command-and-control system for professional and personal life, built on guardrails,
+governance, and structured decision intelligence.
 
-## System layers
+## Purpose
 
-- **VALOUR** — professional leadership, architecture communication, cadence, authority, empathy, and influence.
-- **VITA** — personal life, recovery, relationships, rhythm, health, home, and self-leadership outside work.
-- **VALLUM** — the governing mode-switch layer between work, life, impulse, truth, and action.
-- **VERITAS** — the truth-checking layer that separates evidence from story, ego, fear, distortion, and avoidance.
-- **VIA** — the journey layer that holds origin, path, development, return, and long-term becoming.
+Ordo Animi gives individuals and leaders an AI-powered operating system for their life —
+not a productivity app, not a chatbot. A governed, agentic system that structures decisions,
+enforces personal guardrails, tracks commitments, and coordinates across professional and
+personal domains with the discipline of enterprise architecture applied to human leadership.
 
-## Documents
+## Core Capabilities
 
-1. `docs/00-product-charter.md`
-2. `docs/01-founder-story.md`
-3. `docs/02-system-architecture.md`
-4. `docs/03-market-positioning.md`
-5. `docs/04-go-to-market.md`
-6. `docs/05-funder-engagement-pack.md`
-7. `docs/06-valour-mvp.md`
-8. `docs/07-scenario-library.md`
-9. `docs/08-pilot-templates.md`
-10. `docs/09-outreach-copy.md`
-11. `docs/10-pitch-narrative.md`
-12. `docs/11-product-roadmap.md`
-13. `docs/12-operating-model.md`
-14. `docs/13-risk-and-ip-notes.md`
-15. `docs/14-funding-one-pager.md`
+- **Agentic command layer** — structured task execution with human-in-the-loop governance
+- **Personal guardrail system** — non-negotiables, constraints, and operating principles enforced by AI
+- **Decision governance** — every significant decision traced, recorded, and reviewed
+- **Professional/personal integration** — one system governing both domains with appropriate separation
+- **Leadership intelligence** — AI-assisted thinking for senior leaders navigating complex decisions
 
-## First wedge
+## Design Principles
 
-VALOUR for Architecture Leadership.
+- Guardrails first — the system knows what you will not do before it suggests what you should
+- Decision traceability — every commitment has a record
+- Human authority — the agent advises and executes, the human decides and governs
+- Aligned to VAF™ — decision governance architecture applied to personal and professional life
 
-## First proof
+## How It Fits the Ecosystem
 
-Real users prepare for, rehearse, and handle real architecture leadership conversations better.
+- **VAF™** — decision governance method that underpins Ordo Animi's architecture
+- **StudioSix** — delivery studio that will commercialise Ordo Animi for enterprise clients
+- **PMO Portal** — operational counterpart for project and programme governance
 
-## North Star
+## Stack
 
-Return the person to the right mode at the right time.
+TypeScript · Node.js · Anthropic SDK · Azure
+
+## Status
+
+Active development. Private repository.
+
+## Licence
+
+Proprietary. © 2026 Phil Myint / ZenCloud Global Consultants. All rights reserved.
+See LICENSE.md for terms.
