@@ -1,4 +1,4 @@
-type Props = { onEnterConsole: () => void; onJoinPilot: () => void };
+type Props = { onEnterConsole: () => void; onJoinPilot: () => void; onViewScenarios: () => void };
 
 const SCENARIOS = [
   'Architecture review board',
@@ -13,7 +13,7 @@ const SCENARIOS = [
   'End-of-day handover',
 ];
 
-export function LandingPage({ onEnterConsole, onJoinPilot }: Props) {
+export function LandingPage({ onEnterConsole, onJoinPilot, onViewScenarios }: Props) {
   return (
     <div className="landing">
 
@@ -74,6 +74,9 @@ export function LandingPage({ onEnterConsole, onJoinPilot }: Props) {
             <div key={s} className="scenario-chip">{s}</div>
           ))}
         </div>
+        <button className="btn btn-ghost" style={{ marginTop: '16px' }} onClick={onViewScenarios}>
+          View all scenarios →
+        </button>
       </section>
 
       <section className="landing-section landing-audience">

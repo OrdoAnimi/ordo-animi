@@ -9,14 +9,16 @@ import { ProductDecisionPanel } from './components/ProductDecisionPanel';
 import { LandingPage } from './components/LandingPage';
 import { PatternPage } from './components/PatternPage';
 import { IntakeForm } from './components/IntakeForm';
+import { ScenariosPage } from './components/ScenariosPage';
 
-type Page = 'landing' | 'console' | 'pattern' | 'intake';
+type Page = 'landing' | 'console' | 'pattern' | 'intake' | 'scenarios';
 
 function getPage(): Page {
   const hash = window.location.hash;
-  if (hash === '#console') return 'console';
-  if (hash === '#pattern') return 'pattern';
-  if (hash === '#intake')  return 'intake';
+  if (hash === '#console')   return 'console';
+  if (hash === '#pattern')   return 'pattern';
+  if (hash === '#intake')    return 'intake';
+  if (hash === '#scenarios') return 'scenarios';
   return 'landing';
 }
 
@@ -31,9 +33,15 @@ export function App() {
 
   const nav = (hash: string) => () => { window.location.hash = hash; };
 
-  if (page === 'landing')  return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} />;
-  if (page === 'pattern')  return <PatternPage pattern={pilot001.pattern} pilotTitle={pilot001.title.replace(': ', ' · ')} onBack={nav('#console')} />;
-  if (page === 'intake')   return <IntakeForm onBack={nav('')} />;
+  if (page === 'landing')   return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} onViewScenarios={nav('#scenarios')} />;
+  if (page === 'pattern')   return <PatternPage pattern={pilot001.pattern} pilotTitle={pilot001.title.replace(': ', ' · ')} onBack={nav('#console')} />;
+  if (page === 'intake')    return <IntakeForm onBack={nav('')} />;
+  if (page === 'scenarios') return (
+    <ScenariosPage
+      onBack={nav('')}
+      onSelectScenario={title => { window.location.hash = `#intake?scenario=${encodeURIComponent(title)}`; }}
+    />
+  );
   return <Console onViewPattern={nav('#pattern')} />;
 }
 
