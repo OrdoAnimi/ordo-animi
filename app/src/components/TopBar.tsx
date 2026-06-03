@@ -7,6 +7,14 @@ export function TopBar({ pilot }: { pilot: PilotRun }) {
 
   return (
     <header className="topbar">
+      <a
+        className="topbar-back"
+        href="#"
+        onClick={e => { e.preventDefault(); window.location.hash = ''; }}
+        title="Back to landing"
+      >
+        ←
+      </a>
       <span className="topbar-logo">VALOUR™</span>
       <div className="topbar-divider" />
       <span className="topbar-title">{pilot.title.replace(': ', ' · ')}</span>

@@ -49,6 +49,16 @@ body {
   border-bottom: 1px solid var(--border);
   min-height: 52px;
 }
+.topbar-back {
+  color: var(--text-dim);
+  font-size: 16px;
+  text-decoration: none;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color .12s;
+}
+.topbar-back:hover { color: var(--accent); }
+
 .topbar-logo {
   color: var(--accent);
   font-size: 11px;
@@ -105,7 +115,7 @@ body {
 .pill-paused   { background: rgba(251,191,36,.1);  border: 1px solid rgba(251,191,36,.25); color: #fbbf24; }
 
 /* ── Body ───────────────────────────────── */
-.body { display: flex; height: 540px; }
+.body { display: flex; min-height: 540px; }
 
 /* ── Sidebar ────────────────────────────── */
 .sidebar {
