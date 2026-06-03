@@ -62,6 +62,8 @@ export type StageOutput = {
   generatedAt: string;
   source: GenerationSource;
   model?: string;
+  provider?: string;
+  durationMs?: number;
 };
 
 export type PilotStateEntry = {
@@ -72,16 +74,29 @@ export type PilotStateEntry = {
   savedAt?: string;
 };
 
+export type AgentLogEntry = {
+  stageId: string;
+  agentName: string;
+  source: GenerationSource;
+  provider: string;
+  model?: string;
+  generatedAt: string;
+  durationMs?: number;
+};
+
+export type IntakeData = {
+  role?: string;
+  organisation?: string;
+  situation?: string;
+  outcome?: string;
+  confidenceBefore?: number;
+};
+
 export type PilotState = {
   pilotId: string;
   entries: Record<string, PilotStateEntry>;
-  intakeData?: {
-    role?: string;
-    organisation?: string;
-    situation?: string;
-    outcome?: string;
-    confidenceBefore?: number;
-  };
+  intakeData?: IntakeData;
+  runLog: AgentLogEntry[];
   startedAt: string;
   updatedAt: string;
 };
@@ -96,6 +111,7 @@ export type AgentContext = {
   organisation?: string;
   situation?: string;
   outcome?: string;
+  confidenceBefore?: number;
   previousOutputs: Record<string, string>;
   userInput?: string;
 };

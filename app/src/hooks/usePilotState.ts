@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { PilotStage, PilotState, PilotStateEntry, StageOutput, StageStatus } from '../data/types';
+import type { AgentLogEntry, IntakeData, PilotStage, PilotState, PilotStateEntry, StageOutput, StageStatus } from '../data/types';
 
 function makeDefault(pilotId: string, stages: PilotStage[]): PilotState {
   const entries: Record<string, PilotStateEntry> = {};
@@ -9,6 +9,7 @@ function makeDefault(pilotId: string, stages: PilotStage[]): PilotState {
   return {
     pilotId,
     entries,
+    runLog: [],
     startedAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -21,17 +22,19 @@ export function usePilotState(pilotId: string, initialStages: PilotStage[]) {
     try {
       const saved = localStorage.getItem(key);
       if (saved) {
-        const parsed: PilotState = JSON.parse(saved);
-        if (parsed.pilotId === pilotId) return parsed;
+        const parsed = JSON.parse(saved) as PilotState;
+        if (parsed.pilotId === pilotId) {
+          // Ensure runLog exists on migrated states
+          if (!parsed.runLog) parsed.runLog = [];
+          return parsed;
+        }
       }
     } catch { /* ignore */ }
     return makeDefault(pilotId, initialStages);
   });
 
   useEffect(() => {
-    try {
-      localStorage.setItem(key, JSON.stringify(state));
-    } catch { /* quota */ }
+    try { localStorage.setItem(key, JSON.stringify(state)); } catch { /* quota */ }
   }, [key, state]);
 
   const setOutput = useCallback((stageId: string, output: StageOutput) => {
@@ -72,14 +75,20 @@ export function usePilotState(pilotId: string, initialStages: PilotStage[]) {
     }));
   }, []);
 
-  const setIntakeData = useCallback((data: PilotState['intakeData']) => {
+  const setIntakeData = useCallback((data: IntakeData) => {
     setState(prev => ({ ...prev, intakeData: data, updatedAt: new Date().toISOString() }));
   }, []);
 
+  const appendLog = useCallback((entry: AgentLogEntry) => {
+    setState(prev => ({
+      ...prev,
+      runLog: [...(prev.runLog ?? []), entry],
+    }));
+  }, []);
+
   const resetPilot = useCallback(() => {
-    const fresh = makeDefault(pilotId, initialStages);
-    setState(fresh);
+    setState(makeDefault(pilotId, initialStages));
   }, [pilotId, initialStages]);
 
-  return { state, setOutput, setStatus, setUserInput, setIntakeData, resetPilot };
+  return { state, setOutput, setStatus, setUserInput, setIntakeData, appendLog, resetPilot };
 }

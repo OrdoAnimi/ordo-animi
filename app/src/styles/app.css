@@ -390,6 +390,123 @@ body {
   box-shadow: 0 0 0 2px rgba(52,211,153,.2);
 }
 
+/* ── Provider badge ─────────────────────── */
+.console-provider-row { display: flex; justify-content: flex-end; margin-bottom: -8px; }
+.provider-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: .06em;
+}
+.provider-badge-ai {
+  background: rgba(56,189,248,.1);
+  border: 1px solid rgba(56,189,248,.25);
+  color: var(--accent);
+}
+.provider-badge-local {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--text-dim);
+}
+.provider-badge-loading { color: var(--text-faint); border: none; background: none; }
+
+/* ── Dependency warning ──────────────────── */
+.ws-dependency-warn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(251,191,36,.07);
+  border: 1px solid rgba(251,191,36,.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #fbbf24;
+  font-size: 12px;
+}
+.ws-dependency-icon { font-size: 14px; flex-shrink: 0; }
+
+/* ── Output meta ─────────────────────────── */
+.ws-output-meta { display: flex; align-items: center; gap: 10px; }
+.ws-output-source  { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.source-icon-ai    { color: var(--accent); }
+.source-icon-local { color: var(--text-dim); }
+.source-icon-manual { color: #fbbf24; }
+.ws-output-provider { color: var(--text-dim); font-size: 10px; }
+.ws-output-duration { color: var(--text-faint); font-size: 10px; }
+
+/* ── Rehearsal answer saved note ─────────── */
+.ws-answer-saved { color: var(--green); font-size: 12px; margin-top: 6px; }
+.ws-input-preview-missing { color: var(--text-faint); font-size: 12px; font-style: italic; }
+.link-btn { background: none; border: none; color: var(--accent); cursor: pointer; font-size: inherit; padding: 0; text-decoration: underline; }
+
+/* ── Agent log panel ─────────────────────── */
+.agent-log-panel {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.agent-log-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-family: inherit;
+  text-align: left;
+  transition: background .12s;
+}
+.agent-log-toggle:hover { background: rgba(56,189,248,.04); }
+.agent-log-count  { color: var(--accent); font-weight: 700; margin-left: 2px; }
+.agent-log-chevron { margin-left: auto; color: var(--text-faint); }
+
+.agent-log-entries { padding: 4px 0 8px; border-top: 1px solid var(--border); }
+.agent-log-entry {
+  display: grid;
+  grid-template-columns: 16px 80px 1fr 1fr 50px 70px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px;
+  font-size: 11px;
+}
+.agent-log-entry:hover { background: rgba(56,189,248,.03); }
+.agent-log-icon    { text-align: center; }
+.source-ai    { color: var(--accent); }
+.source-local { color: var(--text-faint); }
+.source-manual { color: #fbbf24; }
+.agent-log-stage   { color: var(--text); font-weight: 600; }
+.agent-log-agent   { color: var(--text-muted); font-family: ui-monospace, monospace; font-size: 10px; }
+.agent-log-provider { color: var(--text-dim); }
+.agent-log-duration { color: var(--text-faint); text-align: right; }
+.agent-log-time    { color: var(--text-faint); font-family: ui-monospace, monospace; font-size: 10px; text-align: right; }
+
+/* ── Live pattern content ────────────────── */
+.pattern-live-badge {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(56,189,248,.1);
+  border: 1px solid rgba(56,189,248,.2);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.pattern-live-content {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-top: 8px;
+}
+
 /* Export panel */
 .export-panel {
   background: var(--surface-raised);

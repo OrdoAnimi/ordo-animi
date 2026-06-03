@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { PilotStage, PilotStateEntry, StageOutput, StageStatus, GenerationSource } from '../data/types';
+import type { DependencyCheck } from '../services/agents';
 
 const STATUS_LABELS: Record<StageStatus, string> = {
   'complete':    'Complete',
@@ -9,15 +10,20 @@ const STATUS_LABELS: Record<StageStatus, string> = {
 };
 
 const STATUS_CYCLE: StageStatus[] = ['not-started', 'draft', 'complete', 'to-confirm'];
-
 function nextStatus(s: StageStatus): StageStatus {
   return STATUS_CYCLE[(STATUS_CYCLE.indexOf(s) + 1) % STATUS_CYCLE.length];
 }
 
 const SOURCE_LABELS: Record<GenerationSource, string> = {
-  ai:     'AI generated',
-  local:  'VALOUR™ template',
-  manual: 'Manual entry',
+  ai:     'AI',
+  local:  'Local template',
+  manual: 'Manual edit',
+};
+
+const PROVIDER_LABELS: Record<string, string> = {
+  anthropic: 'Anthropic · Claude',
+  openai:    'OpenAI · GPT',
+  local:     'Local fallback',
 };
 
 type Props = {
@@ -26,6 +32,7 @@ type Props = {
   index: number;
   total: number;
   hasAgent: boolean;
+  dependency: DependencyCheck;
   onGenerate: () => Promise<void>;
   onSaveOutput: (output: StageOutput) => void;
   onSaveUserInput: (input: string) => void;
@@ -35,7 +42,7 @@ type Props = {
 };
 
 export function StageWorkspace({
-  stage, entry, index, total, hasAgent,
+  stage, entry, index, total, hasAgent, dependency,
   onGenerate, onSaveOutput, onSaveUserInput, onCycleStatus,
   onPrev, onNext,
 }: Props) {
@@ -49,16 +56,19 @@ export function StageWorkspace({
   const [userInputDraft, setUserInputDraft] = useState(entry.userInput ?? '');
   const textRef = useRef<HTMLTextAreaElement>(null);
 
+  // Sync local draft when entry changes (e.g. pilot switch)
+  useEffect(() => {
+    setUserInputDraft(entry.userInput ?? '');
+    setEditing(false);
+    setShowUserInput(false);
+  }, [stage.id, entry.userInput]);
+
   const output = entry.output;
   const status = entry.status;
 
   async function handleGenerate() {
     setGenerating(true);
-    try {
-      await onGenerate();
-    } finally {
-      setGenerating(false);
-    }
+    try { await onGenerate(); } finally { setGenerating(false); }
   }
 
   function startEdit() {
@@ -79,8 +89,11 @@ export function StageWorkspace({
     setShowUserInput(false);
   }
 
+  const isIntake    = stage.id === 'stage-01-intake';
   const isRehearsal = stage.id === 'stage-04-rehearsal';
   const isLanguage  = stage.id === 'stage-05-language';
+
+  const canGenerate = hasAgent && dependency.ok && !isIntake;
 
   return (
     <div className="workspace">
@@ -100,31 +113,55 @@ export function StageWorkspace({
       <div className="ws-title">{stage.label}</div>
       <div className="ws-desc">{stage.description}</div>
 
-      {/* Intake stage — no generation, just context capture */}
-      {stage.id === 'stage-01-intake' && (
+      {/* Dependency warning */}
+      {!dependency.ok && hasAgent && (
+        <div className="ws-dependency-warn">
+          <span className="ws-dependency-icon">⚠</span>
+          {dependency.message}
+        </div>
+      )}
+
+      {/* Intake */}
+      {isIntake && (
         <IntakeCapture entry={entry} onSaveUserInput={onSaveUserInput} />
       )}
 
-      {/* Rehearsal — show questions then capture user answer */}
+      {/* Rehearsal answer prompt */}
       {isRehearsal && output && !showUserInput && (
         <div className="ws-rehearsal-hint">
-          <p className="ws-hint-text">Read the questions above. When you have your answer, record it below:</p>
-          <button className="btn btn-primary ws-answer-btn" onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>
+          <p className="ws-hint-text">Read the rehearsal questions. When ready, record your answer below:</p>
+          <button className="btn btn-primary ws-answer-btn"
+            onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>
             Record my answer →
           </button>
+          {entry.userInput && (
+            <div className="ws-answer-saved">
+              Answer saved. <button className="link-btn" onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>Edit</button>
+            </div>
+          )}
         </div>
       )}
 
-      {/* Language refinement — show user input summary */}
-      {isLanguage && entry.userInput && (
+      {/* Language refinement — show input from rehearsal */}
+      {isLanguage && (
         <div className="ws-input-preview">
-          <div className="ws-input-preview-label">Your answer (from Rehearsal)</div>
-          <div className="ws-input-preview-value">"{entry.userInput}"</div>
-          <button className="btn btn-ghost ws-edit-input" onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>Edit answer</button>
+          <div className="ws-input-preview-label">
+            {entry.userInput ? 'Your rehearsal answer' : 'No rehearsal answer yet'}
+          </div>
+          {entry.userInput
+            ? <div className="ws-input-preview-value">"{entry.userInput}"</div>
+            : <div className="ws-input-preview-missing">Record your answer in Stage 04 first, then return here to generate refined versions.</div>
+          }
+          {entry.userInput && (
+            <button className="btn btn-ghost ws-edit-input"
+              onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>
+              Edit answer
+            </button>
+          )}
         </div>
       )}
 
-      {/* User input capture panel */}
+      {/* User input panel */}
       {showUserInput && (
         <div className="ws-user-input">
           <div className="ws-user-input-label">
@@ -134,8 +171,8 @@ export function StageWorkspace({
             className="ws-textarea"
             value={userInputDraft}
             onChange={e => setUserInputDraft(e.target.value)}
-            placeholder="Type your answer here..."
-            rows={5}
+            placeholder="Type your answer here…"
+            rows={6}
             autoFocus
           />
           <div className="ws-user-input-actions">
@@ -151,12 +188,24 @@ export function StageWorkspace({
       {output && !editing && (
         <div className="ws-output">
           <div className="ws-output-header">
-            <span className="ws-output-source">{SOURCE_LABELS[output.source]}</span>
+            <div className="ws-output-meta">
+              <span className={`ws-output-source source-icon-${output.source}`}>
+                {SOURCE_LABELS[output.source]}
+              </span>
+              {output.provider && output.provider !== 'local' && (
+                <span className="ws-output-provider">
+                  {PROVIDER_LABELS[output.provider] ?? output.provider}
+                </span>
+              )}
+              {output.durationMs && (
+                <span className="ws-output-duration">{(output.durationMs / 1000).toFixed(1)}s</span>
+              )}
+            </div>
             <div className="ws-output-actions">
               <button className="btn btn-ghost ws-action-btn" onClick={startEdit}>Edit</button>
-              {hasAgent && (
+              {canGenerate && (
                 <button className="btn btn-ghost ws-action-btn" onClick={handleGenerate} disabled={generating}>
-                  {generating ? 'Regenerating…' : 'Regenerate'}
+                  {generating ? '…' : 'Regenerate'}
                 </button>
               )}
             </div>
@@ -174,7 +223,7 @@ export function StageWorkspace({
             className="ws-textarea ws-textarea-edit"
             value={editContent}
             onChange={e => setEditContent(e.target.value)}
-            rows={20}
+            rows={22}
           />
           <div className="ws-edit-actions">
             <button className="btn btn-primary" onClick={saveEdit}>Save changes</button>
@@ -183,8 +232,8 @@ export function StageWorkspace({
         </div>
       )}
 
-      {/* Generate button — show when no output yet or if editable */}
-      {hasAgent && !output && !generating && stage.id !== 'stage-01-intake' && (
+      {/* Generate button */}
+      {canGenerate && !output && !generating && (
         <button className="btn btn-generate" onClick={handleGenerate}>
           <span className="btn-generate-icon">✦</span>
           Generate with VALOUR™
@@ -212,12 +261,16 @@ export function StageWorkspace({
   );
 }
 
-// ── Intake capture sub-component ───────────────────────────────────────────────
+// ── Intake capture ─────────────────────────────────────────────────────────────
 
-function IntakeCapture({ entry, onSaveUserInput }: { entry: PilotStateEntry; onSaveUserInput: (v: string) => void }) {
+function IntakeCapture({ entry, onSaveUserInput }: {
+  entry: PilotStateEntry;
+  onSaveUserInput: (v: string) => void;
+}) {
   const existing = entry.userInput ?? '';
-  const [values, setValues] = useState(() => {
-    try { return JSON.parse(existing) as Record<string, string>; } catch { return { role: '', organisation: '', situation: '', outcome: '', confidence: '' }; }
+  const [values, setValues] = useState<Record<string, string>>(() => {
+    try { return JSON.parse(existing) as Record<string, string>; }
+    catch { return { role: '', organisation: '', situation: '', outcome: '', confidence: '' }; }
   });
   const [saved, setSaved] = useState(!!existing);
 
@@ -226,13 +279,16 @@ function IntakeCapture({ entry, onSaveUserInput }: { entry: PilotStateEntry; onS
     setSaved(true);
   }
 
-  function field(key: string, label: string, rows?: number) {
+  function field(key: string, label: string, placeholder: string, rows?: number) {
+    const onChange = (v: string) => { setValues(prev => ({ ...prev, [key]: v })); setSaved(false); };
     return (
       <div className="intake-field" key={key}>
         <label className="intake-label">{label}</label>
         {rows
-          ? <textarea className="intake-input ws-textarea" rows={rows} value={values[key] ?? ''} onChange={e => { setValues(v => ({ ...v, [key]: e.target.value })); setSaved(false); }} />
-          : <input className="intake-input" value={values[key] ?? ''} onChange={e => { setValues(v => ({ ...v, [key]: e.target.value })); setSaved(false); }} />
+          ? <textarea className="intake-input ws-textarea" rows={rows} placeholder={placeholder}
+              value={values[key] ?? ''} onChange={e => onChange(e.target.value)} />
+          : <input className="intake-input" placeholder={placeholder}
+              value={values[key] ?? ''} onChange={e => onChange(e.target.value)} />
         }
       </div>
     );
@@ -240,46 +296,87 @@ function IntakeCapture({ entry, onSaveUserInput }: { entry: PilotStateEntry; onS
 
   return (
     <div className="ws-intake">
-      {field('role', 'Your role')}
-      {field('organisation', 'Organisation or program context')}
-      {field('situation', 'Describe the situation you are preparing for', 4)}
-      {field('outcome', 'Desired outcome')}
-      {field('confidence', 'Confidence before VALOUR™ (1-10)')}
+      {field('role', 'Your role', 'e.g. Senior Solution Architect')}
+      {field('organisation', 'Organisation or program', 'e.g. Enterprise cloud transformation')}
+      {field('situation', 'Describe the situation you are preparing for', 'e.g. Presenting a cloud integration design to the architecture review board…', 4)}
+      {field('outcome', 'Desired outcome', 'e.g. Board endorses the design with documented conditions')}
+      {field('confidence', 'Confidence before VALOUR™ (1–10)', '5')}
       <div className="ws-intake-actions">
-        <button className="btn btn-primary" onClick={save}>Save context</button>
-        {saved && <span className="ws-saved-label">Saved ✓</span>}
+        <button className="btn btn-primary" onClick={save}>
+          {saved ? 'Saved ✓' : 'Save context'}
+        </button>
+        {!saved && values.role && <span className="ws-intake-hint">Save to enable generation in later stages.</span>}
       </div>
-      <p className="ws-intake-hint">This context is used by all subsequent VALOUR™ generation steps.</p>
     </div>
   );
 }
 
-// ── Minimal markdown renderer (no dependency) ──────────────────────────────────
+// ── Markdown renderer (no external dep) ───────────────────────────────────────
 
-function simpleMarkdown(md: string): string {
-  return md
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    // headings
-    .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-    // bold + italic
-    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    // blockquote
-    .replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
-    // horizontal rule
-    .replace(/^---$/gm, '<hr />')
-    // unordered list items
-    .replace(/^[-*] (.+)$/gm, '<li>$1</li>')
-    // wrap consecutive <li> in <ul>
-    .replace(/(<li>[\s\S]*?<\/li>)(?!\n?<li>)/g, '<ul>$1</ul>')
-    // double newlines → paragraphs
-    .split(/\n{2,}/).map(block => {
-      if (/^<(h[1-4]|ul|blockquote|hr)/.test(block.trim())) return block;
-      const inner = block.replace(/\n/g, '<br />');
-      return inner ? `<p>${inner}</p>` : '';
-    }).join('\n');
+export function simpleMarkdown(md: string): string {
+  const escaped = md
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const lines = escaped.split('\n');
+  const out: string[] = [];
+  let inList = false;
+  let inBlockquote = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+
+    // Apply inline formatting
+    line = line
+      .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // Headings
+    if (/^#{1,4} /.test(line)) {
+      if (inList) { out.push('</ul>'); inList = false; }
+      if (inBlockquote) { out.push('</blockquote>'); inBlockquote = false; }
+      const level = (line.match(/^#+/) ?? [''])[0].length;
+      const text = line.replace(/^#+\s+/, '');
+      out.push(`<h${level}>${text}</h${level}>`);
+      continue;
+    }
+
+    // HR
+    if (/^---+$/.test(line.trim())) {
+      if (inList) { out.push('</ul>'); inList = false; }
+      out.push('<hr />');
+      continue;
+    }
+
+    // Blockquote
+    if (/^&gt; /.test(line)) {
+      if (inList) { out.push('</ul>'); inList = false; }
+      if (!inBlockquote) { out.push('<blockquote>'); inBlockquote = true; }
+      out.push(`<p>${line.replace(/^&gt; /, '')}</p>`);
+      continue;
+    }
+    if (inBlockquote) { out.push('</blockquote>'); inBlockquote = false; }
+
+    // List items
+    if (/^[-*] /.test(line)) {
+      if (!inList) { out.push('<ul>'); inList = true; }
+      out.push(`<li>${line.replace(/^[-*] /, '')}</li>`);
+      continue;
+    }
+    if (inList) { out.push('</ul>'); inList = false; }
+
+    // Paragraph
+    if (line.trim() === '') {
+      out.push('');
+    } else {
+      out.push(`<p>${line}</p>`);
+    }
+  }
+
+  if (inList) out.push('</ul>');
+  if (inBlockquote) out.push('</blockquote>');
+
+  return out.join('\n');
 }

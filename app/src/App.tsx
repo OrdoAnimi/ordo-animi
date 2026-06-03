@@ -1,28 +1,27 @@
 import { useState, useEffect } from 'react';
 import { ALL_PILOTS, getPilotById } from './data/pilots';
 import { usePilotState } from './hooks/usePilotState';
-import { STAGE_AGENTS } from './services/agents';
+import { STAGE_AGENTS, checkDependency } from './services/agents';
 import { TopBar } from './components/TopBar';
 import { Sidebar } from './components/Sidebar';
 import { StageWorkspace } from './components/StageWorkspace';
 import { EvidencePanel } from './components/EvidencePanel';
 import { ProductDecisionPanel } from './components/ProductDecisionPanel';
 import { ExportPanel } from './components/ExportPanel';
+import { AgentLogPanel } from './components/AgentLogPanel';
+import { ProviderBadge } from './components/ProviderBadge';
 import { LandingPage } from './components/LandingPage';
 import { PatternPage } from './components/PatternPage';
-import { IntakeForm } from './components/IntakeForm';
 import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
-import type { StageStatus } from './data/types';
+import type { StageOutput, StageStatus } from './data/types';
 
-type Page = 'landing' | 'console' | 'pattern' | 'intake' | 'scenarios' | 'readiness';
+type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness';
 
 function getPage(): Page {
   const h = window.location.hash;
   if (h.startsWith('#console'))   return 'console';
   if (h.startsWith('#pattern'))   return 'pattern';
-  if (h === '#intake')            return 'intake';
-  if (h.startsWith('#intake'))    return 'intake';
   if (h === '#scenarios')         return 'scenarios';
   if (h === '#readiness')         return 'readiness';
   return 'landing';
@@ -43,56 +42,92 @@ export function App() {
 
   const nav = (hash: string) => () => { window.location.hash = hash; };
 
-  if (page === 'landing')   return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} onViewScenarios={nav('#scenarios')} />;
-  if (page === 'intake')    return <IntakeForm onBack={nav('')} />;
-  if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
+  if (page === 'landing') {
+    return (
+      <LandingPage
+        onEnterConsole={nav('#console')}
+        onJoinPilot={nav('#console')}
+        onViewScenarios={nav('#scenarios')}
+      />
+    );
+  }
+
   if (page === 'pattern') {
     const pid = getParam('pilot') ?? 'PILOT-001';
     const pilot = getPilotById(pid);
-    return <PatternPage pattern={pilot.pattern} pilotTitle={pilot.title.replace(': ', ' · ')} onBack={nav('#console')} />;
+    // Read live pattern content from localStorage state
+    let liveContent: string | undefined;
+    try {
+      const saved = localStorage.getItem(`valour:state:${pid}`);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        liveContent = parsed?.entries?.['stage-07-pattern']?.output?.content;
+      }
+    } catch { /* ignore */ }
+    return (
+      <PatternPage
+        pattern={pilot.pattern}
+        pilotTitle={pilot.title.replace(': ', ' · ')}
+        liveContent={liveContent}
+        onBack={nav('#console')}
+      />
+    );
   }
-  if (page === 'scenarios') return (
-    <ScenariosPage
-      onBack={nav('')}
-      onSelectScenario={title => { window.location.hash = `#intake?scenario=${encodeURIComponent(title)}`; }}
-    />
-  );
+
+  if (page === 'scenarios') {
+    return (
+      <ScenariosPage
+        onBack={nav('')}
+        onSelectScenario={title => { window.location.hash = `#console?scenario=${encodeURIComponent(title)}`; }}
+      />
+    );
+  }
+
+  if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
 
   const activePilotId = getParam('pilot') ?? 'PILOT-001';
-  return <Console pilotId={activePilotId} onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }} />;
+  return (
+    <Console
+      pilotId={activePilotId}
+      onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
+    />
+  );
 }
 
 // ── Console ─────────────────────────────────────────────────────────────────────
 
 function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: () => void }) {
   const pilot = getPilotById(pilotId);
-  const { state, setOutput, setStatus, setUserInput, resetPilot } = usePilotState(pilot.id, pilot.stages);
+  const { state, setOutput, setStatus, setUserInput, appendLog, resetPilot } = usePilotState(pilot.id, pilot.stages);
 
   const stageIds = pilot.stages.map(s => s.id);
   const firstPending = stageIds.findIndex(id => !state.entries[id]?.output && state.entries[id]?.status !== 'complete');
-  const [activeIndex, setActiveIndex] = useState(Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending));
+  const [activeIndex, setActiveIndex] = useState(
+    Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending)
+  );
 
   const activeStage = pilot.stages[activeIndex];
   const activeEntry = state.entries[activeStage.id] ?? { stageId: activeStage.id, status: 'not-started' as StageStatus };
 
-  // Derive stages with live status for sidebar
   const liveStages = pilot.stages.map(s => ({
     ...s,
     status: state.entries[s.id]?.status ?? s.status,
     evidenceCaptured: !!state.entries[s.id]?.output,
   }));
 
+  const dependency = checkDependency(activeStage.id, state);
+
   async function handleGenerate() {
     const agentFn = STAGE_AGENTS[activeStage.id];
-    if (!agentFn) return;
+    if (!agentFn || !dependency.ok) return;
     const userInput = activeEntry.userInput ?? '';
-    const output = await agentFn(pilot, state, userInput);
+    const { output, logEntry } = await agentFn(pilot, state, userInput);
     setOutput(activeStage.id, output);
-    // Auto-advance status to draft when output is generated
+    appendLog(logEntry);
     if (activeEntry.status === 'not-started') setStatus(activeStage.id, 'draft');
   }
 
-  function handleSaveOutput(output: import('./data/types').StageOutput) {
+  function handleSaveOutput(output: StageOutput) {
     setOutput(activeStage.id, output);
   }
 
@@ -122,12 +157,16 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
           onSwitchPilot={switchPilot}
         />
         <main className="main">
+          <div className="console-provider-row">
+            <ProviderBadge />
+          </div>
           <StageWorkspace
             stage={activeStage}
             entry={activeEntry}
             index={activeIndex}
             total={pilot.stages.length}
             hasAgent={activeStage.id in STAGE_AGENTS}
+            dependency={dependency}
             onGenerate={handleGenerate}
             onSaveOutput={handleSaveOutput}
             onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
@@ -139,6 +178,7 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
             <EvidencePanel evidence={pilot.evidence} />
             <ProductDecisionPanel decision={pilot.productDecision} />
           </div>
+          <AgentLogPanel log={state.runLog ?? []} />
           <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />
         </main>
       </div>
