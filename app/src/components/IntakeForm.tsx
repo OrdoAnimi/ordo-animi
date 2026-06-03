@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
+
 type FormData = {
   name: string;
   role: string;
@@ -26,6 +28,7 @@ type Props = { onBack: () => void };
 export function IntakeForm({ onBack }: Props) {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState<FormData>({
     name: '',
     role: '',
@@ -38,6 +41,31 @@ export function IntakeForm({ onBack }: Props) {
 
   function set(field: keyof FormData, value: string) {
     setForm(prev => ({ ...prev, [field]: value }));
+  }
+
+  async function submit() {
+    setSubmitting(true);
+    try {
+      if (FORMSPREE_ID) {
+        await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            name: form.name,
+            role: form.role,
+            organisation: form.organisation,
+            situation: form.situation,
+            outcome: form.outcome,
+            pattern: form.pattern,
+            confidence: form.confidence,
+            _subject: `VALOUR™ pilot intake — ${form.name} (${form.role})`,
+          }),
+        });
+      }
+    } finally {
+      setSubmitting(false);
+      setSubmitted(true);
+    }
   }
 
   function canNext(): boolean {
@@ -205,10 +233,10 @@ export function IntakeForm({ onBack }: Props) {
           ) : (
             <button
               className="btn btn-primary"
-              disabled={!canNext()}
-              onClick={() => setSubmitted(true)}
+              disabled={!canNext() || submitting}
+              onClick={submit}
             >
-              Submit intake
+              {submitting ? 'Sending…' : 'Submit intake'}
             </button>
           )}
         </div>
