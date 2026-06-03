@@ -10,8 +10,9 @@ import { LandingPage } from './components/LandingPage';
 import { PatternPage } from './components/PatternPage';
 import { IntakeForm } from './components/IntakeForm';
 import { ScenariosPage } from './components/ScenariosPage';
+import { ReadinessPage } from './components/ReadinessPage';
 
-type Page = 'landing' | 'console' | 'pattern' | 'intake' | 'scenarios';
+type Page = 'landing' | 'console' | 'pattern' | 'intake' | 'scenarios' | 'readiness';
 
 function getPage(): Page {
   const hash = window.location.hash;
@@ -19,6 +20,7 @@ function getPage(): Page {
   if (hash === '#pattern')   return 'pattern';
   if (hash === '#intake')    return 'intake';
   if (hash === '#scenarios') return 'scenarios';
+  if (hash === '#readiness') return 'readiness';
   return 'landing';
 }
 
@@ -36,6 +38,7 @@ export function App() {
   if (page === 'landing')   return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} onViewScenarios={nav('#scenarios')} />;
   if (page === 'pattern')   return <PatternPage pattern={pilot001.pattern} pilotTitle={pilot001.title.replace(': ', ' · ')} onBack={nav('#console')} />;
   if (page === 'intake')    return <IntakeForm onBack={nav('')} />;
+  if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
   if (page === 'scenarios') return (
     <ScenariosPage
       onBack={nav('')}
@@ -45,7 +48,7 @@ export function App() {
   return <Console onViewPattern={nav('#pattern')} />;
 }
 
-function Console({ onViewPattern }: { onViewPattern: () => void }) {
+function Console({ onViewPattern }: { onViewPattern: () => void; }) {
   const { stages, cycleStatus } = useStages(pilot001.id, pilot001.stages);
   const firstIncomplete = stages.findIndex(s => s.status !== 'complete');
   const [activeIndex, setActiveIndex] = useState(
@@ -54,7 +57,7 @@ function Console({ onViewPattern }: { onViewPattern: () => void }) {
 
   return (
     <div className="shell">
-      <TopBar pilot={{ ...pilot001, stages }} onViewPattern={onViewPattern} />
+      <TopBar pilot={{ ...pilot001, stages }} onViewPattern={onViewPattern} onViewReadiness={() => { window.location.hash = '#readiness'; }} />
       <div className="body">
         <Sidebar
           stages={stages}

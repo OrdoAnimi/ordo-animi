@@ -778,3 +778,88 @@ body {
 .scenario-outcome    { color: #86efac; }
 
 .scenario-cta { font-size: 12px; padding: 7px 14px; }
+
+/* ══════════════════════════════════════════
+   READINESS PAGE
+   ══════════════════════════════════════════ */
+.readiness-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+.readiness-hero { margin-bottom: 40px; }
+.readiness-progress-bar {
+  height: 6px;
+  background: rgba(56,189,248,.12);
+  border-radius: 3px;
+  margin: 20px 0 10px;
+  overflow: hidden;
+}
+.readiness-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 3px;
+  transition: width .4s;
+}
+.readiness-pct { display: flex; align-items: baseline; gap: 10px; }
+.readiness-pct-num   { color: var(--green); font-size: 32px; font-weight: 800; }
+.readiness-pct-label { color: var(--text-dim); font-size: 13px; }
+
+.readiness-groups { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+
+.readiness-group {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.readiness-group.group-complete { border-color: rgba(52,211,153,.2); }
+
+.readiness-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,.1);
+}
+.readiness-group-title { color: var(--text); font-size: 13px; font-weight: 700; }
+.readiness-group-count { color: var(--text-dim); font-size: 11px; font-weight: 700; }
+
+.readiness-items { padding: 8px 0; }
+.readiness-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px;
+}
+.readiness-tick {
+  font-size: 12px;
+  width: 16px;
+  flex-shrink: 0;
+}
+.readiness-item.done   .readiness-tick { color: var(--green); }
+.readiness-item.pending .readiness-tick { color: var(--text-faint); }
+.readiness-item-label {
+  font-size: 13px;
+  flex: 1;
+}
+.readiness-item.done   .readiness-item-label { color: var(--text-muted); }
+.readiness-item.pending .readiness-item-label { color: var(--text); }
+.readiness-item-note {
+  color: var(--text-faint);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.readiness-blockers { margin-top: 8px; }
+.blocker-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.blocker-icon { color: #f87171; font-size: 12px; flex-shrink: 0; padding-top: 1px; }
