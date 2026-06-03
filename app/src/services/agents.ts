@@ -15,7 +15,7 @@ export function checkDependency(stageId: string, state: PilotState): DependencyC
     case 'stage-02-scenario':
       return e('stage-01-intake')?.userInput
         ? { ok: true }
-        : { ok: false, message: 'Save your context in Stage 01 (Intake) first.' };
+        : { ok: false, message: 'Save your context in Stage 01 (Context) first.' };
 
     case 'stage-03-prep':
       return e('stage-02-scenario')?.output || e('stage-01-intake')?.userInput
@@ -27,10 +27,19 @@ export function checkDependency(stageId: string, state: PilotState): DependencyC
         ? { ok: true }
         : { ok: false, message: 'Generate your Preparation Brief (Stage 03) first.' };
 
-    case 'stage-05-language':
-      return e('stage-04-rehearsal')?.userInput || e('stage-04-rehearsal')?.output
-        ? { ok: true }
-        : { ok: false, message: 'Record your rehearsal answer in Stage 04 first.' };
+    case 'stage-05-language': {
+      const rehearsalEntry = e('stage-04-rehearsal');
+      const raw = rehearsalEntry?.userInput ?? '';
+      if (!rehearsalEntry) {
+        return { ok: false, message: 'Record your rehearsal answer first. VALOUR needs your answer before it can refine your language.' };
+      }
+      try {
+        const parsed = JSON.parse(raw) as { answer?: string };
+        if (parsed.answer?.trim()) return { ok: true };
+      } catch { /* ignore — check raw below */ }
+      if (raw.trim()) return { ok: true };
+      return { ok: false, message: 'Record your rehearsal answer first. VALOUR needs your answer before it can refine your language.' };
+    }
 
     case 'stage-06-review':
       return e('stage-05-language')?.output || e('stage-04-rehearsal')?.output
@@ -122,8 +131,14 @@ export async function rehearsalAgent(pilot: PilotRun, state: PilotState): Promis
   return { output: result, logEntry: makeLogEntry('stage-04-rehearsal', 'rehearsalAgent', result) };
 }
 
-export async function languageRefinementAgent(pilot: PilotRun, state: PilotState, userInput: string): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
-  const result = await callAgent('languageRefinement', buildContext(pilot, state, { userInput }));
+export async function languageRefinementAgent(pilot: PilotRun, state: PilotState, _userInput: string): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+  const raw = state.entries['stage-04-rehearsal']?.userInput ?? '';
+  let answer = raw;
+  try {
+    const parsed = JSON.parse(raw) as { answer?: string };
+    if (parsed.answer?.trim()) answer = parsed.answer;
+  } catch { /* use raw text */ }
+  const result = await callAgent('languageRefinement', buildContext(pilot, state, { userInput: answer }));
   return { output: result, logEntry: makeLogEntry('stage-05-language', 'languageRefinementAgent', result) };
 }
 
