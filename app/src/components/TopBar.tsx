@@ -1,8 +1,8 @@
 import type { PilotRun } from '../data/types';
 
-type Props = { pilot: PilotRun; onViewPattern: () => void; onViewReadiness: () => void };
+type Props = { pilot: PilotRun; onViewPattern: () => void; onViewReadiness: () => void; onViewComparison: () => void };
 
-export function TopBar({ pilot, onViewPattern, onViewReadiness }: Props) {
+export function TopBar({ pilot, onViewPattern, onViewReadiness, onViewComparison }: Props) {
   const pillClass =
     pilot.status === 'complete'    ? 'pill-complete' :
     pilot.status === 'in-progress' ? 'pill-azure'    : 'pill-paused';
@@ -35,6 +35,9 @@ export function TopBar({ pilot, onViewPattern, onViewReadiness }: Props) {
             {pilot.productDecision.decision}
           </span>
         </div>
+        <button className="btn btn-ghost topbar-pattern-btn" onClick={onViewComparison}>
+          Compare →
+        </button>
         <button className="btn btn-ghost topbar-pattern-btn" onClick={onViewReadiness}>
           Readiness
         </button>
