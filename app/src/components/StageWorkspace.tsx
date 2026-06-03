@@ -26,6 +26,12 @@ const PROVIDER_LABELS: Record<string, string> = {
   local:     'Local fallback',
 };
 
+const STEPPER_STAGE_IDS = [
+  'stage-01-intake', 'stage-02-scenario', 'stage-03-prep',
+  'stage-04-rehearsal', 'stage-05-language', 'stage-06-review', 'stage-07-pattern',
+];
+const STEPPER_LABELS = ['Context', 'Scenario', 'Prepare', 'Rehearse', 'Refine', 'Review', 'Report'];
+
 type Props = {
   stage: PilotStage;
   entry: PilotStateEntry;
@@ -33,6 +39,8 @@ type Props = {
   total: number;
   hasAgent: boolean;
   dependency: DependencyCheck;
+  completedStageIds: string[];
+  rehearsalAnswer?: string;
   onGenerate: () => Promise<void>;
   onSaveOutput: (output: StageOutput) => void;
   onSaveUserInput: (input: string) => void;
@@ -43,6 +51,7 @@ type Props = {
 
 export function StageWorkspace({
   stage, entry, index, total, hasAgent, dependency,
+  completedStageIds, rehearsalAnswer,
   onGenerate, onSaveOutput, onSaveUserInput, onCycleStatus,
   onPrev, onNext,
 }: Props) {
@@ -52,16 +61,12 @@ export function StageWorkspace({
   const [generating, setGenerating] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
-  const [showUserInput, setShowUserInput] = useState(false);
-  const [userInputDraft, setUserInputDraft] = useState(entry.userInput ?? '');
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   // Sync local draft when entry changes (e.g. pilot switch)
   useEffect(() => {
-    setUserInputDraft(entry.userInput ?? '');
     setEditing(false);
-    setShowUserInput(false);
-  }, [stage.id, entry.userInput]);
+  }, [stage.id]);
 
   const output = entry.output;
   const status = entry.status;
@@ -84,11 +89,6 @@ export function StageWorkspace({
     setEditing(false);
   }
 
-  function saveUserInput() {
-    onSaveUserInput(userInputDraft);
-    setShowUserInput(false);
-  }
-
   const isIntake    = stage.id === 'stage-01-intake';
   const isRehearsal = stage.id === 'stage-04-rehearsal';
   const isLanguage  = stage.id === 'stage-05-language';
@@ -97,6 +97,24 @@ export function StageWorkspace({
 
   return (
     <div className="workspace">
+
+      {/* Stepper */}
+      <div className="ws-stepper">
+        {STEPPER_STAGE_IDS.map((id, i) => {
+          const isDone = completedStageIds.includes(id) && id !== stage.id;
+          const isActive = id === stage.id;
+          const cls = isDone ? ' done' : isActive ? ' active' : '';
+          return (
+            <div key={id} className={`ws-stepper-item${cls}`}>
+              {i > 0 && <div className="ws-stepper-connector" />}
+              <div className="ws-stepper-step">
+                <div className="ws-stepper-dot" />
+                <div className="ws-stepper-label">{STEPPER_LABELS[i]}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
       {/* Header */}
       <div className="ws-header">
