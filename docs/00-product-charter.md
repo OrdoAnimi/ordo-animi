@@ -1,28 +1,28 @@
-# Ordo Animi Product Charter
+﻿# Ordo Animi™ Product Charter
 
 Version: 0.1
 Status: Private founder source of truth
-First commercial product: VALOUR for Architecture Leadership
+First commercial product: VALOUR™ for Architecture Leadership
 
 ## Purpose
 
-This document defines the first clear product shape for Ordo Animi. Its purpose is to stop the concept moving around before it has a commercial spine.
+This document defines the first clear product shape for Ordo Animi™. Its purpose is to stop the concept moving around before it has a commercial spine.
 
 Ordo Animi can become a broad agentic life-and-work operating system, but the first market entry must be focused. The first wedge is VALOUR for Architecture Leadership.
 
 ## One-sentence definition
 
-VALOUR is an AI-assisted architectural leadership copilot that helps architects and technical leaders prepare for, rehearse, and review high-stakes conversations where trust, clarity, empathy, authority, and decision quality matter.
+VALOUR™ is an AI-assisted architectural leadership copilot that helps architects and technical leaders prepare for, rehearse, and review high-stakes conversations where trust, clarity, empathy, authority, and decision quality matter.
 
 ## Parent system
 
 Ordo Animi is the parent system. It describes a mode-based AI operating model for work, life, truth, recovery, and long-term development.
 
 VALOUR is the professional leadership layer.
-VITA is the personal life and recovery layer.
-VALLUM is the mode-governance layer.
-VERITAS is the truth-checking layer.
-VIA is the journey layer.
+VITA™ is the personal life and recovery layer.
+VALLUM™ is the mode-governance layer.
+VERITAS™ is the truth-checking layer.
+VIA™ is the journey layer.
 
 The first commercial product is VALOUR because architecture leadership is the strongest founder-market fit and the clearest path to a paid pilot.
 
@@ -102,3 +102,8 @@ Commercial North Star: help architects become trusted leaders in the moments tha
 ## First validation goal
 
 Within 90 days, validate whether five to ten users or one small architecture team will complete a VALOUR pilot and report that it helped them prepare for and handle a real leadership conversation better.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

@@ -1,4 +1,4 @@
-# VALOUR Pilot Workflow
+﻿# VALOUR Pilot Workflow
 
 Version: 0.1
 Status: Private pilot workflow
@@ -248,3 +248,8 @@ A pilot cycle is complete when the user has moved through intake, scenario selec
 Do not overcomplicate the first pilot.
 
 One user. One real scenario. One rehearsal. One review. One improvement pattern.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

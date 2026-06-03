@@ -1,19 +1,19 @@
-# VALOUR Funding One-Pager
+﻿# VALOUR™ Funding One-Pager
 
 Version: 0.1
 Status: Private one-page funding narrative
 
 ## Product
 
-VALOUR is an AI architectural leadership copilot.
+VALOUR™ is an AI architectural leadership copilot.
 
 It helps architects and technical leaders prepare for, rehearse, and review the conversations that shape major technology decisions.
 
 ## Parent system
 
-VALOUR is the first commercial product from Ordo Animi, a broader agentic life-and-work operating system.
+VALOUR™ is the first commercial product from Ordo Animi™, a broader agentic life-and-work operating system.
 
-Ordo Animi includes five layers: VALOUR for professional leadership, VITA for personal life and recovery, VALLUM for mode governance, VERITAS for truth checking, and VIA for long-term journey.
+Ordo Animi™ includes five layers: VALOUR™ for professional leadership, VITA™ for personal life and recovery, VALLUM™ for mode governance, VERITAS™ for truth checking, and VIA™ for long-term journey.
 
 ## Problem
 
@@ -76,3 +76,8 @@ Architecture teams need stronger communication and influence capability as techn
 ## Core statement
 
 VALOUR helps architects become trusted leaders before the meeting decides their credibility for them.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

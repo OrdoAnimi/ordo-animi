@@ -1,4 +1,4 @@
-# VALOUR MVP Plan
+﻿# VALOUR™ MVP Plan
 
 Version: 0.1
 Status: Private MVP plan
@@ -183,3 +183,8 @@ Do not ask users to understand the full ecosystem.
 Help them with one real leadership moment.
 
 If that works, expand.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

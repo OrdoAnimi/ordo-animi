@@ -1,4 +1,4 @@
-# Language Refinement Template
+﻿# Language Refinement Template
 
 ## User story
 
@@ -32,3 +32,8 @@ Language refinement is successful when the user can choose at least one improved
 ## Recommended version to use
 
 ## Operator notes
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

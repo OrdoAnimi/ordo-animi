@@ -1,4 +1,4 @@
-# Scenario Selection Template
+﻿# Scenario Selection Template
 
 ## User story
 
@@ -44,3 +44,8 @@ Language refinement prompt:
 Review prompt:
 
 ## Operator notes
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

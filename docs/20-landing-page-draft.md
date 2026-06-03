@@ -1,4 +1,4 @@
-# VALOUR Landing Page Draft
+﻿# VALOUR™ Landing Page Draft
 
 Version: 0.1
 Status: Private landing page copy
@@ -150,3 +150,8 @@ If you are an architect or technical leader with an upcoming meeting, workshop, 
 ### Button
 
 Request pilot access.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

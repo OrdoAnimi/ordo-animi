@@ -1,11 +1,11 @@
-# Ordo Animi System Architecture
+﻿# Ordo Animi™ System Architecture
 
 Version: 0.1
 Status: Private product architecture
 
 ## Purpose
 
-This document defines the system architecture for Ordo Animi and explains how VALOUR, VITA, VALLUM, VERITAS, and VIA relate to one another.
+This document defines the system architecture for Ordo Animi™ and explains how VALOUR™, VITA™, VALLUM™, VERITAS™, and VIA™ relate to one another.
 
 The architecture is mode-based. It assumes that a person moves through different states during the day and that the right AI response depends on the mode the person is in.
 
@@ -157,3 +157,8 @@ The long-term product may become a desktop or mobile agentic operating companion
 It may eventually read calendar, task lists, user notes, work context, daily logs, and personal routines. It may provide a morning professional brief, meeting rehearsal, end-of-day handover, and evening personal plan.
 
 The long-term metaphor is a walking, talking operating system. The near-term build is a founder-led pilot and scenario-based AI rehearsal system.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

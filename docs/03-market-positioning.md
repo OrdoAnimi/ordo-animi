@@ -1,11 +1,11 @@
-# Market Positioning
+﻿# Market Positioning
 
 Version: 0.1
 Status: Private market brief
 
 ## Purpose
 
-This document defines the market position for Ordo Animi and the first commercial product, VALOUR for Architecture Leadership.
+This document defines the market position for Ordo Animi™ and the first commercial product, VALOUR™ for Architecture Leadership.
 
 The goal is to keep the first product focused and avoid positioning it too broadly as generic leadership, wellness, coaching, or productivity software.
 
@@ -76,3 +76,8 @@ VALOUR helps architects become trusted leaders in the moments that test them by 
 ## Plain-language pitch
 
 Most architects are trained to design systems, not lead the conversations that decide whether those systems are accepted. VALOUR helps them prepare for those conversations before they happen.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

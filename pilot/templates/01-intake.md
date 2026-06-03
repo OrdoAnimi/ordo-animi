@@ -1,4 +1,4 @@
-# Pilot Intake Template
+﻿# Pilot Intake Template
 
 ## User story
 
@@ -73,3 +73,8 @@ Key user risk:
 Key stakeholder risk:
 
 Recommended next step:
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

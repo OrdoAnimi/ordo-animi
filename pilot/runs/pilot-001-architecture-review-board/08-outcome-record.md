@@ -1,4 +1,4 @@
-# Pilot 001 Outcome Record
+﻿# Pilot 001 Outcome Record
 
 ## User story
 
@@ -79,3 +79,8 @@ Continue.
 ## Next action
 
 Move to the next phase in a new thread: VALOUR Pilot Console v0.1 planning and build.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

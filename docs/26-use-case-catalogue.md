@@ -1,4 +1,4 @@
-# Use Case Catalogue
+﻿# Use Case Catalogue
 
 Version: 0.1
 Status: Private execution catalogue
@@ -119,3 +119,8 @@ Move to productisation:
 Create the product backlog for the first VALOUR pilot workflow.
 
 The backlog should translate the existing scenarios into epics, user stories, acceptance criteria, and release sequencing.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

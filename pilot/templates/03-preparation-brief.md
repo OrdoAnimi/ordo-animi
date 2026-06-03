@@ -1,4 +1,4 @@
-# Preparation Brief Template
+﻿# Preparation Brief Template
 
 ## User story
 
@@ -37,3 +37,8 @@ The preparation brief is successful when the user can explain the situation and 
 ## Closing statement
 
 ## Operator notes
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

@@ -1,4 +1,4 @@
-# Pilot Readiness Checklist
+﻿# Pilot Readiness Checklist
 
 Version: 0.1
 Status: Private checklist
@@ -69,3 +69,8 @@ Before contacting early users, prepare:
 ## Ready state
 
 Pilot Readiness is complete when the first five target contacts can be approached without needing new product explanation work.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

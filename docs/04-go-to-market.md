@@ -1,4 +1,4 @@
-# Go-To-Market Strategy
+﻿# Go-To-Market Strategy
 
 Version: 0.1
 Status: Private GTM brief
@@ -107,3 +107,8 @@ Expansion: team pilot, cohort, or platform build.
 ## 90-day goal
 
 Prove that VALOUR has a real market in architecture leadership before building a full platform.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

@@ -1,4 +1,4 @@
-# Pattern Report Template
+﻿# Pattern Report Template
 
 ## User story
 
@@ -40,3 +40,8 @@ The pattern report is successful when the user can read it quickly and identify 
 ## Pilot usefulness score, 1 to 10
 
 ## Recommended next step
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

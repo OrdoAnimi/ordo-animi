@@ -1,4 +1,4 @@
-# VALOUR Outreach Copy
+﻿# VALOUR™ Outreach Copy
 
 Version: 0.1
 Status: Private outreach copy
@@ -139,3 +139,8 @@ If you are comfortable, the next step would be [pilot / intro / second call / fe
 
 Regards,
 Phil
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

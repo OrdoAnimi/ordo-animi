@@ -8,7 +8,23 @@ Unauthorised copying, modification, distribution, or use of this
 software, via any medium, is strictly prohibited without the express
 written permission of ZenCloud Global Consultants.
 
-Velocity Architecture Framework™ and Velocity Success Factor™ are
-trademarks of ZenCloud Consulting (Class 42).
+## Trademarks
 
-Contact: info@zencloud.com.au
+The following names are trademarks of ZenCloud Global Consultants,
+registered or pending registration (™ = pending; ® = registered):
+
+Ordo Animi™
+VALOUR™ (VALOUR for Architecture Leadership)
+VITA™
+VALLUM™
+VERITAS™
+VIA™
+Velocity Architecture Framework™
+Velocity Success Factor™
+
+Unauthorised use of these names in commerce, product names, or marketing
+materials is prohibited.
+
+## Contact
+
+info@zencloud.com.au

@@ -1,11 +1,11 @@
-# Founder Story Brief
+﻿# Founder Story Brief
 
 Version: 0.1
 Status: Private founder narrative
 
 ## Purpose
 
-This document captures the controlled founder story behind Ordo Animi and VALOUR. It is not a memoir. It is the origin narrative that explains why the product exists, why it is credible, and why the first commercial wedge is architecture leadership.
+This document captures the controlled founder story behind Ordo Animi™ and VALOUR™. It is not a memoir. It is the origin narrative that explains why the product exists, why it is credible, and why the first commercial wedge is architecture leadership.
 
 ## Short version
 
@@ -13,7 +13,7 @@ Ordo Animi began as a lived AI operating system before it became a product conce
 
 The founder used separate AI threads as different operating modes: professional leadership, architecture, executive coaching, personal recovery, health, emotional regulation, writing, relationship reflection, and self-governance. Over time, those modes became a system.
 
-VALOUR emerged as the professional leadership layer. VITA emerged as the personal life and recovery layer. VALLUM emerged as the governing mode-switch layer. VERITAS became the truth-checking layer. VIA became the journey layer.
+VALOUR emerged as the professional leadership layer. VITA™ emerged as the personal life and recovery layer. VALLUM™ emerged as the governing mode-switch layer. VERITAS™ became the truth-checking layer. VIA™ became the journey layer.
 
 ## Why it began
 
@@ -82,3 +82,8 @@ Publicly, the story is:
 VALOUR was built because architects are expected to influence major decisions, but most are not trained in the leadership conversations that make those decisions possible.
 
 Privately, Ordo Animi is the broader system that emerged from lived use of AI across work, life, recovery, reflection, and self-command.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

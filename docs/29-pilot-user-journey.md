@@ -1,4 +1,4 @@
-# VALOUR Pilot User Journey
+﻿# VALOUR Pilot User Journey
 
 Version: 0.1
 Status: Private user journey
@@ -138,3 +138,8 @@ Do not turn one scenario into a full coaching program.
 Do not expose unnecessary product complexity.
 
 Do not over-explain Ordo Animi.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

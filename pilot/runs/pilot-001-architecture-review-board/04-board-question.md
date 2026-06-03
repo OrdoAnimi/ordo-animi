@@ -1,4 +1,4 @@
-# Pilot 001 Board Question
+﻿# Pilot 001 Board Question
 
 ## User story
 
@@ -35,3 +35,8 @@ Start with the decision frame before explaining implementation detail.
 ## Next focus
 
 Practise answering a question about future platform debt in under ninety seconds.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

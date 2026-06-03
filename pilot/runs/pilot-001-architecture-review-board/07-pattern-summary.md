@@ -1,4 +1,4 @@
-# Pilot 001 Pattern Summary
+﻿# Pilot 001 Pattern Summary
 
 ## User story
 
@@ -65,3 +65,8 @@ The trade-off is speed with controlled governance, not speed without governance.
 ## Recommended next step
 
 Build the first VALOUR Pilot Console around intake, scenario selection, preparation brief, practice question, language refinement, review, and summary generation.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

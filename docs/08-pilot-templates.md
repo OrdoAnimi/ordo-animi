@@ -1,4 +1,4 @@
-# VALOUR Pilot Templates
+﻿# VALOUR™ Pilot Templates
 
 Version: 0.1
 Status: Private pilot operating templates
@@ -214,3 +214,8 @@ Do not overcomplicate the pilot.
 One user. One real leadership moment. One rehearsal. One after-action review. One improvement pattern.
 
 Repeat until the product proves itself.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

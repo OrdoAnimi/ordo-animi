@@ -1,4 +1,4 @@
-# VALOUR Pilot Data Model
+﻿# VALOUR Pilot Data Model
 
 Version: 0.1
 Status: Private data model
@@ -218,3 +218,8 @@ The biggest data risk is capturing too much sensitive organisational detail too 
 Keep the manual pilot lean.
 
 The product is testing leadership preparation, not storing enterprise architecture secrets.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

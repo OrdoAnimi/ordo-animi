@@ -1,4 +1,4 @@
-# VALOUR Scenario Prompt Pack
+﻿# VALOUR™ Scenario Prompt Pack
 
 Version: 0.1
 Status: Private prompt pack
@@ -158,3 +158,8 @@ Preparation: Help me capture open loops, identify what can wait, name any work r
 Rehearsal: Act as VALLUM. Help me close work mode and hand over to VITA. Ask what remains open, what must be parked, and what personal action matters now.
 
 Review: Did I close the loop, avoid carrying work into the evening, follow the personal plan, and recover enough to start clean tomorrow?
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

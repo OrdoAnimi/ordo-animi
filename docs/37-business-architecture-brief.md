@@ -1,4 +1,4 @@
-# Business Architecture Brief
+﻿# Business Architecture Brief
 
 Version: 0.1
 Status: Private business architecture brief
@@ -191,3 +191,8 @@ Mitigation: track whether value is individual, team, practice, or enterprise lev
 VALOUR has a clear initial business architecture when it stays focused on architecture leadership.
 
 The business model should begin with founder-led pilots and move toward repeatable team pilots before platform scale.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

@@ -1,4 +1,4 @@
-# Rehearsal Record Template
+﻿# Rehearsal Record Template
 
 ## User story
 
@@ -33,3 +33,8 @@ The rehearsal is successful when the user has at least one improved answer they 
 ## Next rehearsal focus
 
 ## Operator notes
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

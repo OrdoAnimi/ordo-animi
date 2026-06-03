@@ -1,4 +1,4 @@
-# Discovery Call Notes
+﻿# Discovery Call Notes
 
 Version: 0.1
 
@@ -13,3 +13,8 @@ Then ask which situations matter most: review boards, executive briefings, works
 Close by asking whether they would review the pilot pack, try one scenario, or suggest another contact.
 
 After the call, record the main pain, most valuable scenario, user fit, concerns, and next action.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

@@ -1,4 +1,4 @@
-# VALOUR Manual Pilot Runbook
+﻿# VALOUR Manual Pilot Runbook
 
 Version: 0.1
 Status: Private runbook
@@ -216,3 +216,8 @@ Do not collect confidential architecture material unnecessarily.
 Do not build software during the pilot.
 
 Use the pilot to test the behaviour loop.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

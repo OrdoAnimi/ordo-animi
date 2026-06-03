@@ -1,11 +1,11 @@
-# VALOUR Pitch Narrative
+﻿# VALOUR™ Pitch Narrative
 
 Version: 0.1
 Status: Private pitch source
 
 ## Purpose
 
-This document defines the short pitch, longer pitch, and investor narrative for VALOUR and Ordo Animi.
+This document defines the short pitch, longer pitch, and investor narrative for VALOUR™ and Ordo Animi™.
 
 The goal is to make the idea clear enough for funders, collaborators, and early pilot users without exposing the full internal architecture too early.
 
@@ -94,3 +94,8 @@ We are starting with architecture leadership because that is where we have found
 ## Closing line
 
 VALOUR helps architects become trusted leaders before the meeting decides their credibility for them.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

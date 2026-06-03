@@ -1,4 +1,4 @@
-# Pilot 001 Intake
+﻿# Pilot 001 Intake
 
 ## User story
 
@@ -75,3 +75,8 @@ Key user risk: Technical correctness without decision clarity.
 Key stakeholder risk: Board members may perceive the design as unclear, risky, or not sufficiently governed.
 
 Recommended next step: Select the Architecture Review Board scenario and create a preparation brief focused on decision, trade-off, risk, and closing statement.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

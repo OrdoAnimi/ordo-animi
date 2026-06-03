@@ -1,25 +1,24 @@
+import { pilot001 } from './data/pilot-001';
+import { PilotHeader } from './components/PilotHeader';
+import { PilotStageTimeline } from './components/PilotStageTimeline';
+import { EvidencePanel } from './components/EvidencePanel';
+import { ProductDecisionPanel } from './components/ProductDecisionPanel';
+import { ArtifactViewer } from './components/ArtifactViewer';
+import { OperatorNotes } from './components/OperatorNotes';
+
 export function App() {
   return (
     <main className="console-shell">
-      <section className="hero-panel">
-        <p className="eyebrow">VALOUR Pilot Console v0.1</p>
-        <h1>Private operator workspace</h1>
-        <p className="hero-copy">
-          The local app runtime is active. This first render removes imported panels so the browser can confirm the base React path before the Pilot 001 cockpit is restored.
-        </p>
-      </section>
-
-      <section className="panel pilot-header">
-        <div>
-          <p className="eyebrow">pilot/runs/pilot-001-architecture-review-board</p>
-          <h2>Pilot 001: Architecture Review Board</h2>
-          <p>
-            Once this screen is visible, the workflow timeline, evidence panel, and artefact viewer can be reintroduced safely.
-          </p>
-        </div>
-
-        <div className="status-pill">ready</div>
-      </section>
+      <PilotHeader pilot={pilot001} />
+      <PilotStageTimeline stages={pilot001.stages} />
+      <EvidencePanel evidence={pilot001.evidence} />
+      <ProductDecisionPanel decision={pilot001.productDecision} />
+      <ArtifactViewer
+        title="Pattern Summary"
+        sourceFile="07-pattern-summary.md"
+        summary={`Primary pattern: ${pilot001.evidence.mainPattern} Next focus: ${pilot001.productDecision.nextStep}`}
+      />
+      <OperatorNotes notes={pilot001.operatorNotes} />
     </main>
   );
 }

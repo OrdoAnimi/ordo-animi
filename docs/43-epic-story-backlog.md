@@ -1,4 +1,4 @@
-# VALOUR Epic and Story Backlog
+﻿# VALOUR Epic and Story Backlog
 
 Version: 0.1
 Status: Private backlog
@@ -266,3 +266,8 @@ Acceptance criteria:
 The backlog is focused on pilot readiness and controlled productisation.
 
 The first build should prove the loop before scaling the platform.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

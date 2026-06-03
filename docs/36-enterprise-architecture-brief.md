@@ -1,4 +1,4 @@
-# Enterprise Architecture Brief
+﻿# Enterprise Architecture Brief
 
 Version: 0.1
 Status: Private architecture brief
@@ -156,3 +156,8 @@ The recommended path is manual workflow first, then lightweight interface, then 
 The enterprise architecture supports a staged path from founder-led pilot to agentic product.
 
 VALOUR remains the first wedge. Ordo Animi remains the parent ecosystem. Architecture leadership remains the first market.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

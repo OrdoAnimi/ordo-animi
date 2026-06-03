@@ -1,4 +1,4 @@
-# Founder Script
+﻿# Founder Script
 
 Version: 0.1
 
@@ -39,3 +39,8 @@ The aim is to help the user enter the real conversation clearer, calmer, and mor
 ## Closing line
 
 VALOUR helps architects prepare for the leadership conversations that shape trust and decisions.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

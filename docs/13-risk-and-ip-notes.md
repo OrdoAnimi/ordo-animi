@@ -1,4 +1,4 @@
-# Risk and IP Notes
+﻿# Risk and IP Notes
 
 Version: 0.1
 Status: Private founder risk notes
@@ -113,3 +113,8 @@ If another party builds a related version in another vertical, that does not end
 It confirms the market pattern may be valuable.
 
 VALOUR should stay focused on architecture leadership first, where the founder has the strongest credibility and most defensible entry point.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

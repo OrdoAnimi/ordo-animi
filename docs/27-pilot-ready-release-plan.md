@@ -1,4 +1,4 @@
-# Pilot Ready Release Plan
+﻿# Pilot Ready Release Plan
 
 Version: 0.1
 Status: Private release plan
@@ -97,3 +97,8 @@ Do not let cloud architecture slow pilot readiness.
 Get the pilot workflow ready first.
 
 Then choose architecture based on the workflow, not the other way around.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

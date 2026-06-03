@@ -1,4 +1,4 @@
-# VALOUR Scenario Library
+﻿# VALOUR™ Scenario Library
 
 Version: 0.1
 Status: Private MVP scenario library
@@ -556,3 +556,8 @@ Did I carry work into the evening?
 Did I follow the personal plan?
 
 Did I recover enough to start clean tomorrow?
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

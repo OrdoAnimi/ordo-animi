@@ -1,4 +1,4 @@
-# VALOUR Operating Model
+﻿# VALOUR™ Operating Model
 
 Version: 0.1
 Status: Private operating model
@@ -159,3 +159,8 @@ Feedback must be specific. Ask what changed, what helped, and what would make th
 ## First operating target
 
 Run the first manual pilot with a small number of users and produce enough evidence to decide whether VALOUR should move into a repeatable paid pilot.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

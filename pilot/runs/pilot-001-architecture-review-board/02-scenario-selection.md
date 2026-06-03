@@ -1,4 +1,4 @@
-# Pilot 001 Scenario Selection
+﻿# Pilot 001 Scenario Selection
 
 ## User story
 
@@ -54,3 +54,8 @@ Review prompt: Review whether the architect made the decision clear, stayed at t
 ## Operator notes
 
 This is the cleanest first simulated pilot scenario because it exercises the core VALOUR promise: helping an architect turn a technical design into a leadership decision conversation.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

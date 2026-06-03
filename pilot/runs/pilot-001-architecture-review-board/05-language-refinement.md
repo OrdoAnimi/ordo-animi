@@ -1,4 +1,4 @@
-# Pilot 001 Language Refinement
+﻿# Pilot 001 Language Refinement
 
 ## User story
 
@@ -48,3 +48,8 @@ Use the executive version as the primary answer and the decision version as the 
 ## Operator notes
 
 This output shows the value of VALOUR language refinement. The same technical answer becomes more usable when expressed as recommendation, trade-off, condition, and next action.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

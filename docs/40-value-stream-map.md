@@ -1,4 +1,4 @@
-# VALOUR Value Stream Map
+﻿# VALOUR Value Stream Map
 
 Version: 0.1
 Status: Private value stream map
@@ -282,3 +282,8 @@ VALOUR improves based on real usage rather than abstract assumptions.
 The first VALOUR product does not need every feature.
 
 It needs to protect and improve the value stream from leadership moment to measurable learning.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

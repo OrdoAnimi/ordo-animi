@@ -1,4 +1,4 @@
-# Evidence Record Template
+﻿# Evidence Record Template
 
 ## User story
 
@@ -51,3 +51,8 @@ The evidence record is successful when it supports a clear decision about the ne
 - Automate later
 - Pause
 - Expand later
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

@@ -1,4 +1,4 @@
-# VALOUR Pilot Workspace
+﻿# VALOUR Pilot Workspace
 
 This folder contains the live pilot operating structure for VALOUR.
 
@@ -17,3 +17,8 @@ The `docs/` folder remains the product, architecture, strategy, and governance l
 One user. One real or simulated leadership scenario. One preparation cycle. One rehearsal cycle. One review. One pattern report.
 
 The first goal is to prove the VALOUR loop before building software.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

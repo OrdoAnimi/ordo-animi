@@ -1,4 +1,4 @@
-# VALOUR Architecture Input Brief
+﻿# VALOUR Architecture Input Brief
 
 Version: 0.1
 Status: Private architecture input
@@ -150,3 +150,8 @@ The architecture decision should answer:
 Architecture discussion begins after Pilot Ready is complete.
 
 At that point, compare Microsoft, Google, Amazon, GitHub-first, and hybrid low-cost options against the actual workflow rather than the abstract vision.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

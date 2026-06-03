@@ -1,4 +1,4 @@
-# VALOUR Capability Map
+﻿# VALOUR Capability Map
 
 Version: 0.1
 Status: Private capability map
@@ -233,3 +233,8 @@ Later priority:
 VALOUR does not need the full platform to begin.
 
 It needs the core capability chain: identify user, choose scenario, prepare, rehearse, refine, review, report, and capture evidence.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

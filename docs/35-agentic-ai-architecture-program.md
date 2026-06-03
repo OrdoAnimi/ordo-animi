@@ -1,4 +1,4 @@
-# Agentic AI Architecture Program
+﻿# Agentic AI Architecture Program
 
 Version: 0.1
 Status: Private architecture program
@@ -156,3 +156,8 @@ Create the following architecture and delivery artefacts:
 Move fast, but keep the architecture clean.
 
 The product should be pilot-ready before it is platform-heavy.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

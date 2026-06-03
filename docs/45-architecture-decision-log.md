@@ -1,4 +1,4 @@
-# Architecture Decision Log
+﻿# Architecture Decision Log
 
 Version: 0.1
 Status: Private decision log
@@ -82,3 +82,8 @@ Decision: Pending.
 Options to compare: GitHub-first pilot, static site plus forms, lightweight web app, Microsoft path, Google path, Amazon path, hybrid path.
 
 Next action: Create platform option briefs and compare them against workflow, cost, speed, privacy, and likely customer path.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

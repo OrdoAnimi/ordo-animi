@@ -1,4 +1,4 @@
-# VALOUR Sprint Plan
+﻿# VALOUR Sprint Plan
 
 Version: 0.1
 Status: Private sprint plan
@@ -236,3 +236,8 @@ A work item is done when the artefact exists in the repo, is readable, supports 
 Current sprint: Sprint 0, Architecture setup.
 
 Next sprint: Sprint 1, Manual pilot operating system.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

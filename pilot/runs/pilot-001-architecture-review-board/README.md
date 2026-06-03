@@ -1,4 +1,4 @@
-# Pilot Run 001: Architecture Review Board
+﻿# Pilot Run 001: Architecture Review Board
 
 Status: Simulated pilot run
 
@@ -21,3 +21,8 @@ Can VALOUR turn a high-pressure architecture leadership moment into a clearer de
 ## Success criteria
 
 This simulated run is successful when every stage has a completed working artefact and the final evidence record supports a clear product decision.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

@@ -1,4 +1,4 @@
-# VALOUR Solution Brief
+﻿# VALOUR Solution Brief
 
 Version: 0.1
 Status: Private solution brief
@@ -93,3 +93,8 @@ Do not expose detailed internal operating material publicly.
 The first solution is a controlled pilot operating system, not a large platform.
 
 The purpose is to prove the VALOUR loop before building heavier architecture.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

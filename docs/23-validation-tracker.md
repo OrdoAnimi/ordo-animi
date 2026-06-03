@@ -1,4 +1,4 @@
-# VALOUR Validation Tracker
+﻿# VALOUR Validation Tracker
 
 Version: 0.1
 Status: Private validation tracker
@@ -116,3 +116,8 @@ After five conversations, decide:
 - Run one manual pilot.
 - Seek advisor review.
 - Pause and reposition.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

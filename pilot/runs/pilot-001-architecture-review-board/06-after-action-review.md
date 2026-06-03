@@ -1,4 +1,4 @@
-# Pilot 001 After-Action Review
+﻿# Pilot 001 After-Action Review
 
 ## User story
 
@@ -67,3 +67,8 @@ The rehearsal workflow should include two or three stakeholder questions, not ju
 ## Operator notes
 
 The simulated pilot proves the basic VALOUR loop. The biggest near-term product need is a structured rehearsal workspace and an automated pattern report generator.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

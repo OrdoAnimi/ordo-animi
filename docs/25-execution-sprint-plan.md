@@ -1,4 +1,4 @@
-# VALOUR Execution Sprint Plan
+﻿# VALOUR Execution Sprint Plan
 
 Version: 0.1
 Status: Private execution plan
@@ -143,3 +143,8 @@ Prove the manual behaviour loop first.
 Create a simulated pilot case and run the VALOUR process internally.
 
 This will expose whether the pilot pack is operational or still only conceptual.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

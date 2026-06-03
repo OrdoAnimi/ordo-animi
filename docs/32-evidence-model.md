@@ -1,4 +1,4 @@
-# VALOUR Evidence Model
+﻿# VALOUR Evidence Model
 
 Version: 0.1
 Status: Private evidence model
@@ -142,3 +142,8 @@ Do not claim outcomes that were not observed.
 ## Decision gate
 
 Proceed to product build only when evidence shows that users complete the loop, report usefulness, and show willingness to continue, recommend, support a next step, or introduce others.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

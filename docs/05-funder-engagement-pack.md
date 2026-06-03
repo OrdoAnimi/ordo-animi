@@ -1,21 +1,21 @@
-# Funder Engagement Pack
+﻿# Funder Engagement Pack
 
 Version: 0.1
 Status: Private funding brief
 
 ## Purpose
 
-This document defines the first funding narrative for Ordo Animi and VALOUR.
+This document defines the first funding narrative for Ordo Animi™ and VALOUR™.
 
 It is designed for early conversations with trusted funders, mentors, potential collaborators, and friendly investors.
 
 ## Core pitch
 
-VALOUR is an AI-assisted architectural leadership copilot.
+VALOUR™ is an AI-assisted architectural leadership copilot.
 
 It helps architects and technical leaders prepare for, rehearse, and review the conversations that shape technology decisions.
 
-The broader parent system is Ordo Animi, an agentic life-and-work operating model. VALOUR is the first commercial product because architecture leadership is the strongest founder-market fit.
+The broader parent system is Ordo Animi™, an agentic life-and-work operating model. VALOUR is the first commercial product because architecture leadership is the strongest founder-market fit.
 
 ## Problem
 
@@ -146,3 +146,8 @@ The first investor question is whether VALOUR can prove demand in architecture l
 If VALOUR can help architects prepare for difficult conversations and become more trusted leaders, the product has a clear first market.
 
 If the first market works, Ordo Animi can expand into broader leadership, technical professionals, small business owners, and personal operating systems through VITA.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

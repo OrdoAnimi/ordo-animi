@@ -1,17 +1,17 @@
-# VALOUR Architecture Leadership Pilot Pack
+﻿# VALOUR™ Architecture Leadership Pilot Pack
 
 Version: 0.1
 Status: Private pilot-ready pack
 
 ## Purpose
 
-This pack explains the first VALOUR pilot in a format that can be shared selectively with early users, advisors, or architecture leaders.
+This pack explains the first VALOUR™ pilot in a format that can be shared selectively with early users, advisors, or architecture leaders.
 
-It is deliberately practical. It does not require the reader to understand the full Ordo Animi system.
+It is deliberately practical. It does not require the reader to understand the full Ordo Animi™ system.
 
-## What VALOUR is
+## What VALOUR™ is
 
-VALOUR is an AI-assisted architectural leadership copilot.
+VALOUR™ is an AI-assisted architectural leadership copilot.
 
 It helps architects and technical leaders prepare for, rehearse, and review the conversations that shape technology decisions.
 
@@ -100,3 +100,8 @@ I am looking for a small number of early users who can test the method and provi
 ## Next step
 
 The next step is a short discovery conversation to understand the user's role, current leadership challenge, and upcoming scenario.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

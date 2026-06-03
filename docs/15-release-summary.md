@@ -1,4 +1,4 @@
-# Release Summary
+﻿# Release Summary
 
 Version: 0.1
 Status: Private release record
@@ -6,7 +6,7 @@ Release name: Foundation Release
 
 ## Purpose
 
-This document records what has been achieved in the first Ordo Animi / VALOUR documentation release and defines the next phase of work.
+This document records what has been achieved in the first Ordo Animi™ / VALOUR™ documentation release and defines the next phase of work.
 
 The purpose is to create a clear release checkpoint so the product can be managed deliberately rather than expanded reactively.
 
@@ -136,3 +136,8 @@ The next phase is Pilot Readiness.
 Pilot Readiness means turning the documentation into a usable pilot package that can be shown to early users, advisors, and funders.
 
 The goal is to move from internal product definition to first external validation.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

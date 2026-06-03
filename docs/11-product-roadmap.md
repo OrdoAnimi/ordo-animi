@@ -1,11 +1,11 @@
-# Ordo Animi Product Roadmap
+﻿# Ordo Animi™ Product Roadmap
 
 Version: 0.1
 Status: Private roadmap
 
 ## Purpose
 
-This document defines the staged roadmap for Ordo Animi and VALOUR.
+This document defines the staged roadmap for Ordo Animi™ and VALOUR™.
 
 The roadmap separates the long-term agentic operating system vision from the first buildable and sellable product.
 
@@ -197,3 +197,8 @@ Every phase must answer one question:
 Does this help the user prepare for, handle, or learn from a real leadership moment better than before?
 
 If not, it waits.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

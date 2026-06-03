@@ -1,4 +1,4 @@
-# Pilot 001 Preparation Brief
+﻿# Pilot 001 Preparation Brief
 
 ## User story
 
@@ -77,3 +77,8 @@ My recommendation is to proceed with the proposed pattern under the documented c
 ## Operator notes
 
 The preparation brief is strong enough for rehearsal. The main thing to test is whether the architect can keep answers short when challenged.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

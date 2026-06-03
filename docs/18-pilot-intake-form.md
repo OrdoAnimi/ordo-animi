@@ -1,4 +1,4 @@
-# VALOUR Pilot Intake Form
+﻿# VALOUR™ Pilot Intake Form
 
 Version: 0.1
 Status: Private pilot intake template
@@ -121,3 +121,8 @@ Key stakeholder risk:
 Recommended preparation focus:
 
 Recommended follow-up:
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

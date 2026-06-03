@@ -1,4 +1,4 @@
-# VALOUR Release Roadmap
+﻿# VALOUR Release Roadmap
 
 Version: 0.1
 Status: Private release roadmap
@@ -101,3 +101,8 @@ Success criteria: the product has a clear build path for scale.
 VALOUR should move in controlled releases from manual proof to repeatable pilot, lightweight interface, guided workflow, and team pilot readiness.
 
 The long-term Ordo Animi vision remains intact, but VALOUR must prove the first wedge before the broader system expands.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

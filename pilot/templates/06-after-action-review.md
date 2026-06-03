@@ -1,4 +1,4 @@
-# After-Action Review Template
+﻿# After-Action Review Template
 
 ## User story
 
@@ -41,3 +41,8 @@ The review is successful when the user can name what changed, what still needs w
 ## Confidence after VALOUR, 1 to 10
 
 ## Operator notes
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

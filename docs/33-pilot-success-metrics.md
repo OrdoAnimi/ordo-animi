@@ -1,4 +1,4 @@
-# VALOUR Pilot Success Metrics
+﻿# VALOUR Pilot Success Metrics
 
 Version: 0.1
 Status: Private metrics model
@@ -121,3 +121,8 @@ After five pilot users, decide one of four paths:
 Do not build a full platform until there is evidence that users complete the loop, find it useful, and want to continue.
 
 A lightweight product build can begin when there is strong evidence across completion, usefulness, repeat intent, and sponsorship signal.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*

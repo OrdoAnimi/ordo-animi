@@ -1,4 +1,4 @@
-# VALOUR MVP and MLP Definition
+﻿# VALOUR MVP and MLP Definition
 
 Version: 0.1
 Status: Private product definition
@@ -145,3 +145,8 @@ Goal: introduce structured agent workflow and stronger reporting.
 Move from MVP to MLP only after the core loop proves useful.
 
 Move from MLP to platform only after users show repeat intent, recommendation signal, or team interest.
+
+
+---
+
+*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
