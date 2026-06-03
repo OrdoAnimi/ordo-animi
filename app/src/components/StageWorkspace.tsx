@@ -131,6 +131,31 @@ export function StageWorkspace({
       <div className="ws-title">{stage.label}</div>
       <div className="ws-desc">{stage.description}</div>
 
+      {/* Stage guidance */}
+      {stage.guidance && (
+        <details className="ws-guidance">
+          <summary className="ws-guidance-summary">About this stage</summary>
+          <div className="ws-guidance-grid">
+            <div className="ws-guidance-item">
+              <span className="ws-guidance-label">What this stage does</span>
+              <div className="ws-guidance-value">{stage.guidance.what}</div>
+            </div>
+            <div className="ws-guidance-item">
+              <span className="ws-guidance-label">You provide</span>
+              <div className="ws-guidance-value">{stage.guidance.provides}</div>
+            </div>
+            <div className="ws-guidance-item">
+              <span className="ws-guidance-label">VALOUR generates</span>
+              <div className="ws-guidance-value">{stage.guidance.generates}</div>
+            </div>
+            <div className="ws-guidance-item">
+              <span className="ws-guidance-label">Recommended next</span>
+              <div className="ws-guidance-value">{stage.guidance.next}</div>
+            </div>
+          </div>
+        </details>
+      )}
+
       {/* Dependency warning */}
       {!dependency.ok && hasAgent && (
         <div className="ws-dependency-warn">
