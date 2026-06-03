@@ -14,7 +14,7 @@ import { LandingPage } from './components/LandingPage';
 import { PatternPage } from './components/PatternPage';
 import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
-import type { StageOutput, StageStatus } from './data/types';
+import type { StageOutput, StageStatus, PilotState } from './data/types';
 
 type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness';
 
@@ -55,21 +55,27 @@ export function App() {
   if (page === 'pattern') {
     const pid = getParam('pilot') ?? 'PILOT-001';
     const pilot = getPilotById(pid);
-    // Read live pattern content from localStorage state
     let liveContent: string | undefined;
+    let liveState: PilotState | undefined;
     try {
       const saved = localStorage.getItem(`valour:state:${pid}`);
       if (saved) {
-        const parsed = JSON.parse(saved);
+        const parsed = JSON.parse(saved) as PilotState;
         liveContent = parsed?.entries?.['stage-07-pattern']?.output?.content;
+        liveState = parsed;
       }
     } catch { /* ignore */ }
     return (
       <PatternPage
-        pattern={pilot.pattern}
-        pilotTitle={pilot.title.replace(': ', ' · ')}
+        pilot={pilot}
         liveContent={liveContent}
+        liveState={liveState}
         onBack={nav('#console')}
+        onReset={() => {
+          localStorage.removeItem(`valour:state:${pid}`);
+          window.location.hash = `#console?pilot=${pid}`;
+        }}
+        onStartNew={() => { window.location.hash = '#console'; }}
       />
     );
   }
@@ -116,6 +122,18 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
   }));
 
   const dependency = checkDependency(activeStage.id, state);
+
+  const completedStageIds = Object.keys(state.entries).filter(id => !!state.entries[id]?.output);
+
+  const rehearsalAnswer = (() => {
+    const raw = state.entries['stage-04-rehearsal']?.userInput;
+    if (!raw?.trim()) return undefined;
+    try {
+      const parsed = JSON.parse(raw) as { answer?: string };
+      if (parsed.answer?.trim()) return parsed.answer;
+    } catch { /* ignore */ }
+    return raw || undefined;
+  })();
 
   async function handleGenerate() {
     const agentFn = STAGE_AGENTS[activeStage.id];
@@ -167,6 +185,8 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
             total={pilot.stages.length}
             hasAgent={activeStage.id in STAGE_AGENTS}
             dependency={dependency}
+            completedStageIds={completedStageIds}
+            rehearsalAnswer={rehearsalAnswer}
             onGenerate={handleGenerate}
             onSaveOutput={handleSaveOutput}
             onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
