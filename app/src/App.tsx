@@ -14,16 +14,18 @@ import { LandingPage } from './components/LandingPage';
 import { PatternPage } from './components/PatternPage';
 import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
+import { ComparisonPage } from './components/ComparisonPage';
 import type { StageOutput, StageStatus, PilotState } from './data/types';
 
-type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness';
+type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison';
 
 function getPage(): Page {
   const h = window.location.hash;
-  if (h.startsWith('#console'))   return 'console';
-  if (h.startsWith('#pattern'))   return 'pattern';
-  if (h === '#scenarios')         return 'scenarios';
-  if (h === '#readiness')         return 'readiness';
+  if (h.startsWith('#console'))    return 'console';
+  if (h.startsWith('#pattern'))    return 'pattern';
+  if (h === '#scenarios')          return 'scenarios';
+  if (h === '#readiness')          return 'readiness';
+  if (h === '#comparison')         return 'comparison';
   return 'landing';
 }
 
@@ -89,7 +91,9 @@ export function App() {
     );
   }
 
-  if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
+  if (page === 'readiness')   return <ReadinessPage onBack={nav('#console')} />;
+
+  if (page === 'comparison')  return <ComparisonPage onBack={nav('#console')} />;
 
   const activePilotId = getParam('pilot') ?? 'PILOT-001';
   return (
@@ -163,6 +167,7 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
         pilot={{ ...pilot, stages: liveStages }}
         onViewPattern={onViewPattern}
         onViewReadiness={() => { window.location.hash = '#readiness'; }}
+        onViewComparison={() => { window.location.hash = '#comparison'; }}
       />
       <div className="body">
         <Sidebar

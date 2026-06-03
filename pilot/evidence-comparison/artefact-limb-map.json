@@ -1,0 +1,146 @@
+{
+  "version": "0.3.0",
+  "description": "Maps VALOUR pilot evidence outcome signals to artefact generator limb repositories. This is the machine-readable integration contract seed for Release 0.3. No live API calls are wired yet.",
+  "createdAt": "2026-06-04",
+  "limbs": {
+    "ea-artefact-generator": {
+      "id": "ea-artefact-generator",
+      "label": "EA Artefact Generator",
+      "repo": "ZenCloudAU/ea-artefact-generator",
+      "url": "https://ea.velocityarchitecture.com.au/",
+      "discipline": "Enterprise Architecture",
+      "maturity": "usable",
+      "invocation": "browser-ui",
+      "apiContract": null,
+      "description": "Generates enterprise architecture artefacts: governance briefs, architecture decision records, executive summaries, risk analysis, trade-off analysis, and delivery backlog."
+    },
+    "sa-artefact-generator": {
+      "id": "sa-artefact-generator",
+      "label": "SA Artefact Generator",
+      "repo": "ZenCloudAU/sa-artefact-generator",
+      "url": null,
+      "discipline": "Solution Architecture",
+      "maturity": "minimal",
+      "invocation": "browser-ui",
+      "apiContract": null,
+      "description": "Generates solution architecture artefacts: solution overview, architecture decision records, interface register, trade-off matrix, dependency map, and risk register."
+    },
+    "ba-artefact-generator": {
+      "id": "ba-artefact-generator",
+      "label": "BA Artefact Generator",
+      "repo": "ZenCloudAU/ba-artefact-generator",
+      "url": "https://ba.velocityarchitecture.com.au/",
+      "discipline": "Business Analysis and Business Architecture",
+      "maturity": "mvp-alpha",
+      "invocation": "browser-ui-and-worker-api",
+      "apiContract": {
+        "baseUrl": "https://ba-artefact-generator.phil-448.workers.dev",
+        "endpoints": [
+          { "path": "/api/health", "method": "GET", "description": "Health check" },
+          { "path": "/api/generate", "method": "POST", "description": "Generate BA artefact from context — contract not yet documented for external consumption" }
+        ],
+        "status": "exists-not-yet-external-contract",
+        "notes": "Most integration-ready limb in Release 0.3. Recommended first live integration candidate for Release 0.4."
+      },
+      "description": "Generates business analysis and business architecture artefacts: stakeholder maps, requirements, process models, capability views, traceability matrices, user stories, decision records, and delivery handoff packs."
+    },
+    "pm-artefact-generator": {
+      "id": "pm-artefact-generator",
+      "label": "PM Artefact Generator",
+      "repo": "ZenCloudAU/pm-artefact-generator",
+      "url": "https://pm.velocityarchitecture.com.au/",
+      "discipline": "Project and Programme Management",
+      "maturity": "uat",
+      "invocation": "browser-ui",
+      "apiContract": null,
+      "description": "Generates project and programme management artefacts: project initiation, RAID log, steering committee reporting, and integrated delivery planning."
+    },
+    "pmi-portal": {
+      "id": "pmi-portal",
+      "label": "PMI Portal",
+      "repo": "ZenCloudAU/pmi-portal",
+      "url": "https://zencloudau.github.io/pmi-portal/",
+      "discipline": "Programme Delivery and Client Transparency",
+      "maturity": "prototype",
+      "invocation": "browser-ui",
+      "apiContract": null,
+      "description": "Governed delivery workspace: client mandate intake, architecture framing, scale assessment, artefact catalogue, governance model, RAID and decisions, milestones, executive snapshot, client visibility, and handover pack."
+    }
+  },
+  "mappings": [
+    {
+      "evidenceSignal": "architecture-decision-framing",
+      "description": "Pilot evidence shows architecture decision clarity as the primary leadership gap — user needs help framing decisions for board or governance audiences.",
+      "primaryLimb": "ea-artefact-generator",
+      "secondaryLimb": "sa-artefact-generator",
+      "suggestedArtefacts": [
+        "Architecture Decision Record",
+        "Governance Brief",
+        "Trade-off Analysis",
+        "Executive Summary"
+      ],
+      "pilotSignals": ["PILOT-001"]
+    },
+    {
+      "evidenceSignal": "executive-translation",
+      "description": "Pilot evidence shows translation gap — user understands the technical position but cannot frame it in executive or financial language for senior stakeholders.",
+      "primaryLimb": "pmi-portal",
+      "secondaryLimb": "ba-artefact-generator",
+      "suggestedArtefacts": [
+        "Executive Snapshot",
+        "Stakeholder Map",
+        "Business Case Summary",
+        "Benefits Summary"
+      ],
+      "pilotSignals": ["PILOT-002"]
+    },
+    {
+      "evidenceSignal": "delivery-risk-and-action",
+      "description": "Pilot evidence surfaces delivery risk, action items, or accountability gaps that need formal tracking and governance.",
+      "primaryLimb": "pm-artefact-generator",
+      "secondaryLimb": "pmi-portal",
+      "suggestedArtefacts": [
+        "RAID Log",
+        "Delivery Mobilisation Brief",
+        "Milestone Plan",
+        "Steering Committee Report"
+      ],
+      "pilotSignals": []
+    },
+    {
+      "evidenceSignal": "business-stakeholder-clarification",
+      "description": "Pilot evidence shows the user needs to clarify business requirements, stakeholder intent, or process scope before the technical solution can be properly governed.",
+      "primaryLimb": "ba-artefact-generator",
+      "secondaryLimb": null,
+      "suggestedArtefacts": [
+        "Stakeholder Map",
+        "Business Requirements",
+        "Process Model",
+        "Capability View"
+      ],
+      "pilotSignals": []
+    },
+    {
+      "evidenceSignal": "programme-communication",
+      "description": "Pilot evidence shows a programme or portfolio communication gap — the user needs structured executive reporting, client visibility, or programme governance artefacts.",
+      "primaryLimb": "pmi-portal",
+      "secondaryLimb": "pm-artefact-generator",
+      "suggestedArtefacts": [
+        "Executive Snapshot",
+        "Client Visibility Report",
+        "Governance Model",
+        "Handover Pack"
+      ],
+      "pilotSignals": []
+    },
+    {
+      "evidenceSignal": "confidence-calibration",
+      "description": "Pilot evidence shows a confidence improvement that can be operationalised. The specific artefact type depends on the scenario. All limbs are potential candidates.",
+      "primaryLimb": null,
+      "secondaryLimb": null,
+      "suggestedArtefacts": [],
+      "pilotSignals": ["PILOT-001", "PILOT-002"],
+      "notes": "Route to the limb matching the scenario type, not the signal alone."
+    }
+  ]
+}

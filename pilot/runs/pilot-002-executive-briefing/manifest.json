@@ -1,0 +1,65 @@
+{
+  "id": "pilot-002-executive-briefing",
+  "title": "Pilot 002: Executive Briefing",
+  "status": "complete",
+  "sourcePath": "pilot/runs/pilot-002-executive-briefing",
+  "productQuestion": "Does VALOUR help a solution architect translate a technical migration decision into executive language?",
+  "stages": [
+    {
+      "id": "intake",
+      "label": "Context",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/01-intake.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "scenario-selection",
+      "label": "Scenario Selection",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/02-scenario.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "preparation",
+      "label": "Preparation Brief",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/03-preparation.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "rehearsal",
+      "label": "Rehearsal",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/04-rehearsal.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "language-refinement",
+      "label": "Language Refinement",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/05-language.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "after-action-review",
+      "label": "After-Action Review",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/06-review.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "pattern-summary",
+      "label": "Pattern Summary",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/07-pattern.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    },
+    {
+      "id": "outcome-record",
+      "label": "Outcome Record",
+      "sourceFile": "pilot/runs/pilot-002-executive-briefing/08-outcome.md",
+      "status": "complete",
+      "evidenceCaptured": true
+    }
+  ]
+}
