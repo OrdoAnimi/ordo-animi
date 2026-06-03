@@ -13,14 +13,20 @@ export const pilot001: PilotRun = {
   stages: [
     {
       id: 'stage-01-intake',
-      label: 'Intake',
+      label: 'Context',
       description:
-        'Capture user role, context, leadership situation, confidence baseline, and desired outcome.',
+        'Capture your role, the leadership situation you are preparing for, and your desired outcome. VALOUR™ uses this to personalise every stage.',
       sourceFile: '01-intake.md',
       status: 'complete',
       evidenceCaptured: true,
       operatorNote:
         'User: Senior Solution Architect, enterprise transformation. Key risk: technical correctness without decision clarity. Baseline confidence: 5/10.',
+      guidance: {
+        what: 'VALOUR maps your situation and role to personalise every stage of the workflow.',
+        provides: 'Your role, the leadership situation, desired outcome, and starting confidence.',
+        generates: 'Nothing — your context drives all downstream AI generation.',
+        next: 'Save your context, then move to Stage 02 to identify the best-fit scenario.',
+      },
     },
     {
       id: 'stage-02-scenario',
@@ -32,6 +38,12 @@ export const pilot001: PilotRun = {
       evidenceCaptured: true,
       operatorNote:
         'VALOUR-S01 Architecture Review Board selected. Variant: cloud integration design under delivery pressure. Fit score: 9/10.',
+      guidance: {
+        what: 'VALOUR maps your situation to the best-fit leadership scenario and variant.',
+        provides: 'Your saved context from Stage 01.',
+        generates: 'A scenario match with variant, fit score, and scenario-specific framing.',
+        next: 'Review the scenario selection, then generate your Preparation Brief in Stage 03.',
+      },
     },
     {
       id: 'stage-03-prep',
@@ -43,6 +55,12 @@ export const pilot001: PilotRun = {
       evidenceCaptured: true,
       operatorNote:
         'Brief strong enough for rehearsal. Main test: can the architect keep answers short when challenged?',
+      guidance: {
+        what: 'VALOUR builds a concise brief covering audience, decision frame, key message, likely questions, and closing statement.',
+        provides: 'Your context and scenario from earlier stages.',
+        generates: 'A structured preparation brief ready to use as a rehearsal reference.',
+        next: 'Read the brief, then record your rehearsal answer in Stage 04.',
+      },
     },
     {
       id: 'stage-04-rehearsal',
@@ -54,6 +72,12 @@ export const pilot001: PilotRun = {
       evidenceCaptured: true,
       operatorNote:
         'Key learning: start with decision frame before implementation detail. Improved answer led with conditional approval framing.',
+      guidance: {
+        what: 'VALOUR generates practice board questions based on your scenario. You record your first answer to one question.',
+        provides: 'Your rehearsal answer to a selected question.',
+        generates: 'Board-level rehearsal questions tailored to your scenario.',
+        next: 'Save your rehearsal answer, then move to Stage 05 to refine your language.',
+      },
     },
     {
       id: 'stage-05-language',
@@ -65,6 +89,12 @@ export const pilot001: PilotRun = {
       evidenceCaptured: true,
       operatorNote:
         'Executive version recommended as primary. Decision version used as close. Clear product value demonstrated.',
+      guidance: {
+        what: 'VALOUR takes your rehearsal answer and produces four refined versions: short, executive, empathetic, and decision-oriented.',
+        provides: 'Your saved rehearsal answer from Stage 04.',
+        generates: 'Four language variants to use in your actual conversation.',
+        next: 'Choose the best variant or combine elements, then generate your After-Action Review in Stage 06.',
+      },
     },
     {
       id: 'stage-06-review',
@@ -76,6 +106,12 @@ export const pilot001: PilotRun = {
       evidenceCaptured: true,
       operatorNote:
         'Product gap identified: rehearsal stage needs structured multi-question workspace. Biggest near-term build need.',
+      guidance: {
+        what: 'VALOUR reviews what worked, what to change, and where your clarity and cadence improved.',
+        provides: 'All outputs from earlier stages.',
+        generates: 'A structured after-action review with key learnings and next actions.',
+        next: 'Review your learnings, then generate your Pattern Summary in Stage 07.',
+      },
     },
     {
       id: 'stage-07-pattern',
@@ -87,6 +123,12 @@ export const pilot001: PilotRun = {
       evidenceCaptured: true,
       operatorNote:
         'Primary pattern: technical confidence without decision framing. Next focus: lead every board answer with the decision frame first.',
+      guidance: {
+        what: 'VALOUR identifies your primary leadership communication pattern and generates a personal development focus.',
+        provides: 'Your full workflow history from this pilot run.',
+        generates: 'A personalised Pattern Report — primary pattern, strengths, risks, and next focus.',
+        next: 'Review your Pattern Report, then record your outcome in Stage 08.',
+      },
     },
     {
       id: 'stage-08-outcome',
@@ -98,6 +140,12 @@ export const pilot001: PilotRun = {
       evidenceCaptured: true,
       operatorNote:
         'All scores 8+. Would use again and would recommend. Decision: continue. Move to Pilot Console v0.1 build.',
+      guidance: {
+        what: 'VALOUR captures your final confidence score, usefulness assessment, and product recommendation signal.',
+        provides: 'Your self-assessed outcome scores after completing the workflow.',
+        generates: 'An outcome record summarising your VALOUR pilot run.',
+        next: 'Review your completed report and export or share the results.',
+      },
     },
   ],
   evidence: {
