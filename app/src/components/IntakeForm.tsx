@@ -25,7 +25,14 @@ const PATTERNS = [
 
 type Props = { onBack: () => void };
 
+function getPrefilledScenario(): string {
+  const hash = window.location.hash;
+  const match = hash.match(/[?&]scenario=([^&]*)/);
+  return match ? decodeURIComponent(match[1]) : '';
+}
+
 export function IntakeForm({ onBack }: Props) {
+  const preScenario = getPrefilledScenario();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -33,7 +40,7 @@ export function IntakeForm({ onBack }: Props) {
     name: '',
     role: '',
     organisation: '',
-    situation: '',
+    situation: preScenario ? `I am preparing for: ${preScenario}.` : '',
     outcome: '',
     pattern: '',
     confidence: '',
@@ -107,6 +114,13 @@ export function IntakeForm({ onBack }: Props) {
         <span className="landing-logo">VALOUR™</span>
         <span className="pattern-nav-title">Pilot intake · Step {step + 1} of 4</span>
       </nav>
+
+      {preScenario && (
+        <div className="intake-scenario-banner">
+          <span className="intake-scenario-label">Selected scenario</span>
+          <span className="intake-scenario-name">{preScenario}</span>
+        </div>
+      )}
 
       <div className="intake-progress">
         {[0,1,2,3].map(i => (
