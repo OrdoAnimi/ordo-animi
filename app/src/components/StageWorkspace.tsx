@@ -169,63 +169,33 @@ export function StageWorkspace({
         <IntakeCapture entry={entry} onSaveUserInput={onSaveUserInput} />
       )}
 
-      {/* Rehearsal answer prompt */}
-      {isRehearsal && output && !showUserInput && (
-        <div className="ws-rehearsal-hint">
-          <p className="ws-hint-text">Read the rehearsal questions. When ready, record your answer below:</p>
-          <button className="btn btn-primary ws-answer-btn"
-            onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>
-            Record my answer →
-          </button>
-          {entry.userInput && (
-            <div className="ws-answer-saved">
-              Answer saved. <button className="link-btn" onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>Edit</button>
-            </div>
-          )}
-        </div>
+      {/* Rehearsal answer panel — always visible in stage 04 */}
+      {isRehearsal && (
+        <RehearsalAnswerPanel
+          output={output}
+          savedUserInput={entry.userInput}
+          onSave={onSaveUserInput}
+        />
       )}
 
-      {/* Language refinement — show input from rehearsal */}
+      {/* Language refinement — preview rehearsal answer */}
       {isLanguage && (
         <div className="ws-input-preview">
           <div className="ws-input-preview-label">
-            {entry.userInput ? 'Your rehearsal answer' : 'No rehearsal answer yet'}
+            {rehearsalAnswer ? 'Your rehearsal answer' : 'No rehearsal answer yet'}
           </div>
-          {entry.userInput
-            ? <div className="ws-input-preview-value">"{entry.userInput}"</div>
-            : <div className="ws-input-preview-missing">Record your answer in Stage 04 first, then return here to generate refined versions.</div>
+          {rehearsalAnswer
+            ? <div className="ws-input-preview-value">"{rehearsalAnswer}"</div>
+            : <div className="ws-input-preview-missing">Record your answer in Stage 04 (Rehearse) first, then return here to generate refined versions.</div>
           }
-          {entry.userInput && (
-            <button className="btn btn-ghost ws-edit-input"
-              onClick={() => { setShowUserInput(true); setUserInputDraft(entry.userInput ?? ''); }}>
-              Edit answer
-            </button>
+          {rehearsalAnswer && (
+            <p style={{ color: 'var(--text-faint)', fontSize: '11px', marginTop: '4px' }}>
+              To edit your answer, return to Stage 04.
+            </p>
           )}
         </div>
       )}
 
-      {/* User input panel */}
-      {showUserInput && (
-        <div className="ws-user-input">
-          <div className="ws-user-input-label">
-            {isRehearsal ? 'Your rehearsal answer' : 'Edit your answer'}
-          </div>
-          <textarea
-            className="ws-textarea"
-            value={userInputDraft}
-            onChange={e => setUserInputDraft(e.target.value)}
-            placeholder="Type your answer here…"
-            rows={6}
-            autoFocus
-          />
-          <div className="ws-user-input-actions">
-            <button className="btn btn-primary" onClick={saveUserInput} disabled={!userInputDraft.trim()}>
-              Save answer
-            </button>
-            <button className="btn btn-ghost" onClick={() => setShowUserInput(false)}>Cancel</button>
-          </div>
-        </div>
-      )}
 
       {/* Generated output */}
       {output && !editing && (
@@ -422,4 +392,113 @@ export function simpleMarkdown(md: string): string {
   if (inBlockquote) out.push('</blockquote>');
 
   return out.join('\n');
+}
+
+// ── Rehearsal helpers ─────────────────────────────────────────────────────────
+
+function parseQuestions(content: string): string[] {
+  const questions: string[] = [];
+  for (const line of content.split('\n')) {
+    const t = line.trim();
+    if (/^(\d+\.|[-*]|\*\*Q\d+\*\*:?|Q\d+:|\*\*Question \d+:\*\*)\s+.{10,}/.test(t)) {
+      const text = t
+        .replace(/^(\d+\.|[-*]|\*\*Q\d+\*\*:?\s*|Q\d+:\s*|\*\*Question \d+:\*\*\s*)/, '')
+        .replace(/\*\*/g, '')
+        .trim();
+      if (text.length > 10) questions.push(text);
+    }
+  }
+  return questions;
+}
+
+function parseRehearsalUserInput(raw: string | undefined): { question: string; answer: string } | null {
+  if (!raw?.trim()) return null;
+  try {
+    const parsed = JSON.parse(raw) as { question?: string; answer?: string };
+    if (parsed.answer) return { question: parsed.question ?? '', answer: parsed.answer };
+  } catch { /* ignore */ }
+  return { question: '', answer: raw };
+}
+
+// ── RehearsalAnswerPanel ───────────────────────────────────────────────────────
+
+function RehearsalAnswerPanel({ output, savedUserInput, onSave }: {
+  output: StageOutput | undefined;
+  savedUserInput: string | undefined;
+  onSave: (value: string) => void;
+}) {
+  const saved = parseRehearsalUserInput(savedUserInput);
+  const questions = output ? parseQuestions(output.content) : [];
+
+  const [editing, setEditing] = useState(!saved);
+  const [selectedQuestion, setSelectedQuestion] = useState(saved?.question ?? '');
+  const [answer, setAnswer] = useState(saved?.answer ?? '');
+  const [justSaved, setJustSaved] = useState(!!saved?.answer);
+
+  function handleSave() {
+    if (!answer.trim()) return;
+    onSave(JSON.stringify({ question: selectedQuestion, answer: answer.trim() }));
+    setJustSaved(true);
+    setEditing(false);
+  }
+
+  return (
+    <div className="ws-rehearsal-panel">
+      <div className="ws-rehearsal-panel-label">Record your answer</div>
+
+      {!output && (
+        <p className="ws-rehearsal-hint-text">
+          Generate rehearsal questions above, then record your answer here.
+        </p>
+      )}
+
+      {output && justSaved && !editing && (
+        <div className="ws-answer-preview">
+          {selectedQuestion && (
+            <div className="ws-answer-question">Q: {selectedQuestion}</div>
+          )}
+          <div className="ws-answer-text">"{answer}"</div>
+          <button className="link-btn" onClick={() => setEditing(true)}>Edit answer</button>
+        </div>
+      )}
+
+      {output && (editing || !justSaved) && (
+        <>
+          {questions.length > 0 && (
+            <div className="ws-question-selector">
+              <span className="ws-guidance-label">Select a question to practise</span>
+              <select
+                className="ws-select"
+                value={selectedQuestion}
+                onChange={e => setSelectedQuestion(e.target.value)}
+              >
+                <option value="">— Choose a question —</option>
+                {questions.map((q, i) => (
+                  <option key={i} value={q}>
+                    {q.length > 90 ? q.slice(0, 90) + '…' : q}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          <textarea
+            className="ws-textarea"
+            value={answer}
+            onChange={e => { setAnswer(e.target.value); setJustSaved(false); }}
+            placeholder="Type your answer here…"
+            rows={6}
+            autoFocus={!!output}
+          />
+          <div className="ws-user-input-actions">
+            <button className="btn btn-primary" onClick={handleSave} disabled={!answer.trim()}>
+              Save answer
+            </button>
+            {justSaved && (
+              <button className="btn btn-ghost" onClick={() => setEditing(false)}>Cancel</button>
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
