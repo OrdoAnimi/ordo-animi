@@ -1,22 +1,11 @@
 import type { ProductDecision } from '../data/types';
 
-export function ProductDecisionPanel({
-  decision,
-}: {
-  decision: ProductDecision;
-}) {
+export function ProductDecisionPanel({ decision }: { decision: ProductDecision }) {
   return (
-    <section className="panel decision-panel">
-      <p className="eyebrow">Product decision</p>
-
-      <h2>{decision.decision}</h2>
-
-      <p>{decision.rationale}</p>
-
-      <div className="next-step">
-        <span>Next step</span>
-        <strong>{decision.nextStep}</strong>
-      </div>
-    </section>
+    <div className="info-card">
+      <div className="info-card-label">Product decision</div>
+      <div className="decision-value">{decision.decision}</div>
+      <div className="decision-desc">{decision.nextStep}</div>
+    </div>
   );
 }
