@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { pilot001 } from './data/pilot-001';
 import { useStages } from './hooks/useStages';
 import { TopBar } from './components/TopBar';
@@ -31,10 +32,30 @@ export function App() {
 
   const nav = (hash: string) => () => { window.location.hash = hash; };
 
-  if (page === 'landing')  return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} />;
-  if (page === 'pattern')  return <PatternPage pattern={pilot001.pattern} pilotTitle={pilot001.title.replace(': ', ' · ')} onBack={nav('#console')} />;
-  if (page === 'intake')   return <IntakeForm onBack={nav('')} />;
-  return <Console onViewPattern={nav('#pattern')} />;
+  if (page === 'landing')  return (
+    <>
+      <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} />
+      <Analytics />
+    </>
+  );
+  if (page === 'pattern')  return (
+    <>
+      <PatternPage pattern={pilot001.pattern} pilotTitle={pilot001.title.replace(': ', ' · ')} onBack={nav('#console')} />
+      <Analytics />
+    </>
+  );
+  if (page === 'intake')   return (
+    <>
+      <IntakeForm onBack={nav('')} />
+      <Analytics />
+    </>
+  );
+  return (
+    <>
+      <Console onViewPattern={nav('#pattern')} />
+      <Analytics />
+    </>
+  );
 }
 
 function Console({ onViewPattern }: { onViewPattern: () => void }) {
