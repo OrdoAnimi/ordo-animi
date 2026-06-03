@@ -29,6 +29,18 @@ export type ProductDecision = {
   nextStep: string;
 };
 
+export type PatternSummary = {
+  scenarioUsed: string;
+  startingChallenge: string;
+  mainImprovement: string;
+  primaryPattern: string;
+  primaryStrength: string;
+  primaryRisk: string;
+  nextFocus: string;
+  usefulLanguage: string[];
+  usefulnessScore: number;
+};
+
 export type PilotRun = {
   id: string;
   title: string;
@@ -40,5 +52,6 @@ export type PilotRun = {
   stages: PilotStage[];
   evidence: EvidenceSummary;
   productDecision: ProductDecision;
+  pattern: PatternSummary;
   operatorNotes: string[];
 };

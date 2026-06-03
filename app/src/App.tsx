@@ -7,13 +7,19 @@ import { StageDetail } from './components/StageDetail';
 import { EvidencePanel } from './components/EvidencePanel';
 import { ProductDecisionPanel } from './components/ProductDecisionPanel';
 import { LandingPage } from './components/LandingPage';
+import { PatternPage } from './components/PatternPage';
 
-function getPage(): 'landing' | 'console' {
-  return window.location.hash === '#console' ? 'console' : 'landing';
+type Page = 'landing' | 'console' | 'pattern';
+
+function getPage(): Page {
+  const hash = window.location.hash;
+  if (hash === '#console') return 'console';
+  if (hash === '#pattern') return 'pattern';
+  return 'landing';
 }
 
 export function App() {
-  const [page, setPage] = useState<'landing' | 'console'>(getPage);
+  const [page, setPage] = useState<Page>(getPage);
 
   useEffect(() => {
     const onHash = () => setPage(getPage());
@@ -25,10 +31,20 @@ export function App() {
     return <LandingPage onEnterConsole={() => { window.location.hash = '#console'; }} />;
   }
 
-  return <Console />;
+  if (page === 'pattern') {
+    return (
+      <PatternPage
+        pattern={pilot001.pattern}
+        pilotTitle={pilot001.title.replace(': ', ' · ')}
+        onBack={() => { window.location.hash = '#console'; }}
+      />
+    );
+  }
+
+  return <Console onViewPattern={() => { window.location.hash = '#pattern'; }} />;
 }
 
-function Console() {
+function Console({ onViewPattern }: { onViewPattern: () => void }) {
   const { stages, cycleStatus } = useStages(pilot001.id, pilot001.stages);
 
   const firstIncomplete = stages.findIndex(s => s.status !== 'complete');
@@ -38,7 +54,7 @@ function Console() {
 
   return (
     <div className="shell">
-      <TopBar pilot={{ ...pilot001, stages }} />
+      <TopBar pilot={{ ...pilot001, stages }} onViewPattern={onViewPattern} />
       <div className="body">
         <Sidebar
           stages={stages}

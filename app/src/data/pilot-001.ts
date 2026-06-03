@@ -117,6 +117,24 @@ export const pilot001: PilotRun = {
     nextStep:
       'Build the VALOUR Pilot Console v0.1: guided intake, scenario selection, preparation brief, structured rehearsal, language refinement, review, and pattern summary.',
   },
+  pattern: {
+    scenarioUsed: 'Architecture review board for a cloud integration design.',
+    startingChallenge:
+      'The user understood the design but risked losing the board by over-explaining and not making the decision frame explicit.',
+    mainImprovement:
+      'The user moved from defending the design to framing the board decision as conditional approval with clear trade-offs and next actions.',
+    primaryPattern: 'Technical confidence without enough decision framing.',
+    primaryStrength: 'Strong understanding of technical risk, controls, and delivery constraints.',
+    primaryRisk:
+      'The user may answer from implementation detail before establishing the leadership frame.',
+    nextFocus:
+      'Start every board-level answer with the decision frame first, then explain the supporting detail only as needed.',
+    usefulLanguage: [
+      'The recommendation is conditional approval, not unconditional approval.',
+      'The trade-off is speed with controlled governance, not speed without governance.',
+    ],
+    usefulnessScore: 8,
+  },
   operatorNotes: [
     'This is a simulated pilot run. SIM-001 is not a real user.',
     'Evidence scores are operator estimates based on simulated workflow execution.',
