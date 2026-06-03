@@ -172,6 +172,7 @@ export function StageWorkspace({
       {/* Rehearsal answer panel — always visible in stage 04 */}
       {isRehearsal && (
         <RehearsalAnswerPanel
+          key={entry.userInput ?? 'none'}
           output={output}
           savedUserInput={entry.userInput}
           onSave={onSaveUserInput}
@@ -430,7 +431,7 @@ function RehearsalAnswerPanel({ output, savedUserInput, onSave }: {
   const saved = parseRehearsalUserInput(savedUserInput);
   const questions = output ? parseQuestions(output.content) : [];
 
-  const [editing, setEditing] = useState(!saved);
+  const [editing, setEditing] = useState(!saved?.answer);
   const [selectedQuestion, setSelectedQuestion] = useState(saved?.question ?? '');
   const [answer, setAnswer] = useState(saved?.answer ?? '');
   const [justSaved, setJustSaved] = useState(!!saved?.answer);
@@ -474,7 +475,7 @@ function RehearsalAnswerPanel({ output, savedUserInput, onSave }: {
               >
                 <option value="">— Choose a question —</option>
                 {questions.map((q, i) => (
-                  <option key={i} value={q}>
+                  <option key={q || i} value={q}>
                     {q.length > 90 ? q.slice(0, 90) + '…' : q}
                   </option>
                 ))}
@@ -487,7 +488,7 @@ function RehearsalAnswerPanel({ output, savedUserInput, onSave }: {
             onChange={e => { setAnswer(e.target.value); setJustSaved(false); }}
             placeholder="Type your answer here…"
             rows={6}
-            autoFocus={!!output}
+            autoFocus
           />
           <div className="ws-user-input-actions">
             <button className="btn btn-primary" onClick={handleSave} disabled={!answer.trim()}>
