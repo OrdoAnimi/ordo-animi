@@ -3,6 +3,13 @@ export type StageStatus = 'not-started' | 'draft' | 'complete' | 'to-confirm';
 export type ProductDecisionValue = 'continue' | 'repeat' | 'revise' | 'pause' | 'archive';
 export type GenerationSource = 'ai' | 'local' | 'manual';
 
+export type StageGuidance = {
+  what: string;
+  provides: string;
+  generates: string;
+  next: string;
+};
+
 export type PilotStage = {
   id: string;
   label: string;
@@ -11,6 +18,7 @@ export type PilotStage = {
   status: StageStatus;
   evidenceCaptured: boolean;
   operatorNote: string;
+  guidance?: StageGuidance;
 };
 
 export type EvidenceSummary = {
