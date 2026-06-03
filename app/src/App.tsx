@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { pilot001 } from './data/pilot-001';
+import { ALL_PILOTS, getPilotById } from './data/pilots';
 import { useStages } from './hooks/useStages';
 import { TopBar } from './components/TopBar';
 import { Sidebar } from './components/Sidebar';
@@ -36,35 +36,47 @@ export function App() {
   const nav = (hash: string) => () => { window.location.hash = hash; };
 
   if (page === 'landing')   return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} onViewScenarios={nav('#scenarios')} />;
-  if (page === 'pattern')   return <PatternPage pattern={pilot001.pattern} pilotTitle={pilot001.title.replace(': ', ' · ')} onBack={nav('#console')} />;
   if (page === 'intake')    return <IntakeForm onBack={nav('')} />;
   if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
+  if (page === 'pattern') {
+    const pid = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('pilot') ?? 'PILOT-001';
+    const pilot = getPilotById(pid);
+    return <PatternPage pattern={pilot.pattern} pilotTitle={pilot.title.replace(': ', ' · ')} onBack={nav('#console')} />;
+  }
   if (page === 'scenarios') return (
     <ScenariosPage
       onBack={nav('')}
       onSelectScenario={title => { window.location.hash = `#intake?scenario=${encodeURIComponent(title)}`; }}
     />
   );
-  return <Console onViewPattern={nav('#pattern')} />;
+  const activePilotId = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('pilot') ?? 'PILOT-001';
+  return <Console pilotId={activePilotId} onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }} />;
 }
 
-function Console({ onViewPattern }: { onViewPattern: () => void; }) {
-  const { stages, cycleStatus } = useStages(pilot001.id, pilot001.stages);
+function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: () => void }) {
+  const pilot = getPilotById(pilotId);
+  const { stages, cycleStatus } = useStages(pilot.id, pilot.stages);
   const firstIncomplete = stages.findIndex(s => s.status !== 'complete');
   const [activeIndex, setActiveIndex] = useState(
     firstIncomplete === -1 ? stages.length - 1 : firstIncomplete
   );
 
+  function switchPilot(id: string) {
+    window.location.hash = `#console?pilot=${id}`;
+  }
+
   return (
     <div className="shell">
-      <TopBar pilot={{ ...pilot001, stages }} onViewPattern={onViewPattern} onViewReadiness={() => { window.location.hash = '#readiness'; }} />
+      <TopBar pilot={{ ...pilot, stages }} onViewPattern={onViewPattern} onViewReadiness={() => { window.location.hash = '#readiness'; }} />
       <div className="body">
         <Sidebar
           stages={stages}
-          pilotId={pilot001.id}
-          scenario={pilot001.scenario}
+          pilotId={pilot.id}
+          scenario={pilot.scenario}
           activeIndex={activeIndex}
           onSelect={setActiveIndex}
+          allPilots={ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status }))}
+          onSwitchPilot={switchPilot}
         />
         <main className="main">
           <StageDetail
@@ -76,8 +88,8 @@ function Console({ onViewPattern }: { onViewPattern: () => void; }) {
             onCycleStatus={() => cycleStatus(activeIndex)}
           />
           <div className="bottom-row">
-            <EvidencePanel evidence={pilot001.evidence} />
-            <ProductDecisionPanel decision={pilot001.productDecision} />
+            <EvidencePanel evidence={pilot.evidence} />
+            <ProductDecisionPanel decision={pilot.productDecision} />
           </div>
         </main>
       </div>

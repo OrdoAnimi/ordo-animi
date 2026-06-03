@@ -1,4 +1,6 @@
-import type { PilotStage } from '../data/types';
+import type { PilotStage, PilotStatus } from '../data/types';
+
+type PilotSummary = { id: string; title: string; status: PilotStatus };
 
 type SidebarProps = {
   stages: PilotStage[];
@@ -6,11 +8,37 @@ type SidebarProps = {
   scenario: string;
   activeIndex: number;
   onSelect: (index: number) => void;
+  allPilots: PilotSummary[];
+  onSwitchPilot: (id: string) => void;
 };
 
-export function Sidebar({ stages, pilotId, scenario, activeIndex, onSelect }: SidebarProps) {
+const STATUS_DOT: Record<PilotStatus, string> = {
+  complete:    'done',
+  'in-progress': 'active',
+  planned:     'pending',
+  archived:    'pending',
+};
+
+export function Sidebar({ stages, pilotId, scenario, activeIndex, onSelect, allPilots, onSwitchPilot }: SidebarProps) {
   return (
     <aside className="sidebar">
+
+      {allPilots.length > 1 && (
+        <div className="sidebar-pilot-switcher">
+          <div className="sidebar-pilot-label">Pilots</div>
+          {allPilots.map(p => (
+            <div
+              key={p.id}
+              className={`sidebar-pilot-item${p.id === pilotId ? ' active' : ''}`}
+              onClick={() => onSwitchPilot(p.id)}
+            >
+              <div className={`stage-dot ${STATUS_DOT[p.status]}`} style={{ width: '6px', height: '6px' }} />
+              <span className="sidebar-pilot-item-label">{p.title}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="sidebar-pilot">
         <div className="sidebar-pilot-label">Active pilot</div>
         <div className="sidebar-pilot-name">{pilotId}</div>

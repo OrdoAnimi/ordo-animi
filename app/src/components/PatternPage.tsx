@@ -10,10 +10,15 @@ export function PatternPage({ pattern, pilotTitle, onBack }: Props) {
   return (
     <div className="pattern-page">
 
-      <nav className="pattern-nav">
+      <nav className="pattern-nav no-print">
         <button className="btn btn-ghost pattern-back" onClick={onBack}>← Console</button>
         <span className="landing-logo">VALOUR™</span>
-        <span className="pattern-nav-title">Pattern Report</span>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+          <span className="pattern-nav-title">Pattern Report</span>
+          <button className="btn btn-ghost" style={{ fontSize: '11px', padding: '4px 10px' }} onClick={() => window.print()}>
+            Print / PDF
+          </button>
+        </div>
       </nav>
 
       <div className="pattern-hero">
