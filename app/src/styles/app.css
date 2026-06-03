@@ -652,9 +652,25 @@ body {
 .intake-submitted-body a { color: var(--accent); }
 
 @media (max-width: 900px) {
-  .body { flex-direction: column; height: auto; }
-  .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
-  .bottom-row { grid-template-columns: 1fr; }
-  .landing-nav { margin-bottom: 48px; }
-  .landing-hero { margin-bottom: 48px; }
+  /* Console */
+  .body            { flex-direction: column; height: auto; }
+  .sidebar         { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  .bottom-row      { grid-template-columns: 1fr; }
+  .topbar          { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }
+  .topbar-title    { display: none; }
+  .topbar-meta     { gap: 8px; }
+  .shell           { border-radius: 0; border-left: none; border-right: none; }
+  body             { padding: 0 0 48px; }
+
+  /* Landing */
+  .landing-nav     { margin-bottom: 48px; }
+  .landing-hero    { margin-bottom: 48px; }
+  .landing-hero-actions { flex-direction: column; }
+  .landing-btn-lg  { width: 100%; text-align: center; }
+
+  /* Pattern */
+  .pattern-grid    { grid-template-columns: 1fr; }
+
+  /* Intake */
+  .intake-confidence-btn { width: 44px; height: 44px; font-size: 14px; }
 }
