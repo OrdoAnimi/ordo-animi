@@ -8,13 +8,15 @@ import { EvidencePanel } from './components/EvidencePanel';
 import { ProductDecisionPanel } from './components/ProductDecisionPanel';
 import { LandingPage } from './components/LandingPage';
 import { PatternPage } from './components/PatternPage';
+import { IntakeForm } from './components/IntakeForm';
 
-type Page = 'landing' | 'console' | 'pattern';
+type Page = 'landing' | 'console' | 'pattern' | 'intake';
 
 function getPage(): Page {
   const hash = window.location.hash;
   if (hash === '#console') return 'console';
   if (hash === '#pattern') return 'pattern';
+  if (hash === '#intake')  return 'intake';
   return 'landing';
 }
 
@@ -27,26 +29,16 @@ export function App() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  if (page === 'landing') {
-    return <LandingPage onEnterConsole={() => { window.location.hash = '#console'; }} />;
-  }
+  const nav = (hash: string) => () => { window.location.hash = hash; };
 
-  if (page === 'pattern') {
-    return (
-      <PatternPage
-        pattern={pilot001.pattern}
-        pilotTitle={pilot001.title.replace(': ', ' · ')}
-        onBack={() => { window.location.hash = '#console'; }}
-      />
-    );
-  }
-
-  return <Console onViewPattern={() => { window.location.hash = '#pattern'; }} />;
+  if (page === 'landing')  return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#intake')} />;
+  if (page === 'pattern')  return <PatternPage pattern={pilot001.pattern} pilotTitle={pilot001.title.replace(': ', ' · ')} onBack={nav('#console')} />;
+  if (page === 'intake')   return <IntakeForm onBack={nav('')} />;
+  return <Console onViewPattern={nav('#pattern')} />;
 }
 
 function Console({ onViewPattern }: { onViewPattern: () => void }) {
   const { stages, cycleStatus } = useStages(pilot001.id, pilot001.stages);
-
   const firstIncomplete = stages.findIndex(s => s.status !== 'complete');
   const [activeIndex, setActiveIndex] = useState(
     firstIncomplete === -1 ? stages.length - 1 : firstIncomplete

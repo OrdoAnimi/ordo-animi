@@ -1,4 +1,4 @@
-type Props = { onEnterConsole: () => void };
+type Props = { onEnterConsole: () => void; onJoinPilot: () => void };
 
 const SCENARIOS = [
   'Architecture review board',
@@ -13,7 +13,7 @@ const SCENARIOS = [
   'End-of-day handover',
 ];
 
-export function LandingPage({ onEnterConsole }: Props) {
+export function LandingPage({ onEnterConsole, onJoinPilot }: Props) {
   return (
     <div className="landing">
 
@@ -35,12 +35,12 @@ export function LandingPage({ onEnterConsole }: Props) {
           and trade-off conversations — before the real meeting happens.
         </p>
         <div className="landing-hero-actions">
-          <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
-            Enter pilot console
+          <button className="btn btn-primary landing-btn-lg" onClick={onJoinPilot}>
+            Join the pilot
           </button>
-          <a className="btn btn-ghost landing-btn-lg" href="mailto:info@zencloud.com.au">
-            Request a walkthrough
-          </a>
+          <button className="btn btn-ghost landing-btn-lg" onClick={onEnterConsole}>
+            View pilot console →
+          </button>
         </div>
       </section>
 
@@ -91,9 +91,14 @@ export function LandingPage({ onEnterConsole }: Props) {
           Bring one real upcoming leadership situation. VALOUR™ helps you prepare it, rehearse it,
           refine the language, and review the result.
         </p>
-        <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
-          Enter pilot console →
-        </button>
+        <div className="landing-hero-actions">
+          <button className="btn btn-primary landing-btn-lg" onClick={onJoinPilot}>
+            Join the pilot
+          </button>
+          <button className="btn btn-ghost landing-btn-lg" onClick={onEnterConsole}>
+            View pilot console →
+          </button>
+        </div>
       </section>
 
       <footer className="landing-footer">
