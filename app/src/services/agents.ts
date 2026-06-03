@@ -29,13 +29,13 @@ export function checkDependency(stageId: string, state: PilotState): DependencyC
 
     case 'stage-05-language': {
       const rehearsalEntry = e('stage-04-rehearsal');
-      const raw = rehearsalEntry?.userInput ?? '';
       if (!rehearsalEntry) {
         return { ok: false, message: 'Record your rehearsal answer first. VALOUR needs your answer before it can refine your language.' };
       }
+      const raw = rehearsalEntry.userInput ?? '';
       try {
         const parsed = JSON.parse(raw) as { answer?: string };
-        if (parsed.answer?.trim()) return { ok: true };
+        if (typeof parsed === 'object' && parsed !== null && parsed.answer?.trim()) return { ok: true };
       } catch { /* ignore — check raw below */ }
       if (raw.trim()) return { ok: true };
       return { ok: false, message: 'Record your rehearsal answer first. VALOUR needs your answer before it can refine your language.' };
@@ -131,7 +131,7 @@ export async function rehearsalAgent(pilot: PilotRun, state: PilotState): Promis
   return { output: result, logEntry: makeLogEntry('stage-04-rehearsal', 'rehearsalAgent', result) };
 }
 
-export async function languageRefinementAgent(pilot: PilotRun, state: PilotState, _userInput: string): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+export async function languageRefinementAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
   const raw = state.entries['stage-04-rehearsal']?.userInput ?? '';
   let answer = raw;
   try {
@@ -169,7 +169,7 @@ export const STAGE_AGENTS: Record<string, AgentFn> = {
   'stage-02-scenario': (p, s)    => scenarioSelectorAgent(p, s),
   'stage-03-prep':     (p, s)    => preparationAgent(p, s),
   'stage-04-rehearsal':(p, s)    => rehearsalAgent(p, s),
-  'stage-05-language': (p, s, u) => languageRefinementAgent(p, s, u ?? ''),
+  'stage-05-language': (p, s) => languageRefinementAgent(p, s),
   'stage-06-review':   (p, s)    => afterActionReviewAgent(p, s),
   'stage-07-pattern':  (p, s)    => patternReportAgent(p, s),
   'stage-08-outcome':  (p, s)    => vallumHandoverAgent(p, s),
