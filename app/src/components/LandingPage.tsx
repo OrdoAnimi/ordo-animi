@@ -13,7 +13,7 @@ const SCENARIOS = [
   'End-of-day handover',
 ];
 
-export function LandingPage({ onEnterConsole, onJoinPilot, onViewScenarios }: Props) {
+export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
   return (
     <div className="landing">
 
@@ -22,8 +22,8 @@ export function LandingPage({ onEnterConsole, onJoinPilot, onViewScenarios }: Pr
         <div className="landing-nav-links">
           <button className="landing-nav-link" onClick={onViewScenarios}>Scenarios</button>
           <button className="landing-nav-link" onClick={onEnterConsole}>Console</button>
-          <button className="btn btn-primary landing-cta-nav" onClick={onJoinPilot}>
-            Join pilot →
+          <button className="btn btn-primary landing-cta-nav" onClick={onEnterConsole}>
+            Enter VALOUR™ →
           </button>
         </div>
       </nav>
@@ -39,11 +39,11 @@ export function LandingPage({ onEnterConsole, onJoinPilot, onViewScenarios }: Pr
           and trade-off conversations — before the real meeting happens.
         </p>
         <div className="landing-hero-actions">
-          <button className="btn btn-primary landing-btn-lg" onClick={onJoinPilot}>
-            Join the pilot
+          <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
+            Enter VALOUR™ →
           </button>
-          <button className="btn btn-ghost landing-btn-lg" onClick={onEnterConsole}>
-            View pilot console →
+          <button className="btn btn-ghost landing-btn-lg" onClick={onViewScenarios}>
+            View scenarios
           </button>
         </div>
       </section>
@@ -115,17 +115,14 @@ export function LandingPage({ onEnterConsole, onJoinPilot, onViewScenarios }: Pr
       </section>
 
       <section className="landing-section landing-cta-section">
-        <h2 className="landing-section-heading">Private pilot now forming.</h2>
+        <h2 className="landing-section-heading">Start with one real leadership situation.</h2>
         <p className="landing-section-body">
-          Bring one real upcoming leadership situation. VALOUR™ helps you prepare it, rehearse it,
-          refine the language, and review the result.
+          Bring one upcoming conversation — a review board, an executive briefing, a difficult stakeholder meeting.
+          VALOUR™ helps you prepare it, rehearse it, refine the language, and review the result.
         </p>
         <div className="landing-hero-actions">
-          <button className="btn btn-primary landing-btn-lg" onClick={onJoinPilot}>
-            Join the pilot
-          </button>
-          <button className="btn btn-ghost landing-btn-lg" onClick={onEnterConsole}>
-            View pilot console →
+          <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
+            Enter VALOUR™ →
           </button>
         </div>
       </section>
