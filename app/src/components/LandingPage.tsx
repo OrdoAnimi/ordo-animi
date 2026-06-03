@@ -19,9 +19,13 @@ export function LandingPage({ onEnterConsole, onJoinPilot, onViewScenarios }: Pr
 
       <nav className="landing-nav">
         <span className="landing-logo">VALOUR™</span>
-        <button className="btn btn-primary landing-cta-nav" onClick={onEnterConsole}>
-          Enter console →
-        </button>
+        <div className="landing-nav-links">
+          <button className="landing-nav-link" onClick={onViewScenarios}>Scenarios</button>
+          <button className="landing-nav-link" onClick={onEnterConsole}>Console</button>
+          <button className="btn btn-primary landing-cta-nav" onClick={onJoinPilot}>
+            Join pilot →
+          </button>
+        </div>
       </nav>
 
       <section className="landing-hero">
@@ -64,6 +68,28 @@ export function LandingPage({ onEnterConsole, onJoinPilot, onViewScenarios }: Pr
             <span className="loop-label">{step}</span>
           </div>
         ))}
+      </section>
+
+      <section className="landing-section">
+        <div className="landing-eyebrow">What you get</div>
+        <h2 className="landing-section-heading">Leave with something concrete.</h2>
+        <div className="outcomes-grid">
+          <div className="outcome-card">
+            <div className="outcome-num">5 → 8</div>
+            <div className="outcome-title">Confidence shift</div>
+            <p className="outcome-desc">A measurable confidence improvement from intake to completion, validated against your real situation.</p>
+          </div>
+          <div className="outcome-card">
+            <div className="outcome-num" style={{ fontSize: '24px' }}>Better language</div>
+            <div className="outcome-title">Refined answers</div>
+            <p className="outcome-desc">Short, executive, empathetic, and decision-oriented versions of your key messages — ready to use.</p>
+          </div>
+          <div className="outcome-card">
+            <div className="outcome-num" style={{ fontSize: '20px' }}>One pattern</div>
+            <div className="outcome-title">Leadership insight</div>
+            <p className="outcome-desc">Your primary leadership communication pattern identified and named — with one clear next focus area.</p>
+          </div>
+        </div>
       </section>
 
       <section className="landing-section">

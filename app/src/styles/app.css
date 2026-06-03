@@ -343,6 +343,21 @@ body {
 }
 .landing-cta-nav { padding: 8px 18px; font-size: 12px; }
 
+.landing-nav-links { display: flex; align-items: center; gap: 8px; }
+.landing-nav-link {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color .12s;
+  font-family: inherit;
+}
+.landing-nav-link:hover { color: var(--text); }
+
 .landing-eyebrow {
   color: var(--accent);
   font-size: 10px;
@@ -429,6 +444,29 @@ body {
   color: var(--text-muted);
   font-size: 13px;
 }
+
+/* ── Outcomes grid ──────────────────────── */
+.outcomes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+.outcome-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+}
+.outcome-num {
+  color: var(--green);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.outcome-title { color: var(--text); font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+.outcome-desc  { color: var(--text-muted); font-size: 13px; line-height: 1.6; }
 
 .landing-cta-section { text-align: left; }
 
@@ -697,6 +735,12 @@ body {
   /* Scenarios */
   .scenario-card { flex-direction: column; gap: 0; }
   .scenario-card-left { padding: 16px 16px 0; }
+
+  /* Outcomes */
+  .outcomes-grid { grid-template-columns: 1fr; }
+
+  /* Nav */
+  .landing-nav-links .landing-nav-link { display: none; }
 }
 
 /* ══════════════════════════════════════════
