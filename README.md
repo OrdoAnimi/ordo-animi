@@ -1,95 +1,42 @@
-# StudioSix
+# Ordo Animi
 
-**Private — ZenCloudAU product studio and publishing layer.**
+**Private — ZenCloud Global Consultants flagship AI product.**
 
-StudioSix is the product studio for the ZenCloudAU ecosystem. It exists to package architecture-led ideas into usable public assets, digital products, content systems, client-facing materials, and experimental product launches.
-
-StudioSix is not the core advisory business and it is not the Velocity Architecture Framework itself. Its role is to produce, polish, package, publish, and commercialise the work created across the wider ecosystem.
+*Ordo Animi* — Latin: *Order of the Mind* — is ZenCloud's agentic AI leadership platform.
+A command-and-control system for professional and personal life, built on guardrails,
+governance, and structured decision intelligence.
 
 ## Purpose
 
-StudioSix provides the creative and product execution layer for ZenCloudAU. It supports brand systems, landing pages, publication assets, product packaging, media-ready content, design artefacts, and go-to-market experiments.
+Ordo Animi gives individuals and leaders an AI-powered operating system for their life —
+not a productivity app, not a chatbot. A governed, agentic system that structures decisions,
+enforces personal guardrails, tracks commitments, and coordinates across professional and
+personal domains with the discipline of enterprise architecture applied to human leadership.
 
-The repository should remain focused on StudioSix as a studio brand and delivery surface. Product-specific material should live in the correct product repository unless it is being deliberately packaged or promoted through StudioSix.
+## Core Capabilities
 
-## Ecosystem Role
+- **Agentic command layer** — structured task execution with human-in-the-loop governance
+- **Personal guardrail system** — non-negotiables, constraints, and operating principles enforced by AI
+- **Decision governance** — every significant decision traced, recorded, and reviewed
+- **Professional/personal integration** — one system governing both domains with appropriate separation
+- **Leadership intelligence** — AI-assisted thinking for senior leaders navigating complex decisions
 
-- **ZenCloud Advisory** — the commercial advisory and consulting front door.
-- **Velocity Architecture Framework** — the public architecture method, templates, research, tools, and framework IP.
-- **Velocity Academy** — the learning, certification, practitioner pathway, and course layer.
-- **StudioSix** — the product studio, publishing system, creative wrapper, and commercial packaging layer.
-- **Product applications** — artefact generators, PMO tools, specialist apps, and experiments that may be branded, launched, or packaged through StudioSix.
+## Design Principles
 
-## What Belongs Here
+- Guardrails first — the system knows what you will not do before it suggests what you should
+- Decision traceability — every commitment has a record
+- Human authority — the agent advises and executes, the human decides and governs
+- Aligned to VAF™ — decision governance architecture applied to personal and professional life
 
-StudioSix should contain only material that supports the studio identity, publishing layer, product packaging, and public-facing creative/commercial wrapper.
+## How It Fits the Ecosystem
 
-Appropriate content includes:
+- **VAF™** — decision governance method that underpins Ordo Animi's architecture
+- **StudioSix** — delivery studio that will commercialise Ordo Animi for enterprise clients
+- **PMO Portal** — operational counterpart for project and programme governance
 
-- StudioSix website source and public pages
-- StudioSix brand language and positioning
-- Shared studio design tokens and theme decisions
-- Product packaging pages and launch assets
-- Publishing workflow documentation
-- Media, campaign, and content production templates
-- Ecosystem showcase pages linking to ZenCloud, Velocity Architecture, Velocity Academy, and selected product tools
+## Stack
 
-## What Does Not Belong Here
-
-The following should not be stored directly in this repository unless there is a deliberate StudioSix packaging reason:
-
-- Core Velocity Architecture Framework source material
-- ZenCloud Advisory service pages
-- Product application source code for standalone products
-- Private Obsidian operating memory
-- Client-specific delivery artefacts
-- Certification course content that belongs under Velocity Academy
-- Experimental apps that should remain in their own repositories
-
-## Theme Centralisation
-
-StudioSix should use a centralised theme model instead of scattering colours, spacing, typography, layout rules, or component styling across individual pages.
-
-The preferred structure is:
-
-```text
-src/theme/
-  tokens.ts          # brand colours, typography, spacing, radius, shadows
-  navigation.ts      # global navigation and ecosystem links
-  content.ts         # repeatable page copy and content blocks where appropriate
-
-src/components/
-  layout/            # header, footer, shell, page sections
-  ui/                # buttons, cards, badges, panels, callouts
-
-src/styles/
-  globals.css        # base styles and CSS variables
-```
-
-If this repo is implemented as a static HTML site rather than a React/Vite app, the same principle still applies:
-
-```text
-assets/css/theme.css
-assets/css/components.css
-assets/js/navigation.js
-partials/header.html
-partials/footer.html
-```
-
-The rule is simple: one brand system, one navigation system, one source of styling truth.
-
-## Current Governance Position
-
-StudioSix is part of the ZenCloudAU product estate and should be managed as a production-facing brand repository.
-
-Before any major release, confirm:
-
-- StudioSix positioning is distinct from ZenCloud Advisory and Velocity Architecture.
-- Shared theme and navigation are centralised.
-- Public links route to the correct ecosystem destination.
-- No copied README or template content from another repository remains.
-- No private product, client, or operating-memory content is exposed.
-- Cloudflare DNS, WAF, cache, and production routing are aligned to the active domain.
+TypeScript · Node.js · Anthropic SDK · Azure
 
 ## Status
 
@@ -97,4 +44,5 @@ Active development. Private repository.
 
 ## Licence
 
-Proprietary. © 2026 Phil Myint / ZenCloudAU. All rights reserved.
+Proprietary. © 2026 Phil Myint / ZenCloud Global Consultants. All rights reserved.
+See LICENSE.md for terms.
