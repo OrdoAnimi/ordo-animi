@@ -1,25 +1,26 @@
 # Velocity Architecture Ecosystem — Release Matrix
 
-Version: V0.1 | Date: 2026-06-05 | Built and verified this session
+Version: V0.2 | Date: 2026-06-05 | Updated: CI workflows added
 
 ---
 
-## Build Status Summary
+## Build and CI Summary
 
-All six repos verified against `npm install && npm run build` as of 2026-06-05.
+| Repo | Local Build | CI Workflow | Validation Steps |
+|------|-------------|-------------|-----------------|
+| ordo-animi (app/) | ✅ PASS | ✅ build.yml added | install → build |
+| pmi-portal | ✅ PASS | ✅ ci.yml (pre-existing, updated Node→22) | type-check → lint → build |
+| ea-artefact-generator | ✅ PASS | ✅ build.yml added | lint → build |
+| ba-artefact-generator | ✅ PASS | ✅ build.yml added + package-lock.json committed | lint → build |
+| sa-artefact-generator | ✅ PASS | ✅ build.yml added | lint → build |
+| pm-artefact-generator | ✅ PASS | ✅ build.yml added + package-lock.json committed | lint → build |
 
-| Repo | Build Result | Modules | Output Size | Notes |
-|------|-------------|---------|-------------|-------|
-| ordo-animi (app/) | ✅ PASS | 50 | 283 kB / 84 kB gz | vite build clean |
-| pmi-portal | ✅ PASS | 1508 | 225 kB / 67 kB gz | tsc + vite, minor non-breaking warnings |
-| ea-artefact-generator | ✅ PASS | 23 | 335 kB / 95 kB gz | vite + wrangler clean |
-| ba-artefact-generator | ✅ PASS | 19 | 197 kB / 63 kB gz | vite build clean |
-| sa-artefact-generator | ✅ PASS | 21 | 226 kB / 70 kB gz | vite build clean |
-| pm-artefact-generator | ✅ PASS | 17 | 192 kB / 60 kB gz | vite + cloudflare plugin clean |
+All build checks run on: push to main, pull_request to main.
+All workflows use Node 22 and `npm ci` (deterministic installs).
 
 ---
 
-## Ecosystem Maturity Matrix
+## Deployment Status Matrix
 
 ### Ordo Animi
 
@@ -27,12 +28,12 @@ All six repos verified against `npm install && npm run build` as of 2026-06-05.
 |-------|-------|
 | **Role** | Brain / Command and orchestration layer |
 | **Current route** | https://www.ordoanimi.com |
-| **Target route** | https://www.ordoanimi.com (internal, not a generator) |
-| **Build status** | ✅ PASS |
-| **Deployment status** | ✅ Live — Vercel auto-deploy from main |
-| **Maturity status** | ✅ Ecosystem baseline docs added this session |
-| **Key gaps** | Ordo Animi integration API not yet built; limb orchestration is manual |
-| **Next action** | V0.5: smart report/export; V0.6: pilot run management. Integration API future phase. |
+| **Target route** | https://www.ordoanimi.com |
+| **CI status** | ✅ build.yml — push/PR gated |
+| **Deployment method** | Vercel — GitHub integration auto-deploys on push to main |
+| **Deployment status** | ✅ Auto-deploy active. No Actions secrets required. |
+| **Platform setup required** | None |
+| **Key gaps** | Ordo integration API (future phase) |
 
 ---
 
@@ -41,13 +42,14 @@ All six repos verified against `npm install && npm run build` as of 2026-06-05.
 | Field | Value |
 |-------|-------|
 | **Role** | Torso / Governed engagement workspace and artefact lifecycle control |
-| **Current route** | Not yet deployed to a named production URL |
-| **Target route** | TBD — Cloudflare Pages or equivalent |
-| **Build status** | ✅ PASS (TypeScript clean, 1508 modules) |
-| **Deployment status** | ⚠️ No confirmed production route. Build works; Cloudflare Pages config to be set up. |
-| **Maturity status** | 🟡 Workspace shell functional; lifecycle state machine not yet implemented |
-| **Key gaps** | Production URL not set; artefact intake API not built; lifecycle state machine is UI-only |
-| **Next action** | Configure Cloudflare Pages project. Confirm production URL. Wire artefact handoff contract. |
+| **Current route** | Not confirmed — GitHub Pages URL via existing deploy.yml |
+| **Target route** | TBD — Cloudflare Pages preferred |
+| **CI status** | ✅ ci.yml (pre-existing) — type-check → lint → build, Node 22 |
+| **Deployment method** | GitHub Pages (existing deploy.yml). Cloudflare Pages not yet configured. |
+| **Deployment status** | ⚠️ Deploys to GitHub Pages. Production URL not confirmed. Cloudflare Pages project not set up. |
+| **Platform setup required** | Create Cloudflare Pages project for pmi-portal. Connect to ZenCloudAU/pmi-portal. Confirm production URL. Update docs/deployment.md. |
+| **Security note** | Existing ci.yml passes `VITE_ANTHROPIC_API_KEY` at build time. Review before production — prefer server-side secrets. |
+| **Key gaps** | Production URL, Cloudflare Pages connection, lifecycle state machine |
 
 ---
 
@@ -56,13 +58,13 @@ All six repos verified against `npm install && npm run build` as of 2026-06-05.
 | Field | Value |
 |-------|-------|
 | **Role** | Enterprise architecture limb — maturity reference baseline |
-| **Current route** | https://ea.velocityarchitecture.com.au/ (Cloudflare Worker, custom domain via wrangler.jsonc) |
+| **Current route** | https://ea.velocityarchitecture.com.au/ (Cloudflare Worker, custom domain) |
 | **Target route** | https://ea.velocityarchitecture.com.au/ |
-| **Build status** | ✅ PASS |
-| **Deployment status** | ✅ Cloudflare Worker configured with `npm run deploy`. Custom domain in wrangler.jsonc. Deploy requires `wrangler auth`. |
-| **Maturity status** | ✅ Reference baseline — full feature set, artefact catalogue, export, lifecycle language |
-| **Key gaps** | PMO Portal handoff not wired; AI generation requires `ANTHROPIC_API_KEY` in Cloudflare env |
-| **Next action** | Verify ea.velocityarchitecture.com.au live after next deploy. Run `npm run deploy` when Cloudflare auth available. |
+| **CI status** | ✅ build.yml added — lint → build |
+| **Deployment method** | Cloudflare Worker via `wrangler deploy` |
+| **Deployment status** | ⚠️ Not deploying from CI. Requires repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. |
+| **Platform setup required** | Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to GitHub repo secrets. Location: GitHub → ZenCloudAU/ea-artefact-generator → Settings → Secrets and variables → Actions. |
+| **Key gaps** | Wrangler deploy workflow (post-secret setup). PMO Portal handoff. |
 
 ---
 
@@ -73,11 +75,11 @@ All six repos verified against `npm install && npm run build` as of 2026-06-05.
 | **Role** | Business architecture and business analysis limb |
 | **Current route** | https://ba-artefact-generator.phil-448.workers.dev/ |
 | **Target route** | https://ba.velocityarchitecture.com.au/ |
-| **Build status** | ✅ PASS |
-| **Deployment status** | ✅ Cloudflare Worker configured with custom domain in wrangler.jsonc. `npm run deploy` ready. Deploy requires `wrangler auth`. |
-| **Maturity status** | ✅ High — comprehensive docs, deployment plan, artefact catalogue, roadmap |
-| **Key gaps** | Custom domain DNS must be live on Cloudflare; API key in Cloudflare env required for AI generation |
-| **Next action** | Run `npm run deploy` with Cloudflare auth to push to ba.velocityarchitecture.com.au |
+| **CI status** | ✅ build.yml added — lint → build. package-lock.json committed. |
+| **Deployment method** | Cloudflare Worker via `wrangler deploy` (custom domain configured in wrangler.jsonc) |
+| **Deployment status** | ⚠️ Not deploying from CI. Requires repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. |
+| **Platform setup required** | Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to GitHub repo secrets. Location: GitHub → ZenCloudAU/ba-artefact-generator → Settings → Secrets and variables → Actions. |
+| **Key gaps** | Wrangler deploy workflow (post-secret setup). Custom domain DNS confirmation. |
 
 ---
 
@@ -86,13 +88,13 @@ All six repos verified against `npm install && npm run build` as of 2026-06-05.
 | Field | Value |
 |-------|-------|
 | **Role** | Solution architecture limb (delivery-level) |
-| **Current route** | https://sa-artefact-generator.pages.dev/ (Pages fallback, may not be configured) |
+| **Current route** | Not confirmed live |
 | **Target route** | https://sa.velocityarchitecture.com.au/ |
-| **Build status** | ✅ PASS |
-| **Deployment status** | 🟡 `wrangler.toml` added this session for Cloudflare Pages. GitHub integration to Cloudflare Pages not yet confirmed. Fallback Pages project may not exist yet. |
-| **Maturity status** | 🟡 App functional, docs added this session. Thinnest limb — artefact generation exists but narrower than EA/BA/PM. |
-| **Key gaps** | Cloudflare Pages project `sa-artefact-generator` needs to be created and connected to GitHub. Custom domain DNS to be configured. |
-| **Next action** | Create Cloudflare Pages project, connect `ZenCloudAU/sa-artefact-generator`, set build command `npm run build`, output `dist`. Or run `npx wrangler pages deploy dist --project-name=sa-artefact-generator`. |
+| **CI status** | ✅ build.yml added — lint → build |
+| **Deployment method** | Cloudflare Pages via GitHub integration (preferred — no Actions secrets needed) |
+| **Deployment status** | ⚠️ Cloudflare Pages project not yet created. wrangler.toml committed. |
+| **Platform setup required** | 1. Create Cloudflare Pages project `sa-artefact-generator`. 2. Connect to ZenCloudAU/sa-artefact-generator. 3. Set build command: `npm run build`, output dir: `dist`, Node: 22. 4. Add custom domain `sa.velocityarchitecture.com.au`. Location: Cloudflare Dashboard → Pages → Create project. |
+| **Key gaps** | Pages project creation (one-time dashboard setup) |
 
 ---
 
@@ -101,40 +103,69 @@ All six repos verified against `npm install && npm run build` as of 2026-06-05.
 | Field | Value |
 |-------|-------|
 | **Role** | Project, programme, governance, and executive delivery artefact limb |
-| **Current route** | https://pm.velocityarchitecture.com.au/ (confirmed live per README) |
+| **Current route** | https://pm.velocityarchitecture.com.au/ |
 | **Target route** | https://pm.velocityarchitecture.com.au/ |
-| **Build status** | ✅ PASS |
-| **Deployment status** | ✅ Live on Cloudflare Pages. Fallback: https://pm-artefact-generator.pages.dev/. Auto-deploy on main push. |
-| **Maturity status** | 🟡 V0.1.0-uat baseline. Live and functional; docs added this session. Artefact set narrower than EA. |
-| **Key gaps** | Artefact catalogue needs expansion; PMO Portal handoff not wired; persistence beyond localStorage |
-| **Next action** | Push this session's docs commit to trigger auto-deploy. Expand artefact types in next sprint. |
+| **CI status** | ✅ build.yml added — lint → build. package-lock.json committed. |
+| **Deployment method** | Cloudflare Pages via GitHub integration (auto-deploys on push to main) |
+| **Deployment status** | ✅ Live. Push to main triggers Cloudflare Pages auto-deploy. No Actions secrets needed. |
+| **Platform setup required** | None — already connected |
+| **Key gaps** | Artefact catalogue expansion. PMO Portal handoff. |
+
+---
+
+## GitHub Actions Secret Requirements
+
+For Cloudflare Worker deployments (EA and BA), the following secrets must be added to each repo:
+
+| Secret | Description | Where to add |
+|--------|-------------|--------------|
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API token with Worker edit permissions | GitHub → ZenCloudAU/{repo} → Settings → Secrets and variables → Actions → New repository secret |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID | Same location |
+
+**EA:** GitHub → ZenCloudAU/ea-artefact-generator → Settings → Secrets
+**BA:** GitHub → ZenCloudAU/ba-artefact-generator → Settings → Secrets
+
+**Cloudflare API token creation:** Cloudflare Dashboard → My Profile → API Tokens → Create Token → Edit Cloudflare Workers template.
+
+Once secrets are added, a `deploy.yml` workflow using `wrangler deploy` can be added to each repo for automated deployment on push to main.
 
 ---
 
 ## Deployment Action Summary
 
-| Repo | Action Required | Command |
-|------|----------------|---------|
-| ordo-animi | Push to trigger Vercel auto-deploy | `git push origin main` |
-| pmi-portal | Create Cloudflare Pages project, configure, push | See docs/deployment.md |
-| ea-artefact-generator | Run deploy with Cloudflare auth | `npm run deploy` |
-| ba-artefact-generator | Run deploy with Cloudflare auth | `npm run deploy` |
-| sa-artefact-generator | Create Pages project, connect GitHub | See docs/DEPLOYMENT_ALIGNMENT.md |
-| pm-artefact-generator | Push — auto-deploys via Pages | `git push origin main` |
+| Repo | Deployment Trigger | Status | Action Required |
+|------|-------------------|--------|----------------|
+| ordo-animi | Vercel GitHub integration | ✅ Active | None |
+| pm-artefact-generator | CF Pages GitHub integration | ✅ Active | None |
+| pmi-portal | GitHub Pages (existing deploy.yml) | ⚠️ Route not confirmed | Create CF Pages project, confirm URL |
+| ea-artefact-generator | Manual `wrangler deploy` / future Actions | ⚠️ Blocked by missing secrets | Add `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` to repo secrets |
+| ba-artefact-generator | Manual `wrangler deploy` / future Actions | ⚠️ Blocked by missing secrets | Add `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` to repo secrets |
+| sa-artefact-generator | CF Pages GitHub integration (not yet set up) | ⚠️ Pages project missing | Create `sa-artefact-generator` CF Pages project |
 
 ---
 
-## Session Changes (2026-06-05)
+## Session Changes (2026-06-05 — CI Pass)
 
-**Files added this session:**
+**Workflows added or updated:**
+
+| Repo | Action | Checks |
+|------|--------|--------|
+| ordo-animi | Added `.github/workflows/build.yml` | install → build |
+| ea-artefact-generator | Added `.github/workflows/build.yml` | lint → build |
+| ba-artefact-generator | Added `.github/workflows/build.yml` + committed `package-lock.json` | lint → build |
+| sa-artefact-generator | Added `.github/workflows/build.yml` | lint → build |
+| pm-artefact-generator | Added `.github/workflows/build.yml` + committed `package-lock.json` | lint → build |
+| pmi-portal | Updated Node 20 → 22 in existing `ci.yml` | type-check → lint → build |
+
+---
+
+## Ecosystem Docs (Previous Session)
 
 | Repo | Files Added |
 |------|-------------|
-| ordo-animi | docs/ECOSYSTEM_MATURITY_BASELINE.md, docs/ECOSYSTEM_CONTRACT_V0_1.md, docs/ECOSYSTEM_RELEASE_MATRIX.md |
+| ordo-animi | ECOSYSTEM_MATURITY_BASELINE.md, ECOSYSTEM_CONTRACT_V0_1.md |
 | ea-artefact-generator | docs/ECOSYSTEM_ALIGNMENT.md |
 | ba-artefact-generator | docs/ECOSYSTEM_ALIGNMENT.md, docs/DEPLOYMENT_ALIGNMENT.md |
 | sa-artefact-generator | docs/ECOSYSTEM_ALIGNMENT.md, docs/DEPLOYMENT_ALIGNMENT.md, docs/SECURITY_AND_DATA.md, wrangler.toml |
 | pm-artefact-generator | docs/ECOSYSTEM_ALIGNMENT.md, docs/DEPLOYMENT_ALIGNMENT.md, docs/SECURITY_AND_DATA.md |
 | pmi-portal | docs/ECOSYSTEM_ALIGNMENT.md, docs/ARTEFACT_HANDOFF_CONTRACT.md |
-
-No source code was modified. No secrets were committed. All changes are documentation and configuration only.
