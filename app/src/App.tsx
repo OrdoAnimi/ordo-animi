@@ -11,6 +11,7 @@ import { ExportPanel } from './components/ExportPanel';
 import { AgentLogPanel } from './components/AgentLogPanel';
 import { ProviderBadge } from './components/ProviderBadge';
 import { LandingPage } from './components/LandingPage';
+import { CustosPanel } from './components/CustosPanel';
 import { PatternPage } from './components/PatternPage';
 import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
@@ -46,11 +47,14 @@ export function App() {
 
   if (page === 'landing') {
     return (
-      <LandingPage
-        onEnterConsole={nav('#console')}
-        onJoinPilot={nav('#console')}
-        onViewScenarios={nav('#scenarios')}
-      />
+      <>
+        <LandingPage
+          onEnterConsole={nav('#console')}
+          onJoinPilot={nav('#console')}
+          onViewScenarios={nav('#scenarios')}
+        />
+        <CustosPanel page="landing" />
+      </>
     );
   }
 
@@ -162,51 +166,65 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
   }
 
   return (
-    <div className="shell">
-      <TopBar
-        pilot={{ ...pilot, stages: liveStages }}
-        onViewPattern={onViewPattern}
-        onViewReadiness={() => { window.location.hash = '#readiness'; }}
-        onViewComparison={() => { window.location.hash = '#comparison'; }}
-      />
-      <div className="body">
-        <Sidebar
-          stages={liveStages}
-          pilotId={pilot.id}
-          scenario={pilot.scenario}
-          activeIndex={activeIndex}
-          onSelect={setActiveIndex}
-          allPilots={ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status }))}
-          onSwitchPilot={switchPilot}
+    <>
+      <div className="shell">
+        <TopBar
+          pilot={{ ...pilot, stages: liveStages }}
+          onViewPattern={onViewPattern}
+          onViewReadiness={() => { window.location.hash = '#readiness'; }}
+          onViewComparison={() => { window.location.hash = '#comparison'; }}
         />
-        <main className="main">
-          <div className="console-provider-row">
-            <ProviderBadge />
-          </div>
-          <StageWorkspace
-            stage={activeStage}
-            entry={activeEntry}
-            index={activeIndex}
-            total={pilot.stages.length}
-            hasAgent={activeStage.id in STAGE_AGENTS}
-            dependency={dependency}
-            completedStageIds={completedStageIds}
-            rehearsalAnswer={rehearsalAnswer}
-            onGenerate={handleGenerate}
-            onSaveOutput={handleSaveOutput}
-            onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
-            onCycleStatus={handleCycleStatus}
-            onPrev={() => setActiveIndex(i => Math.max(0, i - 1))}
-            onNext={() => setActiveIndex(i => Math.min(pilot.stages.length - 1, i + 1))}
+        <div className="body">
+          <Sidebar
+            stages={liveStages}
+            pilotId={pilot.id}
+            scenario={pilot.scenario}
+            activeIndex={activeIndex}
+            onSelect={setActiveIndex}
+            allPilots={ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status }))}
+            onSwitchPilot={switchPilot}
           />
-          <div className="bottom-row">
-            <EvidencePanel evidence={pilot.evidence} />
-            <ProductDecisionPanel decision={pilot.productDecision} />
-          </div>
-          <AgentLogPanel log={state.runLog ?? []} />
-          <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />
-        </main>
+          <main className="main">
+            <div className="console-provider-row">
+              <ProviderBadge />
+            </div>
+            <StageWorkspace
+              stage={activeStage}
+              entry={activeEntry}
+              index={activeIndex}
+              total={pilot.stages.length}
+              hasAgent={activeStage.id in STAGE_AGENTS}
+              dependency={dependency}
+              completedStageIds={completedStageIds}
+              rehearsalAnswer={rehearsalAnswer}
+              onGenerate={handleGenerate}
+              onSaveOutput={handleSaveOutput}
+              onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
+              onCycleStatus={handleCycleStatus}
+              onPrev={() => setActiveIndex(i => Math.max(0, i - 1))}
+              onNext={() => setActiveIndex(i => Math.min(pilot.stages.length - 1, i + 1))}
+            />
+            <div className="bottom-row">
+              <EvidencePanel evidence={pilot.evidence} />
+              <ProductDecisionPanel decision={pilot.productDecision} />
+            </div>
+            <AgentLogPanel log={state.runLog ?? []} />
+            <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />
+          </main>
+        </div>
       </div>
-    </div>
+      <CustosPanel
+        page="console"
+        activeStage={activeStage}
+        activeEntry={activeEntry}
+        onApplyOutput={(content) =>
+          setOutput(activeStage.id, {
+            content,
+            source: 'manual',
+            generatedAt: new Date().toISOString(),
+          })
+        }
+      />
+    </>
   );
 }
