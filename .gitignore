@@ -2,3 +2,48 @@
 node_modules/
 dist/
 *.local
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+# Local environment files
+.env
+.env.*
+!.env.example
+# Credentials and keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.token
+*secret*
+*secrets*
+*credential*
+*credentials*
+# Local caches and temporary work
+.cache/
+.tmp/
+tmp/
+temp/
+__pycache__/
+*.pyc
+*.log
+# Generated archives and exports
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.pdf
+# Common dependency folders and build outputs
+build/
+coverage/
