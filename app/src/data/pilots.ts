@@ -7,7 +7,7 @@ const generatedPilots: PilotRun[] = SCENARIOS.slice(2).map((scenario) => ({
   ...pilot001,
   id: `PILOT-${scenario.id.replace('VALOUR-', '')}`,
   title: `Pilot: ${scenario.title}`,
-  status: 'not-started',
+  status: 'planned',
   scenario: scenario.situation,
   productQuestion: `Does the VALOUR prepare-rehearse-debrief loop help the participant handle the ${scenario.title} scenario with clearer framing and stronger language?`,
   runObjective: scenario.desiredOutcome,
@@ -16,7 +16,7 @@ const generatedPilots: PilotRun[] = SCENARIOS.slice(2).map((scenario) => ({
     ...stage,
     status: 'not-started',
     evidenceCaptured: false,
-    operatorNote: undefined,
+    operatorNote: '',
     description: stage.label === 'Scenario Selection'
       ? `Confirm the selected scenario: ${scenario.title}. ${scenario.situation}`
       : stage.label === 'Rehearsal'
@@ -24,8 +24,6 @@ const generatedPilots: PilotRun[] = SCENARIOS.slice(2).map((scenario) => ({
         : stage.description,
   })),
   evidence: {
-    startingConfidence: undefined,
-    endingConfidence: undefined,
     clarityImprovement: '',
     mainPattern: '',
     mainProductLearning: '',
