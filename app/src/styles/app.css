@@ -2051,3 +2051,291 @@ details[open] .ws-guidance-summary::before { transform: rotate(90deg); }
   flex-wrap: wrap;
 }
 .custos-apply-btn { padding: 6px 14px; font-size: 11px; }
+
+/* ══════════════════════════════════════════
+   RESUME DIALOG
+   ══════════════════════════════════════════ */
+.resume-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,15,26,0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 8000;
+  padding: 24px;
+}
+.resume-dialog {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: var(--shadow-md), 0 16px 64px rgba(0,0,0,0.5);
+}
+.resume-dialog-logo {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.resume-dialog-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.resume-dialog-body {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+.resume-dialog-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.resume-btn {
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════
+   SCENARIOS GRID v2
+   ══════════════════════════════════════════ */
+.scenarios-page {
+  max-width: 1100px;
+}
+.scenarios-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.scenario-card-v2 {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color .15s;
+}
+.scenario-card-v2:hover { border-color: var(--border-strong); }
+.scenario-card-v2-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.scenario-card-v2-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+}
+.scenario-card-v2-tension {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.scenario-card-v2-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.scenario-meta-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.badge-difficulty-neutral {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.scenario-card-v2-cta {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+@media (max-width: 800px) {
+  .scenarios-grid-2col { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════
+   REHEARSAL 3-COLUMN LAYOUT
+   ══════════════════════════════════════════ */
+.rehearsal-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.rehearsal-stage-3col {
+  display: grid;
+  grid-template-columns: 220px 1fr 200px;
+  gap: 20px;
+  align-items: start;
+}
+.rehearsal-context-panel,
+.rehearsal-objective-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.rehearsal-centre {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.rehearsal-centre-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.rcp-section-label {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.rcp-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.rcp-item-label {
+  color: var(--text-dim);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.rcp-item-value {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.rehearsal-challenge {
+  background: var(--surface);
+  border: 1px solid rgba(232,99,10,0.2);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  border-left: 3px solid var(--accent);
+}
+.rehearsal-question-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rehearsal-response-textarea { font-family: inherit; font-size: 14px; }
+@media (max-width: 1000px) {
+  .rehearsal-stage-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ══════════════════════════════════════════
+   NAVIGATION GUARD
+   ══════════════════════════════════════════ */
+.ws-nav-block-hint {
+  color: var(--text-dim);
+  font-size: 11px;
+  flex: 1;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════
+   SIMPLIFIED PARTICIPANT STEPPER
+   ══════════════════════════════════════════ */
+.ws-stepper-simple {
+  justify-content: center;
+  gap: 0;
+}
+.ws-stepper-simple .ws-stepper-item {
+  flex: 0 0 auto;
+}
+.ws-stepper-simple .ws-stepper-connector {
+  width: 48px;
+}
+
+/* ══════════════════════════════════════════
+   VISUAL POLISH
+   ══════════════════════════════════════════ */
+/* Larger body text in workspace */
+.ws-desc { font-size: 15px; }
+.markdown-content { font-size: 14px; }
+
+/* Reduced border on workspace */
+.workspace { border-radius: 8px; }
+
+/* Cleaner select */
+.ws-select {
+  width: 100%;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: border-color .15s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+.ws-select:focus { border-color: var(--accent); }
+
+/* Textarea uses DM Sans not mono in rehearsal */
+.rehearsal-response-textarea { font-family: inherit !important; }
+
+/* Override ws-textarea to use inherit font */
+.ws-textarea { font-family: inherit; }
+
+/* Answer text */
+.ws-answer-text {
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+  font-style: italic;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.ws-rehearsal-hint-text {
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.6;
+}

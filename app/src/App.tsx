@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ALL_PILOTS, getPilotById } from './data/pilots';
 import { usePilotState } from './hooks/usePilotState';
 import { STAGE_AGENTS, checkDependency } from './services/agents';
@@ -17,6 +17,11 @@ import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
 import { ComparisonPage } from './components/ComparisonPage';
 import type { AppMode, RehearsalState, StageOutput, StageStatus, PilotState } from './data/types';
+
+const SCENARIO_PILOT_MAP: Record<string, string> = {
+  'VALOUR-S01': 'PILOT-001',
+  'VALOUR-S02': 'PILOT-002',
+};
 
 type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison';
 
@@ -55,7 +60,7 @@ export function App() {
       <>
         <LandingPage
           onEnterConsole={nav('#console')}
-          onStartNew={nav('#console?new=1')}
+          onStartNew={(sid) => { window.location.hash = sid ? `#console?new=1&scenario=${sid}` : '#console?new=1'; }}
           onJoinPilot={nav('#console?new=1')}
           onViewScenarios={nav('#scenarios')}
         />
@@ -96,7 +101,7 @@ export function App() {
     return (
       <ScenariosPage
         onBack={nav('')}
-        onSelectScenario={title => { window.location.hash = `#console?scenario=${encodeURIComponent(title)}`; }}
+        onSelectScenario={id => { window.location.hash = `#console?new=1&scenario=${encodeURIComponent(id)}`; }}
       />
     );
   }
@@ -104,11 +109,13 @@ export function App() {
   if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
   if (page === 'comparison') return <ComparisonPage onBack={nav('#console')} />;
 
-  const activePilotId = getParam('pilot') ?? 'PILOT-001';
+  const scenarioId    = getParam('scenario');
+  const activePilotId = getParam('pilot') ?? (scenarioId ? (SCENARIO_PILOT_MAP[scenarioId] ?? 'PILOT-001') : 'PILOT-001');
   const isNewSession = getParam('new') === '1';
   return (
     <Console
       pilotId={activePilotId}
+      scenarioId={scenarioId}
       mode={getMode()}
       isNewSession={isNewSession}
       onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
@@ -116,7 +123,7 @@ export function App() {
   );
 }
 
-function Console({ pilotId, mode, isNewSession, onViewPattern }: { pilotId: string; mode: AppMode; isNewSession: boolean; onViewPattern: () => void }) {
+function Console({ pilotId, scenarioId, mode, isNewSession, onViewPattern }: { pilotId: string; scenarioId?: string | null; mode: AppMode; isNewSession: boolean; onViewPattern: () => void }) {
   const pilot = getPilotById(pilotId);
   const { state, setOutput, setStatus, setUserInput, setRehearsal, appendLog, resetPilot } = usePilotState(pilot.id, pilot.stages);
 
@@ -127,8 +134,21 @@ function Console({ pilotId, mode, isNewSession, onViewPattern }: { pilotId: stri
   });
   const [activeIndex, setActiveIndex] = useState(isNewSession ? 0 : Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending));
 
+  const hasExistingProgress = useMemo(() => {
+    if (!isNewSession) return false;
+    try {
+      const saved = localStorage.getItem(`valour:state:${pilotId}`);
+      if (!saved) return false;
+      const parsed = JSON.parse(saved) as PilotState;
+      return !!(parsed.entries?.['stage-01-intake']?.userInput ||
+                parsed.entries?.[pilot.stages[0]?.id]?.userInput);
+    } catch { return false; }
+  }, [pilotId, isNewSession, pilot.stages]);
+
+  const [showResumeDialog, setShowResumeDialog] = useState(hasExistingProgress);
+
   useEffect(() => {
-    if (isNewSession) {
+    if (isNewSession && !hasExistingProgress) {
       resetPilot();
       setActiveIndex(0);
       window.history.replaceState(null, '', window.location.pathname + '#console');
@@ -163,6 +183,17 @@ function Console({ pilotId, mode, isNewSession, onViewPattern }: { pilotId: stri
   const completedStageIds = liveStages.filter(s => s.status === 'complete' || s.evidenceCaptured).map(s => s.id);
   const rehearsalAnswer = state.rehearsal?.response?.responseText;
 
+  const rehearsalIdx = pilot.stages.findIndex(s => s.label === 'Rehearsal');
+  const canContinue = (() => {
+    if (mode !== 'participant') return true;
+    if (rehearsalIdx > 0 && activeIndex === rehearsalIdx - 1) {
+      return !!activeEntry.output;
+    }
+    return true;
+  })();
+
+  const intakeEntry = state.entries[pilot.stages[0]?.id ?? ''] ?? state.entries['stage-01-intake'];
+
   async function handleGenerate() {
     const agentFn = STAGE_AGENTS[activeStage.id];
     if (!agentFn || !dependency.ok) return;
@@ -194,6 +225,42 @@ function Console({ pilotId, mode, isNewSession, onViewPattern }: { pilotId: stri
     else if (rehearsal.response?.status === 'submitted') setStatus('stage-04-rehearsal', 'draft');
   }
 
+  if (showResumeDialog) {
+    return (
+      <div className="resume-overlay">
+        <div className="resume-dialog">
+          <div className="resume-dialog-logo">VALOUR™</div>
+          <h2 className="resume-dialog-title">You have a session in progress</h2>
+          <p className="resume-dialog-body">
+            Resume where you left off, or start fresh. Starting fresh permanently clears your current progress.
+          </p>
+          <div className="resume-dialog-actions">
+            <button
+              className="btn btn-primary resume-btn"
+              onClick={() => {
+                setShowResumeDialog(false);
+                window.history.replaceState(null, '', '#console');
+              }}
+            >
+              Resume session
+            </button>
+            <button
+              className="btn btn-ghost resume-btn"
+              onClick={() => {
+                resetPilot();
+                setActiveIndex(0);
+                setShowResumeDialog(false);
+                window.history.replaceState(null, '', '#console');
+              }}
+            >
+              Start fresh — clear my progress
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={`shell mode-${mode}`}>
@@ -211,6 +278,7 @@ function Console({ pilotId, mode, isNewSession, onViewPattern }: { pilotId: stri
             scenario={pilot.scenario}
             activeIndex={activeIndex}
             onSelect={setActiveIndex}
+            mode={mode}
             allPilots={(isDeveloper || isFacilitator) ? ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status })) : []}
             onSwitchPilot={switchPilot}
           />
@@ -237,6 +305,8 @@ function Console({ pilotId, mode, isNewSession, onViewPattern }: { pilotId: stri
               rehearsalAnswer={rehearsalAnswer}
               rehearsal={state.rehearsal}
               mode={mode}
+              canContinue={canContinue}
+              intakeEntry={intakeEntry}
               onGenerate={handleGenerate}
               onSaveOutput={handleSaveOutput}
               onSaveUserInput={(input) => setUserInput(activeStage.id, input)}

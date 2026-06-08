@@ -6,7 +6,7 @@ const DIFFICULTY_LABEL = {
   advanced:      'Advanced',
 };
 
-type Props = { onBack: () => void; onSelectScenario: (title: string) => void };
+type Props = { onBack: () => void; onSelectScenario: (id: string) => void };
 
 export function ScenariosPage({ onBack, onSelectScenario }: Props) {
   return (
@@ -27,37 +27,27 @@ export function ScenariosPage({ onBack, onSelectScenario }: Props) {
         </p>
       </div>
 
-      <div className="scenarios-list">
-        {SCENARIOS.map((s, i) => (
-          <div key={s.id} className="scenario-card">
-            <div className="scenario-card-left">
-              <span className="scenario-card-num">{String(i + 1).padStart(2, '0')}</span>
+      <div className="scenarios-grid-2col">
+        {SCENARIOS.map((s) => (
+          <div key={s.id} className="scenario-card-v2">
+            <div className="scenario-card-v2-header">
+              <h3 className="scenario-card-v2-title">{s.title}</h3>
+              <span className="badge badge-difficulty-neutral">{DIFFICULTY_LABEL[s.difficulty]}</span>
             </div>
-            <div className="scenario-card-body">
-              <div className="scenario-card-header">
-                <h3 className="scenario-card-title">{s.title}</h3>
-                <span className={`badge badge-difficulty badge-difficulty-${s.difficulty}`}>
-                  {DIFFICULTY_LABEL[s.difficulty]}
-                </span>
-              </div>
-              <p className="scenario-card-situation">{s.situation}</p>
-              <div className="scenario-card-meta">
-                <div className="scenario-meta-row">
-                  <span className="scenario-meta-label">User risk</span>
-                  <span className="scenario-meta-value">{s.userRisk}</span>
-                </div>
-                <div className="scenario-meta-row">
-                  <span className="scenario-meta-label">Desired outcome</span>
-                  <span className="scenario-meta-value scenario-outcome">{s.desiredOutcome}</span>
-                </div>
-              </div>
-              <button
-                className="btn btn-ghost scenario-cta"
-                onClick={() => onSelectScenario(s.title)}
-              >
-                Prepare for this →
-              </button>
+            {s.tension && (
+              <p className="scenario-card-v2-tension">{s.tension}</p>
+            )}
+            <div className="scenario-card-v2-meta">
+              {s.yourRole && <span className="scenario-meta-chip">You: {s.yourRole}</span>}
+              {s.counterpart && <span className="scenario-meta-chip">vs {s.counterpart}</span>}
+              {s.duration && <span className="scenario-meta-chip">{s.duration}</span>}
             </div>
+            <button
+              className="btn btn-primary scenario-card-v2-cta"
+              onClick={() => onSelectScenario(s.id)}
+            >
+              Start this scenario →
+            </button>
           </div>
         ))}
       </div>

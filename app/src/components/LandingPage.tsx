@@ -1,16 +1,19 @@
-type Props = { onEnterConsole: () => void; onStartNew: () => void; onJoinPilot: () => void; onViewScenarios: () => void };
+type Props = { onEnterConsole: () => void; onStartNew: (scenarioId?: string) => void; onJoinPilot: () => void; onViewScenarios: () => void };
 
 const FEATURED_SCENARIOS = [
   {
     title: 'Architecture Review Board',
+    scenarioId: 'VALOUR-S01',
     description: 'Prepare for difficult technical, delivery, and risk questions before the review happens.',
   },
   {
-    title: 'Executive Design Challenge',
-    description: 'Explain trade-offs and secure executive confidence without drowning leaders in detail.',
+    title: 'Executive Briefing',
+    scenarioId: 'VALOUR-S02',
+    description: 'Explain complex technology decisions to senior leaders in under five minutes.',
   },
   {
-    title: 'Stakeholder Conflict Meeting',
+    title: 'Delivery Conflict',
+    scenarioId: 'VALOUR-S06',
     description: 'Handle disagreement, delivery pressure, and competing priorities with clearer language.',
   },
 ];
@@ -307,7 +310,7 @@ export function LandingPage({ onEnterConsole, onStartNew, onViewScenarios }: Pro
         <div className="landing-nav-links landing-nav-links-reset">
           <button className="landing-nav-link" onClick={onViewScenarios}>Scenarios</button>
           <button className="landing-nav-link" onClick={onEnterConsole}>Resume session</button>
-          <button className="btn btn-primary landing-cta-nav landing-cta-nav-reset" onClick={onStartNew}>
+          <button className="btn btn-primary landing-cta-nav landing-cta-nav-reset" onClick={() => onStartNew()}>
             Start practice session
           </button>
         </div>
@@ -331,7 +334,7 @@ export function LandingPage({ onEnterConsole, onStartNew, onViewScenarios }: Pro
           </p>
 
           <div className="landing-hero-actions landing-hero-actions-reset">
-            <button className="btn btn-primary landing-btn-xl" onClick={onStartNew}>
+            <button className="btn btn-primary landing-btn-xl" onClick={() => onStartNew()}>
               Start a practice session
             </button>
 
@@ -378,7 +381,7 @@ export function LandingPage({ onEnterConsole, onStartNew, onViewScenarios }: Pro
             <button
               key={scenario.title}
               className="landing-scenario-card"
-              onClick={onStartNew}
+              onClick={() => onStartNew(scenario.scenarioId)}
             >
               <div className="landing-scenario-card-title">{scenario.title}</div>
               <div className="landing-scenario-card-description">{scenario.description}</div>

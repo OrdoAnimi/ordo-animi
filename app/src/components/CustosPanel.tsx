@@ -53,6 +53,14 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
     setActiveView('guide');
   }, [activeStage?.id]);
 
+  // ESC key closes the panel
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [isOpen]);
+
   const hasOutput = !!activeEntry?.output?.content;
   const guidance  = activeStage?.guidance;
 
@@ -289,14 +297,16 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
       <button
         className={`custos-trigger${isOpen ? ' custos-trigger-open' : ''}`}
         onClick={toggleOpen}
-        aria-label="Open Custos guide"
+        aria-label={isOpen ? 'Close Custos guide' : 'Open Custos guide'}
+        aria-expanded={isOpen}
+        aria-controls="custos-panel"
       >
         <span className="custos-trigger-icon">◈</span>
         <span>Custos</span>
       </button>
 
       {isOpen && (
-        <div className="custos-panel" role="complementary" aria-label="Custos guide panel">
+        <div id="custos-panel" className="custos-panel" role="complementary" aria-label="Custos guide panel">
           <div className="custos-header">
             <span className="custos-header-label">Custos</span>
             {activeView === 'quick-result' && !quickActionLoading && (
