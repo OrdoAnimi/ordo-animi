@@ -91,9 +91,11 @@ export function LandingPage({ onEnterConsole, onStartNew, onViewScenarios }: Pro
         }
         .exec-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 27px; letter-spacing: .04em; }
         .exec-brand small { display: block; margin-top: 3px; font: 10px 'DM Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-        .exec-nav-links { display: flex; gap: 30px; align-items: center; }
-        .exec-nav button { border: 0; background: none; color: inherit; cursor: pointer; font: inherit; }
-        .exec-nav-link { font-size: 13px; }
+        .exec-nav-links { display: flex; gap: 10px; align-items: center; padding: 5px; border: 1px solid rgba(21,23,19,.1); background: rgba(255,255,255,.38); box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 8px 22px rgba(27,32,28,.07); }
+        .exec-nav button { color: inherit; cursor: pointer; font: inherit; }
+        .exec-nav-link { min-height: 40px; padding: 0 17px; border: 1px solid transparent; background: transparent; font-size: 13px; font-weight: 600; transition: background .16s ease, border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
+        .exec-nav-link:hover { background: #fffdf8; border-color: rgba(21,23,19,.12); transform: translateY(-1px); box-shadow: 0 7px 16px rgba(21,23,19,.08); }
+        .exec-nav-link:focus-visible, .exec-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
         .exec-nav-actions { justify-self: end; display: flex; gap: 12px; align-items: center; }
         .exec-btn {
           min-height: 46px;
@@ -102,12 +104,15 @@ export function LandingPage({ onEnterConsole, onStartNew, onViewScenarios }: Pro
           border-radius: 3px;
           font: 600 13px 'DM Sans', sans-serif;
           cursor: pointer;
-          transition: transform .16s ease, background .16s ease, border-color .16s ease;
+          box-shadow: 0 8px 18px rgba(21,23,19,.1), inset 0 1px 0 rgba(255,255,255,.22);
+          transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
         }
-        .exec-btn:hover { transform: translateY(-1px); }
-        .exec-btn-primary { background: var(--gold); color: #11140f; }
-        .exec-btn-dark { background: var(--graphite); color: white; }
-        .exec-btn-ghost { background: transparent; color: inherit; border-color: currentColor; }
+        .exec-btn:hover { transform: translateY(-2px); box-shadow: 0 13px 26px rgba(21,23,19,.16), inset 0 1px 0 rgba(255,255,255,.25); }
+        .exec-btn:active { transform: translateY(0); box-shadow: 0 4px 10px rgba(21,23,19,.12), inset 0 1px 2px rgba(0,0,0,.12); }
+        .exec-btn-primary { background: linear-gradient(180deg, #c89b4d 0%, var(--gold) 100%); color: #11140f; border-color: #9f742f; }
+        .exec-btn-dark { background: linear-gradient(180deg, #2a302b 0%, var(--graphite) 100%); color: white; border-color: #111511; }
+        .exec-btn-ghost { background: rgba(255,255,255,.32); color: inherit; border-color: rgba(21,23,19,.28); box-shadow: 0 6px 16px rgba(21,23,19,.07), inset 0 1px 0 rgba(255,255,255,.7); }
+        .exec-btn-ghost:hover { background: rgba(255,255,255,.66); border-color: rgba(21,23,19,.4); }
         .exec-hero {
           background: var(--graphite);
           color: #f7f2e8;
@@ -122,6 +127,8 @@ export function LandingPage({ onEnterConsole, onStartNew, onViewScenarios }: Pro
         .exec-hero h1 em { color: var(--gold-soft); font-style: italic; font-weight: 500; }
         .exec-hero-copy p { max-width: 590px; color: rgba(247,242,232,.72); font-size: 18px; line-height: 1.7; margin: 0 0 34px; }
         .exec-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+        .exec-hero .exec-btn-ghost { background: rgba(255,255,255,.05); color: #f7f2e8; border-color: rgba(255,255,255,.28); box-shadow: 0 8px 20px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08); }
+        .exec-hero .exec-btn-ghost:hover { background: rgba(255,255,255,.11); border-color: rgba(255,255,255,.46); }
         .exec-hero-proof { margin-top: 50px; display: flex; gap: 32px; flex-wrap: wrap; color: rgba(247,242,232,.55); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; }
         .exec-room { position: relative; padding: 72px 7vw 72px 42px; background: linear-gradient(145deg, var(--graphite-2), #111511); display: flex; align-items: center; }
         .exec-room::before { content: ''; position: absolute; inset: 32px; border: 1px solid rgba(214,184,117,.22); }
