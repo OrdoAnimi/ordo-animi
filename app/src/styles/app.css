@@ -460,6 +460,11 @@ body:has(.landing) #root {
 .ws-intake-actions  { display: flex; align-items: center; gap: 12px; }
 .ws-saved-label     { color: var(--green); font-size: 12px; font-weight: 600; }
 .ws-intake-hint     { color: var(--text-faint); font-size: 11px; line-height: 1.5; }
+.intake-required    { color: var(--red, #c0392b); font-weight: 700; margin-left: 2px; }
+.intake-input-error { border-color: var(--red, #c0392b) !important; }
+.intake-field-error { color: var(--red, #c0392b); font-size: 11px; margin-top: 4px; display: block; }
+.intake-input-narrow { max-width: 100px; }
+.intake-saved-confirm { color: var(--green, #27ae60); font-size: 12px; font-weight: 600; }
 
 /* Nav bar */
 .ws-nav {

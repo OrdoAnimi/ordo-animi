@@ -230,43 +230,91 @@ export function StageWorkspace({
   );
 }
 
+const SITUATION_MIN = 20;
+
+function validateIntake(v: Record<string, string>): Record<string, string> {
+  const errors: Record<string, string> = {};
+  if (!v.role?.trim()) errors.role = 'Role is required.';
+  if (!v.situation?.trim()) errors.situation = 'Situation is required.';
+  else if (v.situation.trim().length < SITUATION_MIN) errors.situation = `Describe in at least ${SITUATION_MIN} characters.`;
+  if (!v.outcome?.trim()) errors.outcome = 'Desired outcome is required.';
+  const conf = Number(v.confidence);
+  if (!v.confidence?.trim()) errors.confidence = 'Confidence is required.';
+  else if (!Number.isInteger(conf) || conf < 1 || conf > 10) errors.confidence = 'Enter a whole number from 1 to 10.';
+  return errors;
+}
+
+function parseIntake(raw: string): Record<string, string> {
+  try {
+    const parsed = JSON.parse(raw) as Record<string, string>;
+    if (parsed && typeof parsed === 'object' && (parsed.role || parsed.situation)) return parsed;
+  } catch { /* ignore */ }
+  return { role: '', organisation: '', situation: '', outcome: '', confidence: '' };
+}
+
 function IntakeCapture({ entry, onSaveUserInput }: { entry: PilotStateEntry; onSaveUserInput: (value: string) => void }) {
-  const existing = entry.userInput ?? '';
-  const [values, setValues] = useState<Record<string, string>>(() => {
-    try {
-      return JSON.parse(existing) as Record<string, string>;
-    } catch {
-      return { role: '', organisation: '', situation: '', outcome: '', confidence: '' };
-    }
-  });
-  const [saved, setSaved] = useState(!!existing);
+  const [values, setValues] = useState<Record<string, string>>(() => parseIntake(entry.userInput ?? ''));
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [saved, setSaved] = useState(false);
+
+  const errors = validateIntake(values);
+  const isValid = Object.keys(errors).length === 0;
 
   function update(key: string, value: string) {
     setValues(previous => ({ ...previous, [key]: value }));
+    setTouched(previous => ({ ...previous, [key]: true }));
     setSaved(false);
   }
 
-  function field(key: string, label: string, placeholder: string, rows?: number) {
-    return (
-      <div className="intake-field" key={key}>
-        <label className="intake-label">{label}</label>
-        {rows ? (
-          <textarea className="intake-input ws-textarea" rows={rows} placeholder={placeholder} value={values[key] ?? ''} onChange={event => update(key, event.target.value)} />
-        ) : (
-          <input className="intake-input" placeholder={placeholder} value={values[key] ?? ''} onChange={event => update(key, event.target.value)} />
-        )}
-      </div>
-    );
+  function blur(key: string) {
+    setTouched(previous => ({ ...previous, [key]: true }));
+  }
+
+  function save() {
+    setTouched({ role: true, situation: true, outcome: true, confidence: true });
+    if (!isValid) return;
+    onSaveUserInput(JSON.stringify(values));
+    setSaved(true);
+  }
+
+  function fieldError(key: string) {
+    return touched[key] && errors[key]
+      ? <span className="intake-field-error">{errors[key]}</span>
+      : null;
   }
 
   return (
     <div className="ws-intake">
-      {field('role', 'Your role', 'e.g. Senior Solution Architect')}
-      {field('organisation', 'Organisation or program', 'e.g. Enterprise cloud transformation')}
-      {field('situation', 'Describe the leadership situation', 'e.g. Presenting a design to the architecture review board…', 4)}
-      {field('outcome', 'What decision or outcome do you need?', 'e.g. Board endorses the design with documented conditions')}
-      {field('confidence', 'Current confidence (1–10)', '5')}
-      <div className="ws-intake-actions"><button className="btn btn-primary" onClick={() => { onSaveUserInput(JSON.stringify(values)); setSaved(true); }}>{saved ? 'Context saved ✓' : 'Save context'}</button></div>
+      <div className="intake-field">
+        <label className="intake-label">Your role <span className="intake-required">*</span></label>
+        <input className={`intake-input${touched.role && errors.role ? ' intake-input-error' : ''}`} placeholder="e.g. Senior Solution Architect" value={values.role ?? ''} onChange={e => update('role', e.target.value)} onBlur={() => blur('role')} />
+        {fieldError('role')}
+      </div>
+      <div className="intake-field">
+        <label className="intake-label">Organisation or program <span className="intake-optional">(optional)</span></label>
+        <input className="intake-input" placeholder="e.g. Enterprise cloud transformation" value={values.organisation ?? ''} onChange={e => update('organisation', e.target.value)} />
+      </div>
+      <div className="intake-field">
+        <label className="intake-label">Describe the leadership situation <span className="intake-required">*</span></label>
+        <textarea className={`intake-input ws-textarea${touched.situation && errors.situation ? ' intake-input-error' : ''}`} rows={4} placeholder="e.g. Presenting a design to the architecture review board…" value={values.situation ?? ''} onChange={e => update('situation', e.target.value)} onBlur={() => blur('situation')} />
+        {fieldError('situation')}
+      </div>
+      <div className="intake-field">
+        <label className="intake-label">What decision or outcome do you need? <span className="intake-required">*</span></label>
+        <input className={`intake-input${touched.outcome && errors.outcome ? ' intake-input-error' : ''}`} placeholder="e.g. Board endorses the design with documented conditions" value={values.outcome ?? ''} onChange={e => update('outcome', e.target.value)} onBlur={() => blur('outcome')} />
+        {fieldError('outcome')}
+      </div>
+      <div className="intake-field">
+        <label className="intake-label">Current confidence (1–10) <span className="intake-required">*</span></label>
+        <input className={`intake-input intake-input-narrow${touched.confidence && errors.confidence ? ' intake-input-error' : ''}`} type="number" min={1} max={10} placeholder="5" value={values.confidence ?? ''} onChange={e => update('confidence', e.target.value)} onBlur={() => blur('confidence')} />
+        {fieldError('confidence')}
+      </div>
+      <div className="ws-intake-actions">
+        <button className="btn btn-primary" onClick={save} disabled={!isValid && Object.keys(touched).length > 0}>
+          {saved ? 'Context saved ✓' : 'Save context'}
+        </button>
+        {saved && <span className="intake-saved-confirm">Saved — you can now generate your scenario.</span>}
+      </div>
     </div>
   );
 }
