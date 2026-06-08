@@ -24,7 +24,15 @@ const COPILOT_ACTIONS = [
 
 export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
   return (
-    <div className="landing landing-reset">
+    <>
+      <nav className="ecosystem-strip" aria-label="Ecosystem navigation">
+        <span className="ecosystem-strip__label">ZenCloud Ecosystem</span>
+        <a href="https://www.zencloud.com.au" className="ecosystem-strip__link">ZenCloud™</a>
+        <a href="https://studiosix.com.au" className="ecosystem-strip__link">StudioSix™</a>
+        <a href="https://velocityarchitectureframework.com" className="ecosystem-strip__link">Velocity™</a>
+      </nav>
+
+      <div className="landing landing-reset">
 
       <style>{`
         .landing-reset {
@@ -33,18 +41,18 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
           display: flex;
           flex-direction: column;
           gap: 48px;
-          color: #0f172a;
+          color: #f1f5f9;
         }
 
         .landing-nav-reset,
         .landing-hero-reset,
         .landing-section-reset,
         .landing-footer-reset {
-          background: #ffffff;
-          border: 1px solid #dbe4ee;
+          background: #1e293b;
+          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           padding: 32px;
-          box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.28);
         }
 
         .landing-nav-reset {
@@ -61,7 +69,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         .landing-footer-tag {
           margin-top: 8px;
           font-size: 15px;
-          color: #475569;
+          color: rgba(241,245,249,0.55);
         }
 
         .landing-nav-links-reset {
@@ -80,9 +88,9 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         }
 
         .landing-btn-secondary {
-          border: 1px solid #cbd5e1;
-          background: #fff;
-          color: #0f172a;
+          border: 1px solid rgba(255,255,255,0.14);
+          background: rgba(255,255,255,0.06);
+          color: #f1f5f9;
         }
 
         .landing-hero-reset {
@@ -90,6 +98,17 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
           grid-template-columns: minmax(0, 1.7fr) minmax(360px, 0.9fr);
           gap: 32px;
           align-items: stretch;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .landing-hero-reset::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 3px;
+          background: #E8630A;
+          border-radius: 28px 28px 0 0;
         }
 
         .landing-main-column {
@@ -116,7 +135,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         .landing-subheadline-reset {
           font-size: 20px;
           line-height: 1.7;
-          color: #334155;
+          color: rgba(241,245,249,0.72);
           max-width: 42ch;
         }
 
@@ -135,8 +154,8 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         .landing-flow-card,
         .landing-custos-action,
         .landing-result-card {
-          border: 1px solid #dbe4ee;
-          background: #f8fafc;
+          border: 1px solid rgba(255,255,255,0.08);
+          background: #243044;
           border-radius: 18px;
           padding: 18px;
         }
@@ -150,9 +169,10 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         }
 
         .landing-custos-panel {
-          background: linear-gradient(180deg, #0f172a 0%, #172554 100%);
-          color: white;
+          background: linear-gradient(180deg, #0a0f1a 0%, #162032 100%);
+          color: #f1f5f9;
           border-radius: 24px;
+          border: 1px solid rgba(255,255,255,0.07);
           padding: 28px;
           display: flex;
           flex-direction: column;
@@ -171,7 +191,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.08em;
-          color: #cbd5e1;
+          color: rgba(241,245,249,0.45);
           margin-top: 8px;
         }
 
@@ -182,8 +202,8 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         }
 
         .landing-custos-action {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.06);
+          border-color: rgba(255,255,255,0.1);
           font-size: 16px;
           line-height: 1.6;
         }
@@ -202,8 +222,8 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         }
 
         .landing-scenario-card {
-          border: 1px solid #dbe4ee;
-          background: white;
+          border: 1px solid rgba(255,255,255,0.08);
+          background: #243044;
           border-radius: 22px;
           padding: 24px;
           text-align: left;
@@ -217,7 +237,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         .landing-scenario-card:hover {
           transform: translateY(-2px);
           border-color: #e8630a;
-          box-shadow: 0 10px 30px rgba(232, 99, 10, 0.12);
+          box-shadow: 0 10px 30px rgba(232, 99, 10, 0.18);
         }
 
         .landing-scenario-card-action {
@@ -239,7 +259,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
 
         .landing-footer-copy-reset {
           font-size: 16px;
-          color: #475569;
+          color: rgba(241,245,249,0.55);
           max-width: 48ch;
           line-height: 1.6;
         }
@@ -417,5 +437,18 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
       </footer>
 
     </div>
+
+      <footer className="ecosystem-footer-landing">
+        <div className="ecosystem-footer__brand">
+          <p className="ecosystem-footer__tagline">The ZenCloud ecosystem — Strategy. Delivery. Architecture.</p>
+        </div>
+        <nav className="ecosystem-footer__links" aria-label="Ecosystem footer links">
+          <a href="https://www.zencloud.com.au">ZenCloud™</a>
+          <a href="https://studiosix.com.au">StudioSix™</a>
+          <a href="https://velocityarchitectureframework.com">Velocity™</a>
+        </nav>
+        <p className="ecosystem-footer__copy">© 2026 ZenCloud Global Consultants · All rights reserved</p>
+      </footer>
+    </>
   );
 }
