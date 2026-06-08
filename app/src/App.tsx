@@ -21,6 +21,14 @@ import type { AppMode, RehearsalState, StageOutput, StageStatus, PilotState } fr
 const SCENARIO_PILOT_MAP: Record<string, string> = {
   'VALOUR-S01': 'PILOT-001',
   'VALOUR-S02': 'PILOT-002',
+  'VALOUR-S03': 'PILOT-S03',
+  'VALOUR-S04': 'PILOT-S04',
+  'VALOUR-S05': 'PILOT-S05',
+  'VALOUR-S06': 'PILOT-S06',
+  'VALOUR-S07': 'PILOT-S07',
+  'VALOUR-S08': 'PILOT-S08',
+  'VALOUR-S09': 'PILOT-S09',
+  'VALOUR-S10': 'PILOT-S10',
 };
 
 type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison';
