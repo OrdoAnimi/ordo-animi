@@ -86,8 +86,22 @@
   }
 
   .custos-panel-landscape {
-    position: static;
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 90;
+    width: auto;
     min-height: 0;
+    max-height: min(74vh, 720px);
+    overflow-y: auto;
+    border: 1px solid rgba(242, 106, 33, .42);
+    box-shadow: 0 -18px 48px rgba(11, 18, 32, .32);
+  }
+
+  .custos-floating-trigger {
+    right: 18px;
+    bottom: 18px;
   }
 }
 
@@ -99,6 +113,7 @@
   .topbar-participant-status {
     width: 100%;
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .mode-participant .ws-guidance-grid {
@@ -170,6 +185,24 @@
   .valour-scenarios-page {
     width: 100%;
     padding: 22px 18px 72px;
+  }
+
+  .custos-panel-landscape {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 76vh;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+  }
+
+  .custos-floating-trigger {
+    right: 14px;
+    bottom: 14px;
+    min-height: 48px;
+    padding-right: 14px;
+    font-size: 13px;
   }
 }
 

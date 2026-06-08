@@ -5,6 +5,65 @@
   border-left: 2px solid var(--valour-orange);
 }
 
+.custos-shell:not(.is-open) {
+  background: transparent;
+  border-left-color: transparent;
+}
+
+.custos-shell:not(.is-open) .custos-panel-landscape,
+.custos-shell:not(.is-open) .custos-mobile-trigger {
+  display: none;
+}
+
+.custos-floating-trigger {
+  position: fixed;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 80;
+  min-height: 52px;
+  padding: 0 18px 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(242, 106, 33, .72);
+  border-radius: 999px;
+  background: var(--valour-navy);
+  color: #fff;
+  box-shadow: 0 18px 38px rgba(11, 18, 32, .28), 0 0 0 4px rgba(242, 106, 33, .14);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.custos-floating-trigger:hover,
+.custos-floating-trigger:focus-visible {
+  background: var(--valour-orange);
+  border-color: var(--valour-orange);
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow: 0 22px 42px rgba(11, 18, 32, .3), 0 0 0 5px rgba(242, 106, 33, .22);
+}
+
+.custos-floating-mark {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--valour-orange);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.custos-floating-trigger:hover .custos-floating-mark,
+.custos-floating-trigger:focus-visible .custos-floating-mark {
+  background: var(--valour-navy);
+}
+
 .custos-mobile-trigger {
   display: none;
 }
@@ -24,6 +83,7 @@
   border: 0;
   border-radius: 0;
   box-shadow: none;
+  outline: none;
 }
 
 .custos-header {
@@ -33,6 +93,12 @@
   gap: 16px;
   padding: 0 0 24px;
   border-bottom: 1px solid rgba(255, 255, 255, .18);
+}
+
+.custos-header-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .custos-header-label {
@@ -131,6 +197,28 @@
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
+}
+
+.custos-close-btn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .24);
+  color: #fff;
+  font-family: inherit;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.custos-close-btn:hover,
+.custos-close-btn:focus-visible {
+  border-color: var(--valour-orange);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(242, 106, 33, .18);
 }
 
 .custos-preview {

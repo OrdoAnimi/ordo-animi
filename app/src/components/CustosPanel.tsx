@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { PilotStage, PilotStateEntry } from '../data/types';
 
 type CustosPanelProps = {
   page: 'landing' | 'console';
+  isOpen: boolean;
   activeStage?: PilotStage;
   activeEntry?: PilotStateEntry;
   onApplyOutput?: (content: string) => void;
+  onOpen: () => void;
+  onClose: () => void;
 };
 
 type ActiveView = 'guide' | 'quick-result';
@@ -30,17 +33,29 @@ function displayCopy(value: string) {
     .replace(/\bPilot Console\b/g, 'VALOUR workspace');
 }
 
-export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: CustosPanelProps) {
-  const [isOpen, setIsOpen] = useState(page === 'console');
+export function CustosPanel({ page, isOpen, activeStage, activeEntry, onApplyOutput, onOpen, onClose }: CustosPanelProps) {
   const [activeView, setActiveView] = useState<ActiveView>('guide');
   const [quickActionLabel, setQuickActionLabel] = useState('');
   const [quickActionResult, setQuickActionResult] = useState('');
   const [quickActionLoading, setQuickActionLoading] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setActiveView('guide');
-    if (page === 'console') setIsOpen(true);
   }, [activeStage?.id, page]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (isOpen) panelRef.current?.focus();
+  }, [isOpen]);
 
   const guidance = activeStage?.guidance;
   const hasOutput = !!activeEntry?.output?.content;
@@ -50,7 +65,7 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
     setQuickActionResult(text);
     setQuickActionLoading(false);
     setActiveView('quick-result');
-    setIsOpen(true);
+    onOpen();
   }
 
   function handleWhatNext() {
@@ -77,7 +92,7 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
     setQuickActionResult('');
     setQuickActionLoading(true);
     setActiveView('quick-result');
-    setIsOpen(true);
+    onOpen();
 
     try {
       const res = await fetch('/api/ai', {
@@ -140,20 +155,49 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
 
   return (
     <aside className={`custos-shell${isOpen ? ' is-open' : ''}`} aria-label="CUSTOS active guide">
-      <button className="custos-mobile-trigger" onClick={() => setIsOpen(v => !v)}>
+      <button
+        type="button"
+        className={`custos-floating-trigger${isOpen ? ' is-open' : ''}`}
+        onClick={isOpen ? onClose : onOpen}
+        aria-label={isOpen ? 'Close CUSTOS guide' : 'Open CUSTOS guide'}
+        aria-controls="custos-guide-panel"
+        aria-expanded={isOpen}
+      >
+        <span className="custos-floating-mark">C</span>
+        <span>CUSTOS</span>
+      </button>
+
+      <button
+        type="button"
+        className="custos-mobile-trigger"
+        onClick={isOpen ? onClose : onOpen}
+        aria-controls="custos-guide-panel"
+        aria-expanded={isOpen}
+      >
         <span>CUSTOS Guide</span>
         <span>{isOpen ? 'Close' : 'Open'}</span>
       </button>
 
-      <div className="custos-panel custos-panel-landscape">
+      <div
+        id="custos-guide-panel"
+        ref={panelRef}
+        className="custos-panel custos-panel-landscape"
+        role="dialog"
+        aria-modal="false"
+        aria-labelledby="custos-guide-title"
+        tabIndex={-1}
+      >
         <div className="custos-header">
           <div>
-            <div className="custos-header-label">CUSTOS</div>
+            <div id="custos-guide-title" className="custos-header-label">CUSTOS</div>
             <div className="custos-header-subtitle">Active architecture co-pilot</div>
           </div>
-          {activeView === 'quick-result' && !quickActionLoading && (
-            <button className="custos-back-btn" onClick={() => setActiveView('guide')}>← Guide</button>
-          )}
+          <div className="custos-header-actions">
+            {activeView === 'quick-result' && !quickActionLoading && (
+              <button type="button" className="custos-back-btn" onClick={() => setActiveView('guide')}>← Guide</button>
+            )}
+            <button type="button" className="custos-close-btn" onClick={onClose} aria-label="Close CUSTOS guide">×</button>
+          </div>
         </div>
 
         {activeView === 'quick-result' ? (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ALL_PILOTS, getPilotById } from './data/pilots';
 import { usePilotState } from './hooks/usePilotState';
 import { STAGE_AGENTS, checkDependency } from './services/agents';
@@ -128,6 +128,34 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
   const isDeveloper = mode === 'developer';
   const isFacilitator = mode === 'facilitator';
   const isParticipant = mode === 'participant';
+  const [custosOpen, setCustosOpen] = useState(false);
+  const custosOpenerRef = useRef<HTMLElement | null>(null);
+
+  const openCustos = useCallback(() => {
+    if (document.activeElement instanceof HTMLElement) {
+      custosOpenerRef.current = document.activeElement;
+    }
+    setCustosOpen(true);
+  }, []);
+
+  const closeCustos = useCallback(() => {
+    const returnTarget = custosOpenerRef.current?.isConnected
+      ? custosOpenerRef.current
+      : document.querySelector<HTMLElement>('.custos-floating-trigger');
+    returnTarget?.focus();
+    setCustosOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isParticipant) {
+      setCustosOpen(false);
+      return;
+    }
+    if (sessionStorage.getItem('custos:console-opened') !== 'true') {
+      sessionStorage.setItem('custos:console-opened', 'true');
+      setCustosOpen(true);
+    }
+  }, [isParticipant]);
 
   const liveStages = pilot.stages.map(s => ({
     ...s,
@@ -198,19 +226,24 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
       <TopBar
         pilot={{ ...pilot, stages: liveStages }}
         mode={mode}
+        custosOpen={custosOpen}
+        onOpenCustos={openCustos}
         onViewPattern={onViewPattern}
         onViewReadiness={() => { window.location.hash = '#readiness'; }}
         onViewComparison={() => { window.location.hash = '#comparison'; }}
       />
 
       {isParticipant ? (
-        <div className="participant-landscape-grid">
+        <div className={`participant-landscape-grid${custosOpen ? '' : ' custos-collapsed'}`}>
           <main className="main participant-main">{workspace}</main>
           <CustosPanel
             page="console"
+            isOpen={custosOpen}
             activeStage={activeStage}
             activeEntry={activeEntry}
             onApplyOutput={(content) => setOutput(activeStage.id, { content, source: 'manual', generatedAt: new Date().toISOString() })}
+            onOpen={openCustos}
+            onClose={closeCustos}
           />
         </div>
       ) : (
