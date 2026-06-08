@@ -89,14 +89,15 @@
     position: fixed;
     left: 16px;
     right: 16px;
-    bottom: 16px;
+    top: 16px;
+    bottom: auto;
     z-index: 90;
     width: auto;
     min-height: 0;
-    max-height: min(74vh, 720px);
+    max-height: min(58vh, 520px);
     overflow-y: auto;
     border: 1px solid rgba(242, 106, 33, .42);
-    box-shadow: 0 -18px 48px rgba(11, 18, 32, .32);
+    box-shadow: 0 18px 48px rgba(11, 18, 32, .32);
   }
 
   .custos-floating-trigger {
@@ -190,10 +191,11 @@
   .custos-panel-landscape {
     left: 0;
     right: 0;
-    bottom: 0;
-    max-height: 76vh;
+    top: 0;
+    bottom: auto;
+    max-height: 62vh;
     border-right: 0;
-    border-bottom: 0;
+    border-top: 0;
     border-left: 0;
   }
 

@@ -74,7 +74,12 @@
 }
 
 .participant-landscape-grid.custos-collapsed .custos-shell {
-  display: contents;
+  display: block;
+  width: 0;
+  height: 0;
+  min-height: 0;
+  justify-self: end;
+  overflow: visible;
 }
 
 .participant-main {

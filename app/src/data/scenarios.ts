@@ -5,6 +5,10 @@ export type Scenario = {
   userRisk: string;
   desiredOutcome: string;
   difficulty: 'foundational' | 'intermediate' | 'advanced';
+  yourRole?: string;
+  counterpart?: string;
+  tension?: string;
+  duration?: string;
 };
 
 export const SCENARIOS: Scenario[] = [
@@ -15,6 +19,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Over-explaining the technical design, losing executive altitude, failing to close the decision.',
     desiredOutcome: 'The board understands the recommendation, trade-offs, decision required, and next steps.',
     difficulty: 'advanced',
+    yourRole: 'Architect',
+    counterpart: 'Review Board',
+    tension: 'Over-explaining design loses the decision',
+    duration: '45–60 min',
   },
   {
     id: 'VALOUR-S02',
@@ -23,6 +31,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Too much technical detail, missing the business impact, failing to name the decision.',
     desiredOutcome: 'The executive understands the recommendation, risk, and decision required.',
     difficulty: 'advanced',
+    yourRole: 'Solution Architect',
+    counterpart: 'CFO / CIO',
+    tension: 'Technical detail loses executive confidence',
+    duration: '30–45 min',
   },
   {
     id: 'VALOUR-S03',
@@ -31,6 +43,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Talking too much, jumping to solutions, losing control of the room.',
     desiredOutcome: 'Clear inputs, decisions, constraints, and follow-up actions captured.',
     difficulty: 'intermediate',
+    yourRole: 'Architect',
+    counterpart: 'Stakeholder Group',
+    tension: 'Too much talk, too little clarity',
+    duration: '60–90 min',
   },
   {
     id: 'VALOUR-S04',
@@ -39,6 +55,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Sounding arrogant, damaging trust, failing to offer a constructive path forward.',
     desiredOutcome: 'The concern is understood and the group moves toward a better option.',
     difficulty: 'advanced',
+    yourRole: 'Architect',
+    counterpart: 'Design Lead',
+    tension: 'Challenge sounds arrogant rather than constructive',
+    duration: '20–30 min',
   },
   {
     id: 'VALOUR-S05',
@@ -47,6 +67,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Becoming defensive, dismissive of the concern, or too technical in response.',
     desiredOutcome: 'Risk concern acknowledged, mitigation agreed, practical path forward confirmed.',
     difficulty: 'intermediate',
+    yourRole: 'Architect',
+    counterpart: 'Security / Risk',
+    tension: 'Defence mode damages trust',
+    duration: '20–30 min',
   },
   {
     id: 'VALOUR-S06',
@@ -55,6 +79,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Sounding like a blocker, escalating unnecessarily, abandoning the architecture position.',
     desiredOutcome: 'Agreement on the issue, impact, minimum architecture position, and next action.',
     difficulty: 'intermediate',
+    yourRole: 'Architect',
+    counterpart: 'Delivery Lead / PM',
+    tension: 'Architecture sounds like a blocker',
+    duration: '20–30 min',
   },
   {
     id: 'VALOUR-S07',
@@ -63,6 +91,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Presenting too many options, failing to recommend, overwhelming the audience.',
     desiredOutcome: 'Stakeholders understand the options, trade-off, recommendation, and decision criteria.',
     difficulty: 'foundational',
+    yourRole: 'Architect',
+    counterpart: 'Technical Stakeholders',
+    tension: 'Too many options, no recommendation',
+    duration: '15–20 min',
   },
   {
     id: 'VALOUR-S08',
@@ -71,6 +103,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Staying too abstract or jumping too quickly into technology.',
     desiredOutcome: 'Strategy translated into capabilities, constraints, options, and sequence.',
     difficulty: 'intermediate',
+    yourRole: 'Architect',
+    counterpart: 'Strategy / Business',
+    tension: 'Too abstract or too technical too early',
+    duration: '45–60 min',
   },
   {
     id: 'VALOUR-S09',
@@ -79,6 +115,10 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Over-positioning, talking too much, appearing detached or superior.',
     desiredOutcome: 'Credibility established, role clarified, team trust started.',
     difficulty: 'foundational',
+    yourRole: 'Architect',
+    counterpart: 'New Team',
+    tension: 'Over-positioning loses first trust',
+    duration: '30 min',
   },
   {
     id: 'VALOUR-S10',
@@ -87,5 +127,9 @@ export const SCENARIOS: Scenario[] = [
     userRisk: 'Carrying unfinished work mentally, not recovering, over-working.',
     desiredOutcome: 'Work closed enough for today. Personal plan active.',
     difficulty: 'foundational',
+    yourRole: 'Individual',
+    counterpart: 'Self',
+    tension: 'Open loops prevent recovery',
+    duration: '10–15 min',
   },
 ];

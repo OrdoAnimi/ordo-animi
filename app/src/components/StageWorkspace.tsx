@@ -35,20 +35,20 @@ const PROVIDER_LABELS: Record<string, string> = {
   local: 'Local fallback',
 };
 
+const STEPPER_STAGE_IDS = [
+  'stage-01-intake', 'stage-02-scenario', 'stage-03-prep',
+  'stage-04-rehearsal', 'stage-05-language', 'stage-06-review', 'stage-07-pattern',
+];
 const STEPPER_LABELS = ['Context', 'Scenario', 'Prepare', 'Rehearse', 'Refine', 'Reflect', 'Report'];
 
-function participantCopy(value: string) {
-  return value
-    .replace(/\bStage\b/g, 'Step')
-    .replace(/\bstage\b/g, 'step')
-    .replace(/\bpilot run\b/gi, 'practice session')
-    .replace(/\bpilot user\b/gi, 'participant')
-    .replace(/\bPilot Console\b/g, 'VALOUR workspace');
-}
+const PARTICIPANT_STEPS = [
+  { label: 'Prepare',  indices: [0, 1, 2] },
+  { label: 'Rehearse', indices: [3] },
+  { label: 'Debrief',  indices: [4, 5, 6, 7] },
+];
 
 type Props = {
   stage: PilotStage;
-  stageIds: string[];
   entry: PilotStateEntry;
   index: number;
   total: number;
@@ -58,6 +58,8 @@ type Props = {
   rehearsalAnswer?: string;
   rehearsal?: RehearsalState;
   mode: AppMode;
+  canContinue?: boolean;
+  intakeEntry?: PilotStateEntry;
   onGenerate: () => Promise<void>;
   onSaveOutput: (output: StageOutput) => void;
   onSaveUserInput: (input: string) => void;
@@ -68,8 +70,9 @@ type Props = {
 };
 
 export function StageWorkspace({
-  stage, stageIds, entry, index, total, hasAgent, dependency,
+  stage, entry, index, total, hasAgent, dependency,
   completedStageIds, rehearsalAnswer, rehearsal, mode,
+  canContinue = true, intakeEntry,
   onGenerate, onSaveOutput, onSaveUserInput, onSaveRehearsal, onCycleStatus,
   onPrev, onNext,
 }: Props) {
@@ -92,10 +95,6 @@ export function StageWorkspace({
   const isRehearsal = stage.id === 'stage-04-rehearsal';
   const isLanguage = stage.id === 'stage-05-language';
   const canGenerate = hasAgent && dependency.ok && !isIntake && !isFacilitator;
-  const currentStepLabel = STEPPER_LABELS[index] ?? stage.label;
-  const nextStepLabel = STEPPER_LABELS[index + 1];
-  const sequenceLabel = isDeveloper ? `Stage ${num} of ${tot}` : `Step ${num} of ${tot}`;
-  const displayDescription = isDeveloper ? stage.description : participantCopy(stage.description);
 
   async function handleGenerate() {
     setGenerating(true);
@@ -117,25 +116,49 @@ export function StageWorkspace({
 
   return (
     <div className="workspace">
-      <div className="ws-stepper">
-        {stageIds.map((id, i) => {
-          const isDone = completedStageIds.includes(id) && id !== stage.id;
-          const isActive = id === stage.id;
-          const cls = isDone ? ' done' : isActive ? ' active' : '';
-          return (
-            <div key={id} className={`ws-stepper-item${cls}`} aria-current={isActive ? 'step' : undefined}>
-              {i > 0 && <div className="ws-stepper-connector" />}
-              <div className="ws-stepper-step">
-                <div className="ws-stepper-dot" />
-                <div className="ws-stepper-label">{STEPPER_LABELS[i]}</div>
+      {mode === 'participant' ? (
+        <div className="ws-stepper ws-stepper-simple">
+          {PARTICIPANT_STEPS.map((step, si) => {
+            const isActive = step.indices.includes(index);
+            const isDone   = step.indices.every(i => i < index);
+            const cls      = isDone ? ' done' : isActive ? ' active' : '';
+            return (
+              <div key={step.label} className={`ws-stepper-item${cls}`}>
+                {si > 0 && <div className="ws-stepper-connector" />}
+                <div className="ws-stepper-step">
+                  <div className="ws-stepper-dot" />
+                  <div className="ws-stepper-label">{step.label}</div>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="ws-stepper">
+          {STEPPER_STAGE_IDS.map((id, i) => {
+            const isDone = completedStageIds.includes(id) && id !== stage.id;
+            const isActive = id === stage.id;
+            const cls = isDone ? ' done' : isActive ? ' active' : '';
+            return (
+              <div key={id} className={`ws-stepper-item${cls}`}>
+                {i > 0 && <div className="ws-stepper-connector" />}
+                <div className="ws-stepper-step">
+                  <div className="ws-stepper-dot" />
+                  <div className="ws-stepper-label">{STEPPER_LABELS[i]}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       <div className="ws-header">
-        <div className="ws-eyebrow">{sequenceLabel} · {currentStepLabel}</div>
+        <div className="ws-eyebrow">
+          {mode === 'participant'
+            ? `${PARTICIPANT_STEPS.find(s => s.indices.includes(index))?.label ?? stage.label}`
+            : `Stage ${num} of ${tot} · ${STEPPER_LABELS[index] ?? stage.label}`
+          }
+        </div>
         {isDeveloper ? (
           <button
             className={`badge badge-status badge-status-${status}`}
@@ -149,8 +172,8 @@ export function StageWorkspace({
         )}
       </div>
 
-      <div className="ws-title">{currentStepLabel}</div>
-      <div className="ws-desc">{displayDescription}</div>
+      <div className="ws-title">{STEPPER_LABELS[index] ?? stage.label}</div>
+      <div className="ws-desc">{stage.description}</div>
 
       {stage.guidance && (
         <details className="ws-guidance">
@@ -158,19 +181,19 @@ export function StageWorkspace({
           <div className="ws-guidance-grid">
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">Purpose</span>
-              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.what : participantCopy(stage.guidance.what)}</div>
+              <div className="ws-guidance-value">{stage.guidance.what}</div>
             </div>
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">You provide</span>
-              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.provides : participantCopy(stage.guidance.provides)}</div>
+              <div className="ws-guidance-value">{stage.guidance.provides}</div>
             </div>
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">VALOUR prepares</span>
-              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.generates : participantCopy(stage.guidance.generates)}</div>
+              <div className="ws-guidance-value">{stage.guidance.generates}</div>
             </div>
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">Next movement</span>
-              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.next : participantCopy(stage.guidance.next)}</div>
+              <div className="ws-guidance-value">{stage.guidance.next}</div>
             </div>
           </div>
         </details>
@@ -192,6 +215,8 @@ export function StageWorkspace({
           output={output}
           rehearsal={rehearsal}
           readOnly={isFacilitator}
+          intakeEntry={intakeEntry}
+          pilotScenario={stage.description}
           onSave={onSaveRehearsal}
         />
       )}
@@ -202,7 +227,7 @@ export function StageWorkspace({
             {rehearsalAnswer ? 'Your submitted rehearsal response' : 'No rehearsal response yet'}
           </div>
           {rehearsalAnswer
-            ? <div className="ws-input-preview-value">“{rehearsalAnswer}”</div>
+            ? <div className="ws-input-preview-value">"{rehearsalAnswer}"</div>
             : <div className="ws-input-preview-missing">Return to Rehearse and submit one response before refining your language.</div>
           }
         </div>
@@ -229,7 +254,7 @@ export function StageWorkspace({
                 <button className="btn btn-ghost ws-action-btn" onClick={startEdit}>Edit</button>
                 {canGenerate && (
                   <button className="btn btn-ghost ws-action-btn" onClick={handleGenerate} disabled={generating}>
-                    {generating ? 'Preparing...' : isRehearsal ? 'Prepare new questions' : 'Prepare again'}
+                    {generating ? '…' : 'Regenerate'}
                   </button>
                 )}
               </div>
@@ -259,7 +284,7 @@ export function StageWorkspace({
       {canGenerate && !output && !generating && (
         <button className="btn btn-generate" onClick={handleGenerate}>
           <span className="btn-generate-icon">✦</span>
-          {isRehearsal ? 'Prepare my rehearsal questions' : isLanguage ? 'Refine my response' : 'Prepare this step'}
+          {isRehearsal ? 'Prepare rehearsal questions' : 'Generate with VALOUR™'}
         </button>
       )}
 
@@ -278,9 +303,16 @@ export function StageWorkspace({
             {output && <span className="ws-saved-dot" title="Output saved" />}
           </div>
         )}
-        <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1}>
-          {nextStepLabel ? `Continue to ${nextStepLabel}` : 'Continue'}
+        <button
+          className="btn btn-primary"
+          onClick={onNext}
+          disabled={index === total - 1 || (!canContinue && mode === 'participant')}
+        >
+          Continue →
         </button>
+        {!canContinue && mode === 'participant' && index < total - 1 && (
+          <span className="ws-nav-block-hint">Generate your preparation brief first</span>
+        )}
       </div>
     </div>
   );
@@ -338,7 +370,7 @@ function parseQuestions(content: string): RehearsalQuestion[] {
   const lines = content.split('\n');
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i].trim();
-    const quoted = line.match(/^>\s*["“](.+?)["”]?$/);
+    const quoted = line.match(/^>\s*[""](.+?)[""]?$/);
     if (quoted?.[1]) {
       questions.push({ id: `question-${questions.length + 1}`, topic: `Question ${questions.length + 1}`, text: quoted[1] });
       continue;
@@ -351,19 +383,18 @@ function parseQuestions(content: string): RehearsalQuestion[] {
   return questions.slice(0, 4);
 }
 
-function RehearsalFlow({ output, rehearsal, readOnly, onSave }: {
+type IntakeValues = { role?: string; organisation?: string; situation?: string; outcome?: string; confidence?: string };
+
+function RehearsalFlow({ output, rehearsal, readOnly, intakeEntry, pilotScenario, onSave }: {
   output?: StageOutput;
   rehearsal?: RehearsalState;
   readOnly: boolean;
+  intakeEntry?: PilotStateEntry;
+  pilotScenario?: string;
   onSave: (rehearsal: RehearsalState) => void;
 }) {
   const parsedQuestions = output ? parseQuestions(output.content) : [];
-  const fallbackQuestions: RehearsalQuestion[] = [{
-    id: 'question-fallback',
-    topic: 'Decision clarity',
-    text: 'What decision do you need from this audience, and what trade-off are you asking them to accept?',
-  }];
-  const questions = rehearsal?.questions?.length ? rehearsal.questions : parsedQuestions.length ? parsedQuestions : fallbackQuestions;
+  const questions = rehearsal?.questions?.length ? rehearsal.questions : parsedQuestions;
   const [selectedQuestionId, setSelectedQuestionId] = useState(rehearsal?.selectedQuestionId ?? questions[0]?.id ?? '');
   const [responseText, setResponseText] = useState(rehearsal?.response?.responseText ?? '');
   const [preferredResponse, setPreferredResponse] = useState(rehearsal?.preferredResponse ?? '');
@@ -375,6 +406,12 @@ function RehearsalFlow({ output, rehearsal, readOnly, onSave }: {
   const selectedQuestion = questions.find(q => q.id === selectedQuestionId);
   const submitted = rehearsal?.response?.status === 'submitted';
   const complete = rehearsal?.status === 'complete';
+
+  const intakeValues: IntakeValues = (() => {
+    try { return JSON.parse(intakeEntry?.userInput ?? '{}') as IntakeValues; }
+    catch { return {}; }
+  })();
+  const hasIntake = !!(intakeValues.role || intakeValues.situation);
 
   function saveDraft() {
     if (!selectedQuestionId || !responseText.trim()) return;
@@ -423,68 +460,133 @@ function RehearsalFlow({ output, rehearsal, readOnly, onSave }: {
   }
 
   return (
-    <div className="ws-rehearsal-panel rehearsal-flow">
-      <div className="ws-rehearsal-panel-label">Practise one real response</div>
-      {!output && <p className="ws-rehearsal-hint-text">Use the starter question below or prepare tailored rehearsal questions for this practice session.</p>}
-      {questions.length > 0 && (
-        <>
-          <label className="ws-guidance-label" htmlFor="rehearsal-question">Choose one question</label>
-          <select
-            id="rehearsal-question"
-            className="ws-select"
-            value={selectedQuestionId}
-            disabled={readOnly || complete}
-            onChange={e => setSelectedQuestionId(e.target.value)}
-          >
-            {questions.map(q => <option key={q.id} value={q.id}>{q.text}</option>)}
-          </select>
-          {selectedQuestion && <div className="ws-answer-question">{selectedQuestion.text}</div>}
-
-          <label className="ws-guidance-label" htmlFor="rehearsal-response">Your response</label>
-          <textarea
-            id="rehearsal-response"
-            className="ws-textarea"
-            value={responseText}
-            readOnly={readOnly || complete}
-            onChange={e => setResponseText(e.target.value)}
-            placeholder="Answer as you would in the real conversation…"
-            rows={7}
-          />
-
-          {!readOnly && !submitted && (
-            <div className="ws-user-input-actions">
-              <button className="btn btn-ghost" onClick={saveDraft} disabled={!responseText.trim()}>Save draft</button>
-              <button className="btn btn-primary" onClick={submitResponse} disabled={!responseText.trim()}>Submit for refinement</button>
+    <div className={`rehearsal-stage${hasIntake ? ' rehearsal-stage-3col' : ''}`}>
+      {hasIntake && (
+        <aside className="rehearsal-context-panel">
+          <div className="rcp-section-label">Your situation</div>
+          {intakeValues.role && (
+            <div className="rcp-item">
+              <span className="rcp-item-label">Role</span>
+              <span className="rcp-item-value">{intakeValues.role}</span>
             </div>
           )}
+          {intakeValues.organisation && (
+            <div className="rcp-item">
+              <span className="rcp-item-label">Organisation</span>
+              <span className="rcp-item-value">{intakeValues.organisation}</span>
+            </div>
+          )}
+          {intakeValues.situation && (
+            <div className="rcp-item">
+              <span className="rcp-item-label">Situation</span>
+              <span className="rcp-item-value">{intakeValues.situation}</span>
+            </div>
+          )}
+          {pilotScenario && (
+            <div className="rcp-item">
+              <span className="rcp-item-label">Format</span>
+              <span className="rcp-item-value">{pilotScenario.replace('.', '')}</span>
+            </div>
+          )}
+        </aside>
+      )}
 
-          {submitted && !complete && (
-            <div className="ws-refinement-card">
-              <div className="ws-input-preview-label">Preferred refined response</div>
-              <p className="ws-rehearsal-hint-text">Generate the Refine stage, then paste or edit the version you intend to use.</p>
-              <textarea
-                className="ws-textarea"
-                value={preferredResponse}
-                readOnly={readOnly}
-                onChange={e => setPreferredResponse(e.target.value)}
-                placeholder="Save the concise, executive, empathetic, or edited response you will use…"
-                rows={6}
-              />
-              {!readOnly && (
-                <button className="btn btn-primary" onClick={completeRehearsal} disabled={!preferredResponse.trim()}>
-                  Save preferred response
-                </button>
+      <div className="rehearsal-centre">
+        <div className="rehearsal-centre-label">Practise one real response</div>
+        {!output && (
+          <p className="ws-rehearsal-hint-text">Generate rehearsal questions first, then select and answer the one most likely to challenge your recommendation.</p>
+        )}
+        {questions.length > 0 && (
+          <>
+            <div className="rehearsal-question-block">
+              <label className="ws-guidance-label" htmlFor="rehearsal-question">Select your challenge</label>
+              <select
+                id="rehearsal-question"
+                className="ws-select"
+                value={selectedQuestionId}
+                disabled={readOnly || complete}
+                onChange={e => setSelectedQuestionId(e.target.value)}
+              >
+                {questions.map(q => <option key={q.id} value={q.id}>{q.text}</option>)}
+              </select>
+              {selectedQuestion && (
+                <div className="rehearsal-challenge">{selectedQuestion.text}</div>
               )}
             </div>
-          )}
 
-          {complete && (
-            <div className="ws-answer-preview">
-              <div className="ws-input-preview-label">Rehearsal complete</div>
-              <div className="ws-answer-text">“{rehearsal?.preferredResponse}”</div>
+            <label className="ws-guidance-label" htmlFor="rehearsal-response">Your response</label>
+            <textarea
+              id="rehearsal-response"
+              className="ws-textarea rehearsal-response-textarea"
+              value={responseText}
+              readOnly={readOnly || complete}
+              onChange={e => setResponseText(e.target.value)}
+              placeholder="Answer as you would in the real conversation…"
+              rows={8}
+            />
+
+            {!readOnly && !submitted && (
+              <div className="ws-user-input-actions">
+                <button className="btn btn-ghost" onClick={saveDraft} disabled={!responseText.trim()}>Save draft</button>
+                <button className="btn btn-primary" onClick={submitResponse} disabled={!responseText.trim()}>Submit response →</button>
+              </div>
+            )}
+
+            {submitted && !complete && (
+              <div className="ws-refinement-card">
+                <div className="ws-input-preview-label">Preferred refined response</div>
+                <p className="ws-rehearsal-hint-text">Generate the Refine stage, then paste or edit the version you will use.</p>
+                <textarea
+                  className="ws-textarea"
+                  value={preferredResponse}
+                  readOnly={readOnly}
+                  onChange={e => setPreferredResponse(e.target.value)}
+                  placeholder="Save the response you will use…"
+                  rows={5}
+                />
+                {!readOnly && (
+                  <button className="btn btn-primary" onClick={completeRehearsal} disabled={!preferredResponse.trim()}>
+                    Save preferred response
+                  </button>
+                )}
+              </div>
+            )}
+
+            {complete && (
+              <div className="ws-answer-preview">
+                <div className="ws-input-preview-label">Rehearsal complete</div>
+                <div className="ws-answer-text">"{rehearsal?.preferredResponse}"</div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {hasIntake && (
+        <aside className="rehearsal-objective-panel">
+          <div className="rcp-section-label">Your objective</div>
+          {intakeValues.outcome && (
+            <div className="rcp-item">
+              <span className="rcp-item-label">Desired outcome</span>
+              <span className="rcp-item-value">{intakeValues.outcome}</span>
             </div>
           )}
-        </>
+          <div className="rcp-item">
+            <span className="rcp-item-label">Progress</span>
+            <span className="rcp-item-value">
+              {complete ? 'Rehearsal complete'
+               : submitted ? 'Response submitted — refine next'
+               : responseText.trim() ? 'Draft in progress'
+               : 'Awaiting your response'}
+            </span>
+          </div>
+          {intakeValues.confidence && (
+            <div className="rcp-item">
+              <span className="rcp-item-label">Starting confidence</span>
+              <span className="rcp-item-value">{intakeValues.confidence} / 10</span>
+            </div>
+          )}
+        </aside>
       )}
     </div>
   );

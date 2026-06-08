@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ALL_PILOTS, getPilotById } from './data/pilots';
 import { usePilotState } from './hooks/usePilotState';
 import { STAGE_AGENTS, checkDependency } from './services/agents';
@@ -17,6 +17,11 @@ import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
 import { ComparisonPage } from './components/ComparisonPage';
 import type { AppMode, RehearsalState, StageOutput, StageStatus, PilotState } from './data/types';
+
+const SCENARIO_PILOT_MAP: Record<string, string> = {
+  'VALOUR-S01': 'PILOT-001',
+  'VALOUR-S02': 'PILOT-002',
+};
 
 type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison';
 
@@ -39,6 +44,13 @@ function getMode(): AppMode {
   return mode === 'developer' || mode === 'facilitator' ? mode : 'participant';
 }
 
+function consoleHashWithoutNew() {
+  const params = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
+  params.delete('new');
+  const query = params.toString();
+  return `${window.location.pathname}#console${query ? `?${query}` : ''}`;
+}
+
 export function App() {
   const [page, setPage] = useState<Page>(getPage);
 
@@ -51,7 +63,16 @@ export function App() {
   const nav = (hash: string) => () => { window.location.hash = hash; };
 
   if (page === 'landing') {
-    return <LandingPage onEnterConsole={nav('#console')} onViewScenarios={nav('#scenarios')} />;
+    return (
+      <LandingPage
+        onEnterConsole={nav('#console')}
+        onStartNew={(sid) => {
+          window.location.hash = sid ? `#console?new=1&scenario=${sid}` : '#console?new=1';
+        }}
+        onJoinPilot={nav('#console?new=1')}
+        onViewScenarios={nav('#scenarios')}
+      />
+    );
   }
 
   if (page === 'pattern') {
@@ -83,28 +104,42 @@ export function App() {
   }
 
   if (page === 'scenarios') {
-    return <ScenariosPage onBack={nav('')} onSelectScenario={title => {
-      const pilot = title === 'Executive Design Challenge' || title === 'Executive Briefing'
-        ? 'PILOT-002'
-        : 'PILOT-001';
-      window.location.hash = `#console?pilot=${pilot}`;
-    }} />;
+    return (
+      <ScenariosPage
+        onBack={nav('')}
+        onSelectScenario={id => { window.location.hash = `#console?new=1&scenario=${encodeURIComponent(id)}`; }}
+      />
+    );
   }
 
   if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
   if (page === 'comparison') return <ComparisonPage onBack={nav('#console')} />;
 
-  const activePilotId = getParam('pilot') ?? 'PILOT-001';
+  const scenarioId = getParam('scenario');
+  const activePilotId = getParam('pilot') ?? (scenarioId ? (SCENARIO_PILOT_MAP[scenarioId] ?? 'PILOT-001') : 'PILOT-001');
+  const isNewSession = getParam('new') === '1';
+
   return (
     <Console
       pilotId={activePilotId}
       mode={getMode()}
+      isNewSession={isNewSession}
       onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
     />
   );
 }
 
-function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppMode; onViewPattern: () => void }) {
+function Console({
+  pilotId,
+  mode,
+  isNewSession,
+  onViewPattern,
+}: {
+  pilotId: string;
+  mode: AppMode;
+  isNewSession: boolean;
+  onViewPattern: () => void;
+}) {
   const pilot = getPilotById(pilotId);
   const { state, setOutput, setStatus, setUserInput, setRehearsal, appendLog, resetPilot } = usePilotState(pilot.id, pilot.stages);
 
@@ -113,7 +148,29 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
     if (id === 'stage-04-rehearsal') return state.rehearsal?.status !== 'complete';
     return !state.entries[id]?.output && state.entries[id]?.status !== 'complete';
   });
-  const [activeIndex, setActiveIndex] = useState(Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending));
+  const [activeIndex, setActiveIndex] = useState(isNewSession ? 0 : Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending));
+
+  const hasExistingProgress = useMemo(() => {
+    if (!isNewSession) return false;
+    try {
+      const saved = localStorage.getItem(`valour:state:${pilotId}`);
+      if (!saved) return false;
+      const parsed = JSON.parse(saved) as PilotState;
+      return !!(parsed.entries?.['stage-01-intake']?.userInput ||
+                parsed.entries?.[pilot.stages[0]?.id]?.userInput);
+    } catch { return false; }
+  }, [pilotId, isNewSession, pilot.stages]);
+
+  const [showResumeDialog, setShowResumeDialog] = useState(hasExistingProgress);
+
+  useEffect(() => {
+    if (isNewSession && !hasExistingProgress) {
+      resetPilot();
+      setActiveIndex(0);
+      window.history.replaceState(null, '', consoleHashWithoutNew());
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const nextPending = stageIds.findIndex(id => {
@@ -171,6 +228,17 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
   const completedStageIds = liveStages.filter(s => s.status === 'complete' || s.evidenceCaptured).map(s => s.id);
   const rehearsalAnswer = state.rehearsal?.response?.responseText;
 
+  const rehearsalIdx = pilot.stages.findIndex(s => s.label === 'Rehearsal');
+  const canContinue = (() => {
+    if (mode !== 'participant') return true;
+    if (rehearsalIdx > 0 && activeIndex === rehearsalIdx - 1) {
+      return !!activeEntry.output;
+    }
+    return true;
+  })();
+
+  const intakeEntry = state.entries[pilot.stages[0]?.id ?? ''] ?? state.entries['stage-01-intake'];
+
   async function handleGenerate() {
     const agentFn = STAGE_AGENTS[activeStage.id];
     if (!agentFn || !dependency.ok) return;
@@ -198,10 +266,45 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
     else if (rehearsal.response?.status === 'submitted') setStatus('stage-04-rehearsal', 'draft');
   }
 
+  if (showResumeDialog) {
+    return (
+      <div className="resume-overlay">
+        <div className="resume-dialog">
+          <div className="resume-dialog-logo">VALOUR™</div>
+          <h2 className="resume-dialog-title">You have a session in progress</h2>
+          <p className="resume-dialog-body">
+            Resume where you left off, or start fresh. Starting fresh permanently clears your current progress.
+          </p>
+          <div className="resume-dialog-actions">
+            <button
+              className="btn btn-primary resume-btn"
+              onClick={() => {
+                setShowResumeDialog(false);
+                window.history.replaceState(null, '', consoleHashWithoutNew());
+              }}
+            >
+              Resume session
+            </button>
+            <button
+              className="btn btn-ghost resume-btn"
+              onClick={() => {
+                resetPilot();
+                setActiveIndex(0);
+                setShowResumeDialog(false);
+                window.history.replaceState(null, '', consoleHashWithoutNew());
+              }}
+            >
+              Start fresh — clear my progress
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const workspace = (
     <StageWorkspace
       stage={activeStage}
-      stageIds={stageIds}
       entry={activeEntry}
       index={activeIndex}
       total={pilot.stages.length}
@@ -211,6 +314,8 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
       rehearsalAnswer={rehearsalAnswer}
       rehearsal={state.rehearsal}
       mode={mode}
+      canContinue={canContinue}
+      intakeEntry={intakeEntry}
       onGenerate={handleGenerate}
       onSaveOutput={handleSaveOutput}
       onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
@@ -227,7 +332,7 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
         pilot={{ ...pilot, stages: liveStages }}
         mode={mode}
         custosOpen={custosOpen}
-        onOpenCustos={openCustos}
+        onOpenCustos={isParticipant ? openCustos : undefined}
         onViewPattern={onViewPattern}
         onViewReadiness={() => { window.location.hash = '#readiness'; }}
         onViewComparison={() => { window.location.hash = '#comparison'; }}
@@ -254,14 +359,29 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
             scenario={pilot.scenario}
             activeIndex={activeIndex}
             onSelect={setActiveIndex}
-            allPilots={ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status }))}
+            mode={mode}
+            allPilots={(isDeveloper || isFacilitator) ? ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status })) : []}
             onSwitchPilot={switchPilot}
           />
           <main className="main">
-            {isDeveloper && <div className="console-provider-row"><ProviderBadge /></div>}
-            {isFacilitator && <div className="mode-banner"><strong>Facilitator view</strong><span>Review progress and evidence without changing participant content.</span></div>}
+            {isDeveloper && (
+              <div className="console-provider-row">
+                <ProviderBadge />
+              </div>
+            )}
+            {isFacilitator && (
+              <div className="mode-banner">
+                <strong>Facilitator view</strong>
+                <span>Review progress and evidence without changing participant content.</span>
+              </div>
+            )}
             {workspace}
-            <div className="bottom-row"><EvidencePanel evidence={pilot.evidence} /><ProductDecisionPanel decision={pilot.productDecision} /></div>
+            {(isDeveloper || isFacilitator) && (
+              <div className="bottom-row">
+                <EvidencePanel evidence={pilot.evidence} />
+                <ProductDecisionPanel decision={pilot.productDecision} />
+              </div>
+            )}
             {isDeveloper && <AgentLogPanel log={state.runLog ?? []} />}
             {isDeveloper && <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />}
           </main>

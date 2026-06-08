@@ -1,6 +1,10 @@
 {
-  "buildCommand": "cd app && npm install && npm run build",
-  "outputDirectory": "app/dist",
   "framework": null,
-  "cleanUrls": true
+  "installCommand": "echo skip-install",
+  "buildCommand": "echo skip-build",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

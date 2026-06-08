@@ -33,7 +33,15 @@ function displayCopy(value: string) {
     .replace(/\bPilot Console\b/g, 'VALOUR workspace');
 }
 
-export function CustosPanel({ page, isOpen, activeStage, activeEntry, onApplyOutput, onOpen, onClose }: CustosPanelProps) {
+export function CustosPanel({
+  page,
+  isOpen,
+  activeStage,
+  activeEntry,
+  onApplyOutput,
+  onOpen,
+  onClose,
+}: CustosPanelProps) {
   const [activeView, setActiveView] = useState<ActiveView>('guide');
   const [quickActionLabel, setQuickActionLabel] = useState('');
   const [quickActionResult, setQuickActionResult] = useState('');
