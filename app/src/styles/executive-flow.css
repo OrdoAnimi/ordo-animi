@@ -1,0 +1,250 @@
+.exec-nav-actions .exec-btn-dark {
+  background: linear-gradient(180deg, #d6b875 0%, #b98a3b 100%) !important;
+  color: #151713 !important;
+  border-color: #9d7430 !important;
+  box-shadow: 0 10px 24px rgba(120, 84, 27, 0.22), inset 0 1px 0 rgba(255,255,255,.5) !important;
+}
+.exec-nav-actions .exec-btn-dark:hover {
+  background: linear-gradient(180deg, #e0c88e 0%, #c89b4d 100%) !important;
+}
+
+.scenarios-page {
+  --paper: #f4f0e7;
+  --paper-2: #e9e1d3;
+  --ink: #151713;
+  --muted: #656b63;
+  --rule: rgba(21, 23, 19, .16);
+  --gold: #b98a3b;
+  max-width: none !important;
+  min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 0 96px !important;
+  background: var(--paper);
+  color: var(--ink);
+}
+.scenarios-page .pattern-nav {
+  width: min(1440px, calc(100% - 48px));
+  margin: 0 auto;
+  min-height: 82px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--rule);
+}
+.scenarios-page .pattern-back {
+  justify-self: start;
+  background: rgba(255,255,255,.45);
+  color: var(--ink);
+  border: 1px solid rgba(21,23,19,.22);
+  border-radius: 3px;
+  padding: 10px 16px;
+  box-shadow: 0 6px 16px rgba(21,23,19,.07), inset 0 1px 0 rgba(255,255,255,.72);
+}
+.scenarios-page .landing-logo {
+  color: var(--ink);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 25px;
+  letter-spacing: .04em;
+}
+.scenarios-page .pattern-nav-title {
+  justify-self: end;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.scenarios-page .scenarios-hero {
+  width: min(1440px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 84px 0 54px;
+  display: grid;
+  grid-template-columns: .7fr 1.3fr;
+  column-gap: 72px;
+  align-items: end;
+}
+.scenarios-page .landing-eyebrow {
+  color: #8d6728;
+  font-size: 11px;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  font-weight: 700;
+  align-self: start;
+  padding-top: 10px;
+}
+.scenarios-page .pattern-heading {
+  grid-column: 2;
+  color: var(--ink);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: 1.03;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+.scenarios-page .scenarios-sub {
+  grid-column: 2;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 720px;
+  margin: 0;
+}
+.scenarios-page .scenarios-grid-2col {
+  width: min(1440px, calc(100% - 48px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.scenarios-page .scenario-card-v2 {
+  min-height: 330px;
+  padding: 30px;
+  background: rgba(255,255,255,.28);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  color: var(--ink);
+  gap: 16px;
+  box-shadow: none;
+  transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.scenarios-page .scenario-card-v2:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.58);
+  border-color: rgba(141,103,40,.42);
+  box-shadow: 0 16px 34px rgba(21,23,19,.08);
+}
+.scenarios-page .scenario-card-v2-title {
+  color: var(--ink);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.12;
+}
+.scenarios-page .scenario-card-v2-tension {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.scenarios-page .scenario-card-v2-meta {
+  gap: 8px;
+}
+.scenarios-page .scenario-meta-chip,
+.scenarios-page .badge-difficulty-neutral {
+  background: transparent;
+  border: 1px solid rgba(21,23,19,.18);
+  border-radius: 999px;
+  color: #6f6049;
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+.scenarios-page .scenario-card-v2-cta {
+  width: 100%;
+  min-height: 48px;
+  margin-top: auto;
+  border-radius: 3px;
+  border: 1px solid #9d7430;
+  background: linear-gradient(180deg, #d6b875 0%, #b98a3b 100%);
+  color: #151713;
+  font-weight: 700;
+  box-shadow: 0 9px 20px rgba(120,84,27,.16), inset 0 1px 0 rgba(255,255,255,.55);
+}
+.scenarios-page .scenario-card-v2-cta:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, #e0c88e 0%, #c89b4d 100%);
+}
+
+.resume-overlay {
+  background: rgba(15,18,15,.78) !important;
+  backdrop-filter: blur(10px);
+}
+.resume-dialog {
+  max-width: 560px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  background: #f4f0e7 !important;
+  border: 1px solid rgba(214,184,117,.44) !important;
+  border-radius: 4px !important;
+  color: #151713;
+  box-shadow: 0 28px 80px rgba(0,0,0,.34) !important;
+}
+.resume-dialog::before {
+  content: '';
+  display: block;
+  height: 7px;
+  background: linear-gradient(90deg, #b98a3b, #d6b875);
+}
+.resume-dialog-logo,
+.resume-dialog-title,
+.resume-dialog-body,
+.resume-dialog-actions {
+  margin-left: 38px;
+  margin-right: 38px;
+}
+.resume-dialog-logo {
+  margin-top: 34px;
+  margin-bottom: 14px !important;
+  color: #8d6728 !important;
+  font-size: 11px !important;
+  letter-spacing: .16em !important;
+}
+.resume-dialog-title {
+  color: #151713 !important;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 34px !important;
+  font-weight: 600 !important;
+  line-height: 1.08 !important;
+  margin-bottom: 16px !important;
+}
+.resume-dialog-body {
+  color: #5f655d !important;
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  margin-bottom: 26px !important;
+}
+.resume-dialog-actions {
+  margin-bottom: 38px;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px !important;
+}
+.resume-dialog .resume-btn {
+  min-height: 50px;
+  border-radius: 3px !important;
+  font-weight: 700;
+}
+.resume-dialog .btn-primary {
+  background: linear-gradient(180deg, #d6b875 0%, #b98a3b 100%) !important;
+  border-color: #9d7430 !important;
+  color: #151713 !important;
+  box-shadow: 0 10px 22px rgba(120,84,27,.18), inset 0 1px 0 rgba(255,255,255,.55);
+}
+.resume-dialog .btn-ghost,
+.resume-dialog .btn-danger {
+  background: rgba(255,255,255,.4) !important;
+  border: 1px solid rgba(21,23,19,.22) !important;
+  color: #4e534c !important;
+}
+
+@media (max-width: 800px) {
+  .scenarios-page .pattern-nav,
+  .scenarios-page .scenarios-hero,
+  .scenarios-page .scenarios-grid-2col {
+    width: min(100% - 28px, 1440px);
+  }
+  .scenarios-page .pattern-nav {
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+  }
+  .scenarios-page .pattern-nav-title { display: none; }
+  .scenarios-page .scenarios-hero {
+    grid-template-columns: 1fr;
+    padding: 56px 0 38px;
+  }
+  .scenarios-page .pattern-heading,
+  .scenarios-page .scenarios-sub { grid-column: 1; }
+  .scenarios-page .landing-eyebrow { margin-bottom: 20px; }
+  .scenarios-page .scenarios-grid-2col { grid-template-columns: 1fr; }
+  .resume-dialog-actions { grid-template-columns: 1fr !important; }
+}
