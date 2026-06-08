@@ -51,16 +51,7 @@ export function App() {
   const nav = (hash: string) => () => { window.location.hash = hash; };
 
   if (page === 'landing') {
-    return (
-      <>
-        <LandingPage
-          onEnterConsole={nav('#console')}
-          onJoinPilot={nav('#console')}
-          onViewScenarios={nav('#scenarios')}
-        />
-        <CustosPanel page="landing" />
-      </>
-    );
+    return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#console')} onViewScenarios={nav('#scenarios')} />;
   }
 
   if (page === 'pattern') {
@@ -92,12 +83,7 @@ export function App() {
   }
 
   if (page === 'scenarios') {
-    return (
-      <ScenariosPage
-        onBack={nav('')}
-        onSelectScenario={title => { window.location.hash = `#console?scenario=${encodeURIComponent(title)}`; }}
-      />
-    );
+    return <ScenariosPage onBack={nav('')} onSelectScenario={title => { window.location.hash = `#console?scenario=${encodeURIComponent(title)}`; }} />;
   }
 
   if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
@@ -136,6 +122,7 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
   const activeEntry = state.entries[activeStage.id] ?? { stageId: activeStage.id, status: 'not-started' as StageStatus };
   const isDeveloper = mode === 'developer';
   const isFacilitator = mode === 'facilitator';
+  const isParticipant = mode === 'participant';
 
   const liveStages = pilot.stages.map(s => ({
     ...s,
@@ -163,11 +150,7 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
   function handleSaveOutput(output: StageOutput) {
     setOutput(activeStage.id, output);
     if (activeStage.id === 'stage-05-language' && state.rehearsal?.response?.status === 'submitted') {
-      setRehearsal({
-        ...state.rehearsal,
-        preferredResponse: output.content,
-        status: 'complete',
-      });
+      setRehearsal({ ...state.rehearsal, preferredResponse: output.content, status: 'complete' });
       setStatus('stage-04-rehearsal', 'complete');
     }
   }
@@ -182,15 +165,48 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
     else if (rehearsal.response?.status === 'submitted') setStatus('stage-04-rehearsal', 'draft');
   }
 
+  const workspace = (
+    <StageWorkspace
+      stage={activeStage}
+      entry={activeEntry}
+      index={activeIndex}
+      total={pilot.stages.length}
+      hasAgent={activeStage.id in STAGE_AGENTS}
+      dependency={dependency}
+      completedStageIds={completedStageIds}
+      rehearsalAnswer={rehearsalAnswer}
+      rehearsal={state.rehearsal}
+      mode={mode}
+      onGenerate={handleGenerate}
+      onSaveOutput={handleSaveOutput}
+      onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
+      onSaveRehearsal={saveRehearsal}
+      onCycleStatus={(status) => setStatus(activeStage.id, status)}
+      onPrev={() => setActiveIndex(i => Math.max(0, i - 1))}
+      onNext={() => setActiveIndex(i => Math.min(pilot.stages.length - 1, i + 1))}
+    />
+  );
+
   return (
-    <>
-      <div className={`shell mode-${mode}`}>
-        <TopBar
-          pilot={{ ...pilot, stages: liveStages }}
-          onViewPattern={onViewPattern}
-          onViewReadiness={() => { window.location.hash = '#readiness'; }}
-          onViewComparison={() => { window.location.hash = '#comparison'; }}
-        />
+    <div className={`shell mode-${mode}`}>
+      <TopBar
+        pilot={{ ...pilot, stages: liveStages }}
+        onViewPattern={onViewPattern}
+        onViewReadiness={() => { window.location.hash = '#readiness'; }}
+        onViewComparison={() => { window.location.hash = '#comparison'; }}
+      />
+
+      {isParticipant ? (
+        <div className="participant-landscape-grid">
+          <main className="main participant-main">{workspace}</main>
+          <CustosPanel
+            page="console"
+            activeStage={activeStage}
+            activeEntry={activeEntry}
+            onApplyOutput={(content) => setOutput(activeStage.id, { content, source: 'manual', generatedAt: new Date().toISOString() })}
+          />
+        </div>
+      ) : (
         <div className="body">
           <Sidebar
             stages={liveStages}
@@ -198,65 +214,19 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
             scenario={pilot.scenario}
             activeIndex={activeIndex}
             onSelect={setActiveIndex}
-            allPilots={(isDeveloper || isFacilitator) ? ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status })) : []}
+            allPilots={ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status }))}
             onSwitchPilot={switchPilot}
           />
           <main className="main">
-            {isDeveloper && (
-              <div className="console-provider-row">
-                <ProviderBadge />
-              </div>
-            )}
-            {isFacilitator && (
-              <div className="mode-banner">
-                <strong>Facilitator view</strong>
-                <span>Review progress and evidence without changing participant content.</span>
-              </div>
-            )}
-            <StageWorkspace
-              stage={activeStage}
-              entry={activeEntry}
-              index={activeIndex}
-              total={pilot.stages.length}
-              hasAgent={activeStage.id in STAGE_AGENTS}
-              dependency={dependency}
-              completedStageIds={completedStageIds}
-              rehearsalAnswer={rehearsalAnswer}
-              rehearsal={state.rehearsal}
-              mode={mode}
-              onGenerate={handleGenerate}
-              onSaveOutput={handleSaveOutput}
-              onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
-              onSaveRehearsal={saveRehearsal}
-              onCycleStatus={(status) => setStatus(activeStage.id, status)}
-              onPrev={() => setActiveIndex(i => Math.max(0, i - 1))}
-              onNext={() => setActiveIndex(i => Math.min(pilot.stages.length - 1, i + 1))}
-            />
-            {(isDeveloper || isFacilitator) && (
-              <div className="bottom-row">
-                <EvidencePanel evidence={pilot.evidence} />
-                <ProductDecisionPanel decision={pilot.productDecision} />
-              </div>
-            )}
+            {isDeveloper && <div className="console-provider-row"><ProviderBadge /></div>}
+            {isFacilitator && <div className="mode-banner"><strong>Facilitator view</strong><span>Review progress and evidence without changing participant content.</span></div>}
+            {workspace}
+            <div className="bottom-row"><EvidencePanel evidence={pilot.evidence} /><ProductDecisionPanel decision={pilot.productDecision} /></div>
             {isDeveloper && <AgentLogPanel log={state.runLog ?? []} />}
             {isDeveloper && <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />}
           </main>
         </div>
-      </div>
-      {mode === 'participant' && (
-        <CustosPanel
-          page="console"
-          activeStage={activeStage}
-          activeEntry={activeEntry}
-          onApplyOutput={(content) =>
-            setOutput(activeStage.id, {
-              content,
-              source: 'manual',
-              generatedAt: new Date().toISOString(),
-            })
-          }
-        />
       )}
-    </>
+    </div>
   );
 }
