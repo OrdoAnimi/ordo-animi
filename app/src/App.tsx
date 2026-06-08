@@ -16,22 +16,27 @@ import { PatternPage } from './components/PatternPage';
 import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
 import { ComparisonPage } from './components/ComparisonPage';
-import type { StageOutput, StageStatus, PilotState } from './data/types';
+import type { AppMode, RehearsalState, StageOutput, StageStatus, PilotState } from './data/types';
 
 type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison';
 
 function getPage(): Page {
   const h = window.location.hash;
-  if (h.startsWith('#console'))    return 'console';
-  if (h.startsWith('#pattern'))    return 'pattern';
-  if (h === '#scenarios')          return 'scenarios';
-  if (h === '#readiness')          return 'readiness';
-  if (h === '#comparison')         return 'comparison';
+  if (h.startsWith('#console')) return 'console';
+  if (h.startsWith('#pattern')) return 'pattern';
+  if (h === '#scenarios') return 'scenarios';
+  if (h === '#readiness') return 'readiness';
+  if (h === '#comparison') return 'comparison';
   return 'landing';
 }
 
 function getParam(key: string): string | null {
   return new URLSearchParams(window.location.hash.split('?')[1] ?? '').get(key);
+}
+
+function getMode(): AppMode {
+  const mode = getParam('mode');
+  return mode === 'developer' || mode === 'facilitator' ? mode : 'participant';
 }
 
 export function App() {
@@ -95,59 +100,61 @@ export function App() {
     );
   }
 
-  if (page === 'readiness')   return <ReadinessPage onBack={nav('#console')} />;
-
-  if (page === 'comparison')  return <ComparisonPage onBack={nav('#console')} />;
+  if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
+  if (page === 'comparison') return <ComparisonPage onBack={nav('#console')} />;
 
   const activePilotId = getParam('pilot') ?? 'PILOT-001';
   return (
     <Console
       pilotId={activePilotId}
+      mode={getMode()}
       onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
     />
   );
 }
 
-// ── Console ─────────────────────────────────────────────────────────────────────
-
-function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: () => void }) {
+function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppMode; onViewPattern: () => void }) {
   const pilot = getPilotById(pilotId);
-  const { state, setOutput, setStatus, setUserInput, appendLog, resetPilot } = usePilotState(pilot.id, pilot.stages);
+  const { state, setOutput, setStatus, setUserInput, setRehearsal, appendLog, resetPilot } = usePilotState(pilot.id, pilot.stages);
 
   const stageIds = pilot.stages.map(s => s.id);
-  const firstPending = stageIds.findIndex(id => !state.entries[id]?.output && state.entries[id]?.status !== 'complete');
-  const [activeIndex, setActiveIndex] = useState(
-    Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending)
-  );
+  const firstPending = stageIds.findIndex(id => {
+    if (id === 'stage-04-rehearsal') return state.rehearsal?.status !== 'complete';
+    return !state.entries[id]?.output && state.entries[id]?.status !== 'complete';
+  });
+  const [activeIndex, setActiveIndex] = useState(Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending));
 
-  const activeStage = pilot.stages[activeIndex];
+  useEffect(() => {
+    const nextPending = stageIds.findIndex(id => {
+      if (id === 'stage-04-rehearsal') return state.rehearsal?.status !== 'complete';
+      return !state.entries[id]?.output && state.entries[id]?.status !== 'complete';
+    });
+    setActiveIndex(Math.max(0, nextPending === -1 ? stageIds.length - 1 : nextPending));
+  }, [pilot.id]);
+
+  const activeStage = pilot.stages[activeIndex] ?? pilot.stages[0];
   const activeEntry = state.entries[activeStage.id] ?? { stageId: activeStage.id, status: 'not-started' as StageStatus };
+  const isDeveloper = mode === 'developer';
+  const isFacilitator = mode === 'facilitator';
 
   const liveStages = pilot.stages.map(s => ({
     ...s,
-    status: state.entries[s.id]?.status ?? s.status,
-    evidenceCaptured: !!state.entries[s.id]?.output,
+    status: s.id === 'stage-04-rehearsal' && state.rehearsal?.status === 'complete'
+      ? 'complete' as StageStatus
+      : state.entries[s.id]?.status ?? s.status,
+    evidenceCaptured: s.id === 'stage-04-rehearsal'
+      ? state.rehearsal?.response?.status === 'submitted'
+      : !!state.entries[s.id]?.output,
   }));
 
   const dependency = checkDependency(activeStage.id, state);
-
-  const completedStageIds = Object.keys(state.entries).filter(id => !!state.entries[id]?.output);
-
-  const rehearsalAnswer = (() => {
-    const raw = state.entries['stage-04-rehearsal']?.userInput;
-    if (!raw?.trim()) return undefined;
-    try {
-      const parsed = JSON.parse(raw) as { answer?: string };
-      if (parsed.answer?.trim()) return parsed.answer;
-    } catch { /* ignore */ }
-    return raw || undefined;
-  })();
+  const completedStageIds = liveStages.filter(s => s.status === 'complete' || s.evidenceCaptured).map(s => s.id);
+  const rehearsalAnswer = state.rehearsal?.response?.responseText;
 
   async function handleGenerate() {
     const agentFn = STAGE_AGENTS[activeStage.id];
     if (!agentFn || !dependency.ok) return;
-    const userInput = activeEntry.userInput ?? '';
-    const { output, logEntry } = await agentFn(pilot, state, userInput);
+    const { output, logEntry } = await agentFn(pilot, state, activeEntry.userInput ?? '');
     setOutput(activeStage.id, output);
     appendLog(logEntry);
     if (activeEntry.status === 'not-started') setStatus(activeStage.id, 'draft');
@@ -155,19 +162,29 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
 
   function handleSaveOutput(output: StageOutput) {
     setOutput(activeStage.id, output);
-  }
-
-  function handleCycleStatus(status: StageStatus) {
-    setStatus(activeStage.id, status);
+    if (activeStage.id === 'stage-05-language' && state.rehearsal?.response?.status === 'submitted') {
+      setRehearsal({
+        ...state.rehearsal,
+        preferredResponse: output.content,
+        status: 'complete',
+      });
+      setStatus('stage-04-rehearsal', 'complete');
+    }
   }
 
   function switchPilot(id: string) {
-    window.location.hash = `#console?pilot=${id}`;
+    window.location.hash = `#console?pilot=${id}&mode=${mode}`;
+  }
+
+  function saveRehearsal(rehearsal: RehearsalState) {
+    setRehearsal(rehearsal);
+    if (rehearsal.status === 'complete') setStatus('stage-04-rehearsal', 'complete');
+    else if (rehearsal.response?.status === 'submitted') setStatus('stage-04-rehearsal', 'draft');
   }
 
   return (
     <>
-      <div className="shell">
+      <div className={`shell mode-${mode}`}>
         <TopBar
           pilot={{ ...pilot, stages: liveStages }}
           onViewPattern={onViewPattern}
@@ -181,13 +198,21 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
             scenario={pilot.scenario}
             activeIndex={activeIndex}
             onSelect={setActiveIndex}
-            allPilots={ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status }))}
+            allPilots={(isDeveloper || isFacilitator) ? ALL_PILOTS.map(p => ({ id: p.id, title: p.title.replace('Pilot ', 'P').split(':')[0].trim(), status: p.status })) : []}
             onSwitchPilot={switchPilot}
           />
           <main className="main">
-            <div className="console-provider-row">
-              <ProviderBadge />
-            </div>
+            {isDeveloper && (
+              <div className="console-provider-row">
+                <ProviderBadge />
+              </div>
+            )}
+            {isFacilitator && (
+              <div className="mode-banner">
+                <strong>Facilitator view</strong>
+                <span>Review progress and evidence without changing participant content.</span>
+              </div>
+            )}
             <StageWorkspace
               stage={activeStage}
               entry={activeEntry}
@@ -197,34 +222,41 @@ function Console({ pilotId, onViewPattern }: { pilotId: string; onViewPattern: (
               dependency={dependency}
               completedStageIds={completedStageIds}
               rehearsalAnswer={rehearsalAnswer}
+              rehearsal={state.rehearsal}
+              mode={mode}
               onGenerate={handleGenerate}
               onSaveOutput={handleSaveOutput}
               onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
-              onCycleStatus={handleCycleStatus}
+              onSaveRehearsal={saveRehearsal}
+              onCycleStatus={(status) => setStatus(activeStage.id, status)}
               onPrev={() => setActiveIndex(i => Math.max(0, i - 1))}
               onNext={() => setActiveIndex(i => Math.min(pilot.stages.length - 1, i + 1))}
             />
-            <div className="bottom-row">
-              <EvidencePanel evidence={pilot.evidence} />
-              <ProductDecisionPanel decision={pilot.productDecision} />
-            </div>
-            <AgentLogPanel log={state.runLog ?? []} />
-            <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />
+            {(isDeveloper || isFacilitator) && (
+              <div className="bottom-row">
+                <EvidencePanel evidence={pilot.evidence} />
+                <ProductDecisionPanel decision={pilot.productDecision} />
+              </div>
+            )}
+            {isDeveloper && <AgentLogPanel log={state.runLog ?? []} />}
+            {isDeveloper && <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />}
           </main>
         </div>
       </div>
-      <CustosPanel
-        page="console"
-        activeStage={activeStage}
-        activeEntry={activeEntry}
-        onApplyOutput={(content) =>
-          setOutput(activeStage.id, {
-            content,
-            source: 'manual',
-            generatedAt: new Date().toISOString(),
-          })
-        }
-      />
+      {mode === 'participant' && (
+        <CustosPanel
+          page="console"
+          activeStage={activeStage}
+          activeEntry={activeEntry}
+          onApplyOutput={(content) =>
+            setOutput(activeStage.id, {
+              content,
+              source: 'manual',
+              generatedAt: new Date().toISOString(),
+            })
+          }
+        />
+      )}
     </>
   );
 }
