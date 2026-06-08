@@ -52,8 +52,15 @@ function buildContext(pilot: PilotRun, state: PilotState, extra?: Partial<AgentC
 
   const previousOutputs: Record<string, string> = {};
   for (const [id, entry] of Object.entries(state.entries)) {
-    if (entry.output?.content) previousOutputs[id] = entry.output.content;
-    if (entry.userInput) previousOutputs[`${id}:userInput`] = entry.userInput;
+    const canonical = canonicalStage(id);
+    if (entry.output?.content) {
+      previousOutputs[id] = entry.output.content;
+      if (canonical !== id) previousOutputs[canonical] = entry.output.content;
+    }
+    if (entry.userInput) {
+      previousOutputs[`${id}:userInput`] = entry.userInput;
+      if (canonical !== id) previousOutputs[`${canonical}:userInput`] = entry.userInput;
+    }
   }
   if (state.rehearsal?.response?.responseText) previousOutputs['stage-04-rehearsal:userInput'] = state.rehearsal.response.responseText;
   if (state.rehearsal?.preferredResponse) previousOutputs['stage-05-language:preferredResponse'] = state.rehearsal.preferredResponse;
