@@ -3,15 +3,15 @@ type Props = { onEnterConsole: () => void; onViewScenarios: () => void };
 const FEATURED_SCENARIOS = [
   {
     title: 'Architecture Review Board',
-    description: 'Prepare a recommendation, defend the trade-offs, and secure a clear decision.',
+    description: 'Prepare for difficult technical, delivery, and risk questions before the review happens.',
   },
   {
     title: 'Executive Design Challenge',
-    description: 'Turn technical detail into executive language without losing architectural integrity.',
+    description: 'Explain trade-offs and secure executive confidence without drowning leaders in detail.',
   },
   {
     title: 'Stakeholder Conflict Meeting',
-    description: 'Navigate disagreement, delivery pressure, and competing priorities with clarity.',
+    description: 'Handle disagreement, delivery pressure, and competing priorities with clearer language.',
   },
 ];
 
