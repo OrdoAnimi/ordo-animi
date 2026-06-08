@@ -1,138 +1,167 @@
 type Props = { onEnterConsole: () => void; onJoinPilot: () => void; onViewScenarios: () => void };
 
-const SCENARIOS = [
-  'Architecture review board',
-  'Executive briefing',
-  'Discovery workshop',
-  'Challenging a poor solution',
-  'Security or risk pushback',
-  'Delivery conflict',
-  'Architecture trade-off explanation',
-  'Strategy-to-architecture translation',
-  'First meeting with a new team',
-  'End-of-day handover',
+const FEATURED_SCENARIOS = [
+  {
+    title: 'Architecture Review Board',
+    description: 'Prepare for difficult technical, delivery, and risk questions before the review happens.',
+  },
+  {
+    title: 'Executive Design Challenge',
+    description: 'Explain trade-offs and secure executive confidence without drowning leaders in detail.',
+  },
+  {
+    title: 'Stakeholder Conflict Meeting',
+    description: 'Handle disagreement, delivery pressure, and competing priorities with clearer language.',
+  },
+];
+
+const COPILOT_ACTIONS = [
+  'Identify missing context before the meeting',
+  'Challenge weak or unclear recommendations',
+  'Generate realistic executive questions',
+  'Refine responses into concise leadership language',
 ];
 
 export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
   return (
-    <div className="landing">
+    <div className="landing landing-reset">
 
-      <nav className="landing-nav">
-        <span className="landing-logo">VALOUR™</span>
-        <div className="landing-nav-links">
+      <nav className="landing-nav landing-nav-reset">
+        <div>
+          <div className="landing-logo">VALOUR™</div>
+          <div className="landing-nav-tag">Architecture leadership co-pilot</div>
+        </div>
+
+        <div className="landing-nav-links landing-nav-links-reset">
           <button className="landing-nav-link" onClick={onViewScenarios}>Scenarios</button>
-          <button className="landing-nav-link" onClick={onEnterConsole}>Console</button>
-          <button className="btn btn-primary landing-cta-nav" onClick={onEnterConsole}>
-            Enter VALOUR™ →
+          <button className="landing-nav-link" onClick={onEnterConsole}>Resume session</button>
+          <button className="btn btn-primary landing-cta-nav landing-cta-nav-reset" onClick={onEnterConsole}>
+            Start practice session
           </button>
         </div>
       </nav>
 
-      <section className="landing-hero">
-        <div className="landing-eyebrow">Architecture Leadership · AI Rehearsal</div>
-        <h1 className="landing-headline">
-          Prepare for the architecture conversations that decide trust.
-        </h1>
-        <p className="landing-subheadline">
-          VALOUR™ is an AI-assisted leadership rehearsal system for architects and technical leaders.
-          Prepare for review boards, executive briefings, workshops, stakeholder conflict,
-          and trade-off conversations — before the real meeting happens.
-        </p>
-        <div className="landing-hero-actions">
-          <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
-            Enter VALOUR™ →
-          </button>
-          <button className="btn btn-ghost landing-btn-lg" onClick={onViewScenarios}>
-            View scenarios
-          </button>
-        </div>
-      </section>
+      <section className="landing-hero landing-hero-reset">
 
-      <section className="landing-section">
-        <h2 className="landing-section-heading">
-          Architecture leadership fails in conversation before it fails in documentation.
-        </h2>
-        <p className="landing-section-body">
-          Architects are trained to produce frameworks, diagrams, decisions, and artefacts.
-          But the hardest moments are often human. Brief executives without drowning them in detail.
-          Challenge poor decisions without becoming the blocker. Explain risk without sounding negative.
-          Translate complexity into decisions others can act on. That leadership layer is rarely trained directly.
-        </p>
-      </section>
+        <div className="landing-main-column">
+          <div className="landing-eyebrow landing-eyebrow-reset">
+            Guided rehearsal for architects and technical leaders
+          </div>
 
-      <section className="landing-loop">
-        <div className="landing-eyebrow">The VALOUR™ loop</div>
-        {['Prepare', 'Rehearse', 'Perform', 'Review', 'Improve'].map((step, i) => (
-          <div key={step} className="loop-step">
-            <span className="loop-num">{String(i + 1).padStart(2, '0')}</span>
-            <span className="loop-label">{step}</span>
-          </div>
-        ))}
-      </section>
+          <h1 className="landing-headline landing-headline-reset">
+            Practise the architecture conversations that matter before they happen.
+          </h1>
 
-      <section className="landing-section">
-        <div className="landing-eyebrow">What you get</div>
-        <h2 className="landing-section-heading">Leave with something concrete.</h2>
-        <div className="outcomes-grid">
-          <div className="outcome-card">
-            <div className="outcome-num">5 → 8</div>
-            <div className="outcome-title">Confidence shift</div>
-            <p className="outcome-desc">A measurable confidence improvement from intake to completion, validated against your real situation.</p>
+          <p className="landing-subheadline landing-subheadline-reset">
+            VALOUR™ helps you prepare for review boards, executive briefings, difficult stakeholder conversations,
+            and architecture trade-off discussions. Bring a real situation, rehearse the difficult questions,
+            and leave with language you can use.
+          </p>
+
+          <div className="landing-hero-actions landing-hero-actions-reset">
+            <button className="btn btn-primary landing-btn-xl" onClick={onEnterConsole}>
+              Start a practice session
+            </button>
+
+            <button className="btn btn-ghost landing-btn-xl landing-btn-secondary" onClick={onViewScenarios}>
+              Explore scenarios
+            </button>
           </div>
-          <div className="outcome-card">
-            <div className="outcome-num" style={{ fontSize: '24px' }}>Better language</div>
-            <div className="outcome-title">Refined answers</div>
-            <p className="outcome-desc">Short, executive, empathetic, and decision-oriented versions of your key messages — ready to use.</p>
-          </div>
-          <div className="outcome-card">
-            <div className="outcome-num" style={{ fontSize: '20px' }}>One pattern</div>
-            <div className="outcome-title">Leadership insight</div>
-            <p className="outcome-desc">Your primary leadership communication pattern identified and named — with one clear next focus area.</p>
+
+          <div className="landing-flow-row">
+            {['Prepare', 'Rehearse', 'Refine', 'Perform'].map(step => (
+              <div key={step} className="landing-flow-card">
+                <div className="landing-flow-title">{step}</div>
+              </div>
+            ))}
           </div>
         </div>
+
+        <aside className="landing-custos-panel">
+          <div className="landing-custos-title">CUSTOS Guide</div>
+          <p className="landing-custos-body">
+            CUSTOS is your active AI guide inside VALOUR. It helps identify missing information,
+            challenges weak recommendations, and prepares you for likely executive questions.
+          </p>
+
+          <div className="landing-custos-subtitle">What CUSTOS can help with</div>
+
+          <div className="landing-custos-actions">
+            {COPILOT_ACTIONS.map(action => (
+              <div key={action} className="landing-custos-action">
+                {action}
+              </div>
+            ))}
+          </div>
+        </aside>
       </section>
 
-      <section className="landing-section">
-        <div className="landing-eyebrow">Scenario library</div>
-        <h2 className="landing-section-heading">Built for real architecture leadership moments.</h2>
-        <div className="scenario-grid">
-          {SCENARIOS.map(s => (
-            <div key={s} className="scenario-chip">{s}</div>
+      <section className="landing-section landing-section-reset">
+        <div className="landing-section-heading landing-section-heading-reset">
+          Start with one real leadership situation.
+        </div>
+
+        <div className="landing-scenario-grid-reset">
+          {FEATURED_SCENARIOS.map(scenario => (
+            <button
+              key={scenario.title}
+              className="landing-scenario-card"
+              onClick={onEnterConsole}
+            >
+              <div className="landing-scenario-card-title">{scenario.title}</div>
+              <div className="landing-scenario-card-description">{scenario.description}</div>
+              <div className="landing-scenario-card-action">Practise this scenario →</div>
+            </button>
           ))}
         </div>
-        <button className="btn btn-ghost" style={{ marginTop: '16px' }} onClick={onViewScenarios}>
-          View all scenarios →
-        </button>
-      </section>
 
-      <section className="landing-section landing-audience">
-        <div className="landing-eyebrow">Who it is for</div>
-        <p className="landing-section-body">
-          Enterprise architects, solution architects, cloud architects, security architects,
-          domain architects, principal consultants, architecture practice leads, and technical
-          leaders moving into advisory or leadership roles.
-        </p>
-      </section>
-
-      <section className="landing-section landing-cta-section">
-        <h2 className="landing-section-heading">Start with one real leadership situation.</h2>
-        <p className="landing-section-body">
-          Bring one upcoming conversation — a review board, an executive briefing, a difficult stakeholder meeting.
-          VALOUR™ helps you prepare it, rehearse it, refine the language, and review the result.
-        </p>
-        <div className="landing-hero-actions">
-          <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
-            Enter VALOUR™ →
+        <div className="landing-section-actions">
+          <button className="btn btn-ghost landing-btn-secondary" onClick={onViewScenarios}>
+            View all scenarios
           </button>
         </div>
       </section>
 
-      <footer className="landing-footer">
-        <span className="landing-logo">VALOUR™</span>
-        <span className="landing-footer-copy">
-          © 2026 ZenCloud Global Consultants · Proprietary and confidential ·{' '}
-          <a href="mailto:info@zencloud.com.au">info@zencloud.com.au</a>
-        </span>
+      <section className="landing-section landing-section-reset landing-results-section">
+        <div className="landing-section-heading landing-section-heading-reset">
+          What you leave with
+        </div>
+
+        <div className="landing-results-grid">
+          <div className="landing-result-card">
+            <div className="landing-result-title">Prepared responses</div>
+            <div className="landing-result-body">
+              Refined executive and stakeholder-ready language for the conversation you are preparing for.
+            </div>
+          </div>
+
+          <div className="landing-result-card">
+            <div className="landing-result-title">Real rehearsal</div>
+            <div className="landing-result-body">
+              Practice against difficult questions before the meeting happens.
+            </div>
+          </div>
+
+          <div className="landing-result-card">
+            <div className="landing-result-title">Leadership insight</div>
+            <div className="landing-result-body">
+              Clear patterns showing how you communicate under pressure and where to improve.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="landing-footer landing-footer-reset">
+        <div>
+          <span className="landing-logo">VALOUR™</span>
+          <div className="landing-footer-tag">
+            Architecture leadership co-pilot
+          </div>
+        </div>
+
+        <div className="landing-footer-copy landing-footer-copy-reset">
+          Designed for Enterprise Architects, Solution Architects, architecture practice leaders, and technical advisors.
+        </div>
       </footer>
 
     </div>
