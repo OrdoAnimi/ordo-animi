@@ -17,10 +17,20 @@ const PATHWAYS = [
   { number: '03', title: 'Debrief', body: 'Review the critical moments, refine the response, and leave with a stronger next move.' },
 ];
 
+function pilotForScenario(scenarioId: string) {
+  if (scenarioId === 'VALOUR-S01') return 'PILOT-001';
+  if (scenarioId === 'VALOUR-S02') return 'PILOT-002';
+  return `PILOT-${scenarioId.replace('VALOUR-', '')}`;
+}
+
 export function LandingPage({ onViewScenarios }: Props) {
   function resumeLastSession() {
     const scenarioId = localStorage.getItem('valour:last-scenario');
-    window.location.hash = scenarioId ? `#console?scenario=${encodeURIComponent(scenarioId)}` : '#scenarios';
+    if (!scenarioId) {
+      window.location.hash = '#scenarios';
+      return;
+    }
+    window.location.hash = `#console?pilot=${encodeURIComponent(pilotForScenario(scenarioId))}&scenario=${encodeURIComponent(scenarioId)}`;
   }
 
   return (
