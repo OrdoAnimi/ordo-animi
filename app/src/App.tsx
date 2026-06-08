@@ -37,9 +37,9 @@ function getPage(): Page {
   const h = window.location.hash;
   if (h.startsWith('#console')) return 'console';
   if (h.startsWith('#pattern')) return 'pattern';
-  if (h === '#scenarios') return 'scenarios';
-  if (h === '#readiness') return 'readiness';
-  if (h === '#comparison') return 'comparison';
+  if (h.startsWith('#scenarios')) return 'scenarios';
+  if (h.startsWith('#readiness')) return 'readiness';
+  if (h.startsWith('#comparison')) return 'comparison';
   return 'landing';
 }
 
