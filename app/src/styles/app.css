@@ -42,6 +42,10 @@ body:has(.landing) {
   align-items: stretch;
 }
 
+body:has(.landing) #root {
+  display: contents;
+}
+
 /* ── Ecosystem strip ────────────────────── */
 .ecosystem-strip {
   background: var(--navy);
@@ -741,6 +745,11 @@ body:has(.landing) {
   padding: 0 24px 80px;
   background: var(--bg);
   color: var(--text);
+}
+
+.landing.landing-reset {
+  max-width: min(1800px, 96vw);
+  padding: 24px 24px 48px;
 }
 
 .landing-nav {
