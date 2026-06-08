@@ -18,6 +18,24 @@ const FEATURED_SCENARIOS = [
 export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
   return (
     <div className="valour-landscape">
+      <style>{`
+        .valour-scenarios-slide,.valour-output-slide{display:grid;gap:48px}
+        .valour-section-heading{max-width:980px}
+        .valour-featured-grid,.valour-output-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+        .valour-scenario-card{min-height:340px;padding:30px;display:flex;flex-direction:column;align-items:flex-start;gap:20px;border:1px solid rgba(16,24,40,.2);background:var(--valour-white);color:var(--valour-ink);text-align:left;cursor:pointer;transition:.18s ease}
+        .valour-scenario-card:hover{transform:translateY(-4px);border-color:var(--valour-orange);box-shadow:0 22px 40px rgba(16,24,40,.12)}
+        .valour-scenario-card.featured{background:var(--valour-navy);color:var(--valour-white);border-color:var(--valour-orange)}
+        .valour-scenario-index,.valour-output-grid article>span{color:var(--valour-orange);font-size:14px;font-weight:800;letter-spacing:.12em}
+        .valour-scenario-card h3,.valour-output-grid h3{font-size:28px;line-height:1.15}
+        .valour-scenario-card p,.valour-output-grid p{font-size:17px;line-height:1.65;color:inherit;opacity:.78}
+        .valour-scenario-action{margin-top:auto;color:var(--valour-orange);font-size:16px;font-weight:800}
+        .valour-text-link{justify-self:start;font-size:17px}
+        .valour-output-grid article{min-height:280px;padding:30px;border:1px solid rgba(255,255,255,.18);background:var(--valour-navy-soft)}
+        .valour-final-slide{min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:24px}
+        .valour-final-slide p{color:var(--valour-slate)}
+        @media(max-width:1199px){.valour-featured-grid,.valour-output-grid{grid-template-columns:1fr}.valour-hero-slide{grid-template-columns:1fr}.valour-insight-panel{min-height:auto}}
+        @media(max-width:767px){.valour-landscape-nav,.valour-nav-actions,.valour-hero-actions{align-items:stretch}.valour-landscape-nav{position:static;flex-direction:column}.valour-nav-actions,.valour-hero-actions{flex-direction:column}.valour-btn{width:100%}.valour-slide{padding:48px 22px}.valour-hero-copy h1{font-size:52px}.valour-hero-proof{grid-template-columns:repeat(2,minmax(0,1fr))}}
+      `}</style>
       <header className="valour-landscape-nav">
         <div>
           <div className="valour-wordmark">VALOUR™</div>
