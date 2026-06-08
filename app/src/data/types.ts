@@ -2,6 +2,7 @@ export type PilotStatus = 'planned' | 'in-progress' | 'complete' | 'archived';
 export type StageStatus = 'not-started' | 'draft' | 'complete' | 'to-confirm';
 export type ProductDecisionValue = 'continue' | 'repeat' | 'revise' | 'pause' | 'archive';
 export type GenerationSource = 'ai' | 'local' | 'manual';
+export type AppMode = 'participant' | 'facilitator' | 'developer';
 
 export type StageGuidance = {
   what: string;
@@ -63,6 +64,56 @@ export type PilotRun = {
   operatorNotes: string[];
 };
 
+export type GenerationProvenance = {
+  source: 'ai' | 'local-template' | 'manual';
+  provider?: 'anthropic' | 'openai';
+  model?: string;
+  promptVersion: string;
+  generatedAt: string;
+  durationMs?: number;
+  fallbackReason?: string;
+};
+
+export type RehearsalQuestion = {
+  id: string;
+  topic: string;
+  text: string;
+  whyItMatters?: string;
+};
+
+export type RehearsalResponse = {
+  questionId: string;
+  responseText: string;
+  inputMethod: 'typed' | 'voice-transcript';
+  startedAt: string;
+  submittedAt?: string;
+  durationSeconds?: number;
+  status: 'draft' | 'submitted';
+};
+
+export type RehearsalCritique = {
+  strength: string;
+  primaryRisk: string;
+  nextChange: string;
+  clarity?: string;
+  decisionOrientation?: string;
+  stakeholderAwareness?: string;
+};
+
+export type RehearsalState = {
+  questions: RehearsalQuestion[];
+  selectedQuestionId?: string;
+  response?: RehearsalResponse;
+  critique?: RehearsalCritique;
+  refinements?: {
+    concise?: string;
+    executive?: string;
+    empathetic?: string;
+  };
+  preferredResponse?: string;
+  status: 'not-started' | 'question-selected' | 'response-draft' | 'response-submitted' | 'feedback-ready' | 'complete';
+};
+
 // ── Agentic state (persisted in localStorage) ─────────────────────────────────
 
 export type StageOutput = {
@@ -101,9 +152,11 @@ export type IntakeData = {
 };
 
 export type PilotState = {
+  schemaVersion: number;
   pilotId: string;
   entries: Record<string, PilotStateEntry>;
   intakeData?: IntakeData;
+  rehearsal?: RehearsalState;
   runLog: AgentLogEntry[];
   startedAt: string;
   updatedAt: string;

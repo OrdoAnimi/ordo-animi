@@ -1,8 +1,6 @@
 import type { AgentContext, AgentLogEntry, PilotRun, PilotState, StageOutput } from '../data/types';
 import { callAgent } from './aiService';
 
-// ── Stage dependency rules ─────────────────────────────────────────────────────
-
 export type DependencyCheck = { ok: boolean; message?: string };
 
 export function checkDependency(stageId: string, state: PilotState): DependencyCheck {
@@ -15,71 +13,60 @@ export function checkDependency(stageId: string, state: PilotState): DependencyC
     case 'stage-02-scenario':
       return e('stage-01-intake')?.userInput
         ? { ok: true }
-        : { ok: false, message: 'Save your context in Stage 01 (Context) first.' };
+        : { ok: false, message: 'Save your context first.' };
 
     case 'stage-03-prep':
-      return e('stage-02-scenario')?.output || e('stage-01-intake')?.userInput
+      return e('stage-02-scenario')?.output
         ? { ok: true }
-        : { ok: false, message: 'Generate Stage 02 (Scenario Selection) first.' };
+        : { ok: false, message: 'Confirm your scenario first.' };
 
     case 'stage-04-rehearsal':
       return e('stage-03-prep')?.output
         ? { ok: true }
-        : { ok: false, message: 'Generate your Preparation Brief (Stage 03) first.' };
+        : { ok: false, message: 'Generate your Preparation Brief first.' };
 
-    case 'stage-05-language': {
-      const rehearsalEntry = e('stage-04-rehearsal');
-      if (!rehearsalEntry) {
-        return { ok: false, message: 'Record your rehearsal answer first. VALOUR needs your answer before it can refine your language.' };
-      }
-      const raw = rehearsalEntry.userInput ?? '';
-      try {
-        const parsed = JSON.parse(raw) as { answer?: string };
-        if (typeof parsed === 'object' && parsed !== null && parsed.answer?.trim()) return { ok: true };
-      } catch { /* ignore — check raw below */ }
-      if (raw.trim()) return { ok: true };
-      return { ok: false, message: 'Record your rehearsal answer first. VALOUR needs your answer before it can refine your language.' };
-    }
+    case 'stage-05-language':
+      return state.rehearsal?.response?.status === 'submitted'
+        ? { ok: true }
+        : { ok: false, message: 'Submit one rehearsal response before refining your language.' };
 
     case 'stage-06-review':
-      return e('stage-05-language')?.output || e('stage-04-rehearsal')?.output
+      return state.rehearsal?.status === 'complete' && !!state.rehearsal.preferredResponse?.trim()
         ? { ok: true }
-        : { ok: false, message: 'Complete at least Rehearsal (Stage 04) before your After-Action Review.' };
+        : { ok: false, message: 'Save your preferred refined response before reflection.' };
 
     case 'stage-07-pattern':
       return e('stage-06-review')?.output
         ? { ok: true }
-        : { ok: false, message: 'Generate your After-Action Review (Stage 06) first.' };
+        : { ok: false, message: 'Complete your reflection first.' };
 
     case 'stage-08-outcome':
       return e('stage-07-pattern')?.output
         ? { ok: true }
-        : { ok: false, message: 'Generate your Pattern Summary (Stage 07) first.' };
+        : { ok: false, message: 'Generate your Leadership Pattern Report first.' };
 
     default:
       return { ok: true };
   }
 }
 
-// ── Context builder ────────────────────────────────────────────────────────────
-
 function buildContext(pilot: PilotRun, state: PilotState, extra?: Partial<AgentContext>): AgentContext {
-  // Parse intake data from Stage 01 userInput (stored as JSON)
   let intakeData = state.intakeData ?? {};
   const intakeRaw = state.entries['stage-01-intake']?.userInput;
   if (intakeRaw && !state.intakeData) {
     try { intakeData = JSON.parse(intakeRaw); } catch { /* ignore */ }
   }
 
-  // Build previousOutputs map (stageId → content + userInputs)
   const previousOutputs: Record<string, string> = {};
   for (const [id, entry] of Object.entries(state.entries)) {
-    if (entry.output?.content) {
-      previousOutputs[id] = entry.output.content;
-    }
-    if (entry.userInput) {
-      previousOutputs[`${id}:userInput`] = entry.userInput;
-    }
+    if (entry.output?.content) previousOutputs[id] = entry.output.content;
+    if (entry.userInput) previousOutputs[`${id}:userInput`] = entry.userInput;
+  }
+  if (state.rehearsal?.response?.responseText) {
+    previousOutputs['stage-04-rehearsal:userInput'] = state.rehearsal.response.responseText;
+  }
+  if (state.rehearsal?.preferredResponse) {
+    previousOutputs['stage-05-language:preferredResponse'] = state.rehearsal.preferredResponse;
   }
 
   const scenarioTitle = pilot.title.includes(':')
@@ -100,64 +87,53 @@ function buildContext(pilot: PilotRun, state: PilotState, extra?: Partial<AgentC
   };
 }
 
-// ── Agent log builder ──────────────────────────────────────────────────────────
-
 function makeLogEntry(stageId: string, agentName: string, output: StageOutput & { logProvider?: string }): AgentLogEntry {
   return {
     stageId,
     agentName,
     source: output.source,
-    provider: (output as { logProvider?: string }).logProvider ?? output.provider ?? output.source,
+    provider: output.logProvider ?? output.provider ?? output.source,
     model: output.model,
     generatedAt: output.generatedAt,
     durationMs: output.durationMs,
   };
 }
 
-// ── Agent functions ────────────────────────────────────────────────────────────
-
-export async function scenarioSelectorAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+export async function scenarioSelectorAgent(pilot: PilotRun, state: PilotState) {
   const result = await callAgent('scenarioSelector', buildContext(pilot, state));
   return { output: result, logEntry: makeLogEntry('stage-02-scenario', 'scenarioSelectorAgent', result) };
 }
 
-export async function preparationAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+export async function preparationAgent(pilot: PilotRun, state: PilotState) {
   const result = await callAgent('preparation', buildContext(pilot, state));
   return { output: result, logEntry: makeLogEntry('stage-03-prep', 'preparationAgent', result) };
 }
 
-export async function rehearsalAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+export async function rehearsalAgent(pilot: PilotRun, state: PilotState) {
   const result = await callAgent('rehearsal', buildContext(pilot, state));
   return { output: result, logEntry: makeLogEntry('stage-04-rehearsal', 'rehearsalAgent', result) };
 }
 
-export async function languageRefinementAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
-  const raw = state.entries['stage-04-rehearsal']?.userInput ?? '';
-  let answer = raw;
-  try {
-    const parsed = JSON.parse(raw) as { answer?: string };
-    if (parsed.answer?.trim()) answer = parsed.answer;
-  } catch { /* use raw text */ }
+export async function languageRefinementAgent(pilot: PilotRun, state: PilotState) {
+  const answer = state.rehearsal?.response?.responseText ?? '';
   const result = await callAgent('languageRefinement', buildContext(pilot, state, { userInput: answer }));
   return { output: result, logEntry: makeLogEntry('stage-05-language', 'languageRefinementAgent', result) };
 }
 
-export async function afterActionReviewAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+export async function afterActionReviewAgent(pilot: PilotRun, state: PilotState) {
   const result = await callAgent('afterActionReview', buildContext(pilot, state));
   return { output: result, logEntry: makeLogEntry('stage-06-review', 'afterActionReviewAgent', result) };
 }
 
-export async function patternReportAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+export async function patternReportAgent(pilot: PilotRun, state: PilotState) {
   const result = await callAgent('patternReport', buildContext(pilot, state));
   return { output: result, logEntry: makeLogEntry('stage-07-pattern', 'patternReportAgent', result) };
 }
 
-export async function vallumHandoverAgent(pilot: PilotRun, state: PilotState): Promise<{ output: StageOutput; logEntry: AgentLogEntry }> {
+export async function vallumHandoverAgent(pilot: PilotRun, state: PilotState) {
   const result = await callAgent('vallumHandover', buildContext(pilot, state));
   return { output: result, logEntry: makeLogEntry('stage-08-outcome', 'vallumHandoverAgent', result) };
 }
-
-// ── Dispatch map ───────────────────────────────────────────────────────────────
 
 export type AgentFn = (
   pilot: PilotRun,
@@ -166,11 +142,11 @@ export type AgentFn = (
 ) => Promise<{ output: StageOutput; logEntry: AgentLogEntry }>;
 
 export const STAGE_AGENTS: Record<string, AgentFn> = {
-  'stage-02-scenario': (p, s)    => scenarioSelectorAgent(p, s),
-  'stage-03-prep':     (p, s)    => preparationAgent(p, s),
-  'stage-04-rehearsal':(p, s)    => rehearsalAgent(p, s),
+  'stage-02-scenario': (p, s) => scenarioSelectorAgent(p, s),
+  'stage-03-prep': (p, s) => preparationAgent(p, s),
+  'stage-04-rehearsal': (p, s) => rehearsalAgent(p, s),
   'stage-05-language': (p, s) => languageRefinementAgent(p, s),
-  'stage-06-review':   (p, s)    => afterActionReviewAgent(p, s),
-  'stage-07-pattern':  (p, s)    => patternReportAgent(p, s),
-  'stage-08-outcome':  (p, s)    => vallumHandoverAgent(p, s),
+  'stage-06-review': (p, s) => afterActionReviewAgent(p, s),
+  'stage-07-pattern': (p, s) => patternReportAgent(p, s),
+  'stage-08-outcome': (p, s) => vallumHandoverAgent(p, s),
 };
