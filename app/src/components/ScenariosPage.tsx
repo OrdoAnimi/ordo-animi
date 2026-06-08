@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { SCENARIOS, type Scenario } from '../data/scenarios';
+import '../styles/journey-flow.css';
 
 const DIFFICULTY_LABEL = {
   foundational: 'Foundational',
