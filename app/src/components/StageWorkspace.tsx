@@ -62,6 +62,8 @@ type Props = {
   mode: AppMode;
   canContinue?: boolean;
   intakeEntry?: PilotStateEntry;
+  pilotId?: string;
+  scenarioLabel?: string;
   onGenerate: () => Promise<void>;
   onSaveOutput: (output: StageOutput) => void;
   onSaveUserInput: (input: string) => void;
@@ -84,6 +86,8 @@ export function StageWorkspace({
   mode,
   canContinue = true,
   intakeEntry,
+  pilotId,
+  scenarioLabel,
   onGenerate,
   onSaveOutput,
   onSaveUserInput,
@@ -106,6 +110,9 @@ export function StageWorkspace({
   const participantBlocked = mode === 'participant' && (!canContinue || (kind.rehearsal && !rehearsalSubmitted));
   const phase = PARTICIPANT_STEPS.find(step => step.indices.includes(index))?.label ?? stage.label;
   const nextLabel = kind.rehearsal ? 'Continue to debrief' : index === 2 ? 'Enter rehearsal' : index >= 4 ? 'Continue debrief' : 'Continue preparation';
+
+  const isLastStage = index === total - 1;
+  const isParticipantComplete = mode === 'participant' && isLastStage && !!entry.output;
 
   useEffect(() => setEditing(false), [stage.id]);
 
@@ -220,12 +227,37 @@ export function StageWorkspace({
       {canGenerate && !output && !generating && <button className="btn btn-generate" onClick={handleGenerate}><span className="btn-generate-icon">✦</span>{kind.rehearsal ? 'Prepare rehearsal questions' : 'Generate with VALOUR™'}</button>}
       {generating && <div className="ws-generating"><div className="ws-generating-spinner" /><span>VALOUR™ is preparing your next step…</span></div>}
 
-      <div className="ws-nav">
-        <button className="btn btn-ghost" onClick={onPrev} disabled={index === 0}>← Previous</button>
-        {isDeveloper && <div className="ws-source-badge"><span className="badge badge-source">{stage.sourceFile}</span>{completedStageIds.includes(stage.id) && <span className="ws-saved-dot" title="Output saved" />}</div>}
-        <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1 || participantBlocked}>{nextLabel} →</button>
-        {participantBlocked && mode === 'participant' && index < total - 1 && <span className="ws-nav-block-hint">{kind.rehearsal ? 'Submit a rehearsal response before continuing' : 'Complete the required preparation step first'}</span>}
-      </div>
+      {isParticipantComplete ? (
+        <div className="ws-completion">
+          <div className="ws-completion-badge">Session complete</div>
+          <h2 className="ws-completion-title">You have completed this session.</h2>
+          {scenarioLabel && <p className="ws-completion-scenario"><strong>Scenario:</strong> {scenarioLabel}</p>}
+          {completedStageIds.length > 0 && (
+            <div className="ws-completion-phases">
+              <span className="ws-completion-phases-label">Phases completed</span>
+              <span className="ws-completion-phases-value">{completedStageIds.length} of {total}</span>
+            </div>
+          )}
+          {rehearsal?.preferredResponse && (
+            <div className="ws-completion-response">
+              <div className="ws-completion-response-label">Your preferred response</div>
+              <blockquote className="ws-completion-quote">"{rehearsal.preferredResponse}"</blockquote>
+            </div>
+          )}
+          <div className="ws-completion-actions">
+            {pilotId && <button className="btn btn-primary" onClick={() => { window.location.hash = `#pattern?pilot=${pilotId}`; }}>View summary →</button>}
+            <button className="btn btn-ghost" onClick={() => { window.location.hash = '#scenarios'; }}>Start another scenario</button>
+            <button className="btn btn-ghost" onClick={() => { window.location.hash = ''; }}>Return home</button>
+          </div>
+        </div>
+      ) : (
+        <div className="ws-nav">
+          <button className="btn btn-ghost" onClick={onPrev} disabled={index === 0}>← Previous</button>
+          {isDeveloper && <div className="ws-source-badge"><span className="badge badge-source">{stage.sourceFile}</span>{completedStageIds.includes(stage.id) && <span className="ws-saved-dot" title="Output saved" />}</div>}
+          <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1 || participantBlocked}>{nextLabel} →</button>
+          {participantBlocked && mode === 'participant' && index < total - 1 && <span className="ws-nav-block-hint">{kind.rehearsal ? 'Submit a rehearsal response before continuing' : 'Complete the required preparation step first'}</span>}
+        </div>
+      )}
     </div>
   );
 }

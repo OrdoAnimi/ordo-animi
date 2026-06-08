@@ -324,6 +324,8 @@ function Console({
       mode={mode}
       canContinue={canContinue}
       intakeEntry={intakeEntry}
+      pilotId={pilot.id}
+      scenarioLabel={pilot.title.includes(':') ? pilot.title.split(':')[1].trim() : pilot.title}
       onGenerate={handleGenerate}
       onSaveOutput={handleSaveOutput}
       onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
