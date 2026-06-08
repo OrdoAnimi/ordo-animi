@@ -18,7 +18,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: 'VALOUR-S02',
-    title: 'Executive Briefing',
+    title: 'Executive Design Challenge',
     situation: 'Explain a complex technology decision to senior stakeholders in under five minutes.',
     userRisk: 'Too much technical detail, missing the business impact, failing to name the decision.',
     desiredOutcome: 'The executive understands the recommendation, risk, and decision required.',
@@ -50,7 +50,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: 'VALOUR-S06',
-    title: 'Delivery Conflict',
+    title: 'Stakeholder Conflict Meeting',
     situation: 'Navigate tension with a project manager or delivery lead who is pushing back on architecture concerns.',
     userRisk: 'Sounding like a blocker, escalating unnecessarily, abandoning the architecture position.',
     desiredOutcome: 'Agreement on the issue, impact, minimum architecture position, and next action.',

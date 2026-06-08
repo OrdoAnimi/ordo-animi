@@ -51,7 +51,7 @@ export function App() {
   const nav = (hash: string) => () => { window.location.hash = hash; };
 
   if (page === 'landing') {
-    return <LandingPage onEnterConsole={nav('#console')} onJoinPilot={nav('#console')} onViewScenarios={nav('#scenarios')} />;
+    return <LandingPage onEnterConsole={nav('#console')} onViewScenarios={nav('#scenarios')} />;
   }
 
   if (page === 'pattern') {
@@ -83,7 +83,12 @@ export function App() {
   }
 
   if (page === 'scenarios') {
-    return <ScenariosPage onBack={nav('')} onSelectScenario={title => { window.location.hash = `#console?scenario=${encodeURIComponent(title)}`; }} />;
+    return <ScenariosPage onBack={nav('')} onSelectScenario={title => {
+      const pilot = title === 'Executive Design Challenge' || title === 'Executive Briefing'
+        ? 'PILOT-002'
+        : 'PILOT-001';
+      window.location.hash = `#console?pilot=${pilot}`;
+    }} />;
   }
 
   if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
@@ -168,6 +173,7 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
   const workspace = (
     <StageWorkspace
       stage={activeStage}
+      stageIds={stageIds}
       entry={activeEntry}
       index={activeIndex}
       total={pilot.stages.length}
@@ -191,6 +197,7 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
     <div className={`shell mode-${mode}`}>
       <TopBar
         pilot={{ ...pilot, stages: liveStages }}
+        mode={mode}
         onViewPattern={onViewPattern}
         onViewReadiness={() => { window.location.hash = '#readiness'; }}
         onViewComparison={() => { window.location.hash = '#comparison'; }}

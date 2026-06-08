@@ -1,4 +1,8 @@
 /* VALOUR landscape executive experience */
+@import './landscape-workspace.css';
+@import './landscape-participant.css';
+@import './landscape-custos.css';
+@import './landscape-responsive.css';
 :root{--valour-navy:#0b1220;--valour-navy-soft:#121b2e;--valour-ivory:#f6f1e8;--valour-orange:#f26a21;--valour-orange-dark:#d95512;--valour-ink:#101828;--valour-slate:#475467;--valour-white:#fffdf8}
 body{padding:0;background:var(--valour-ivory);color:var(--valour-ink)}
 .valour-landscape{width:100%;min-height:100vh;background:var(--valour-ivory)}

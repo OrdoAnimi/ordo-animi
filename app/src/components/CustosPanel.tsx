@@ -22,6 +22,14 @@ const STAGE_TIPS: Record<string, string> = {
 
 const DEFAULT_TIP = 'Work through the current step. VALOUR saves your progress as you go.';
 
+function displayCopy(value: string) {
+  return value
+    .replace(/\bStage\b/g, 'Step')
+    .replace(/\bstage\b/g, 'step')
+    .replace(/\bpilot run\b/gi, 'practice session')
+    .replace(/\bPilot Console\b/g, 'VALOUR workspace');
+}
+
 export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: CustosPanelProps) {
   const [isOpen, setIsOpen] = useState(page === 'console');
   const [activeView, setActiveView] = useState<ActiveView>('guide');
@@ -46,15 +54,15 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
   }
 
   function handleWhatNext() {
-    showResult('Recommended next', guidance?.next ?? DEFAULT_TIP);
+    showResult('Recommended next', displayCopy(guidance?.next ?? DEFAULT_TIP));
   }
 
   function handleExplain() {
-    showResult('Why this step matters', guidance?.what ?? DEFAULT_TIP);
+    showResult('Why this step matters', displayCopy(guidance?.what ?? DEFAULT_TIP));
   }
 
   function handleHelpAnswer() {
-    showResult('CUSTOS guidance', activeStage ? STAGE_TIPS[activeStage.id] ?? DEFAULT_TIP : DEFAULT_TIP);
+    showResult('CUSTOS guidance', displayCopy(activeStage ? STAGE_TIPS[activeStage.id] ?? DEFAULT_TIP : DEFAULT_TIP));
   }
 
   async function handleAiAction(type: 'executive' | 'shorter') {
@@ -119,12 +127,12 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
       <h3 className="custos-stage-title">{activeStage?.label ?? 'Practice session'}</h3>
       <div className="custos-observation">
         <span>What I notice</span>
-        <p>{activeStage ? STAGE_TIPS[activeStage.id] ?? DEFAULT_TIP : DEFAULT_TIP}</p>
+        <p>{displayCopy(activeStage ? STAGE_TIPS[activeStage.id] ?? DEFAULT_TIP : DEFAULT_TIP)}</p>
       </div>
       {guidance && (
         <div className="custos-observation">
           <span>What happens next</span>
-          <p>{guidance.next}</p>
+          <p>{displayCopy(guidance.next)}</p>
         </div>
       )}
     </div>
@@ -172,8 +180,10 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
         {page === 'console' && activeView === 'guide' && (
           <div className="custos-quick-actions">
             <button className="custos-qa-btn" onClick={handleWhatNext}>What should I do next?</button>
-            <button className="custos-qa-btn" onClick={handleExplain}>Why does this step matter?</button>
-            <button className="custos-qa-btn" onClick={handleHelpAnswer}>Help me structure my response</button>
+            <button className="custos-qa-btn" onClick={handleExplain}>Help me understand this step</button>
+            <button className="custos-qa-btn" onClick={handleHelpAnswer}>
+              {activeStage?.id === 'stage-05-language' ? 'Make the decision clearer' : activeStage?.id === 'stage-04-rehearsal' ? 'Show me what a clear answer includes' : 'Help me structure my response'}
+            </button>
             {hasOutput && (
               <>
                 <button className="custos-qa-btn custos-qa-btn-ai" onClick={() => handleAiAction('executive')}>Make this more executive</button>

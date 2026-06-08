@@ -35,14 +35,20 @@ const PROVIDER_LABELS: Record<string, string> = {
   local: 'Local fallback',
 };
 
-const STEPPER_STAGE_IDS = [
-  'stage-01-intake', 'stage-02-scenario', 'stage-03-prep',
-  'stage-04-rehearsal', 'stage-05-language', 'stage-06-review', 'stage-07-pattern',
-];
 const STEPPER_LABELS = ['Context', 'Scenario', 'Prepare', 'Rehearse', 'Refine', 'Reflect', 'Report'];
+
+function participantCopy(value: string) {
+  return value
+    .replace(/\bStage\b/g, 'Step')
+    .replace(/\bstage\b/g, 'step')
+    .replace(/\bpilot run\b/gi, 'practice session')
+    .replace(/\bpilot user\b/gi, 'participant')
+    .replace(/\bPilot Console\b/g, 'VALOUR workspace');
+}
 
 type Props = {
   stage: PilotStage;
+  stageIds: string[];
   entry: PilotStateEntry;
   index: number;
   total: number;
@@ -62,7 +68,7 @@ type Props = {
 };
 
 export function StageWorkspace({
-  stage, entry, index, total, hasAgent, dependency,
+  stage, stageIds, entry, index, total, hasAgent, dependency,
   completedStageIds, rehearsalAnswer, rehearsal, mode,
   onGenerate, onSaveOutput, onSaveUserInput, onSaveRehearsal, onCycleStatus,
   onPrev, onNext,
@@ -86,6 +92,10 @@ export function StageWorkspace({
   const isRehearsal = stage.id === 'stage-04-rehearsal';
   const isLanguage = stage.id === 'stage-05-language';
   const canGenerate = hasAgent && dependency.ok && !isIntake && !isFacilitator;
+  const currentStepLabel = STEPPER_LABELS[index] ?? stage.label;
+  const nextStepLabel = STEPPER_LABELS[index + 1];
+  const sequenceLabel = isDeveloper ? `Stage ${num} of ${tot}` : `Step ${num} of ${tot}`;
+  const displayDescription = isDeveloper ? stage.description : participantCopy(stage.description);
 
   async function handleGenerate() {
     setGenerating(true);
@@ -108,12 +118,12 @@ export function StageWorkspace({
   return (
     <div className="workspace">
       <div className="ws-stepper">
-        {STEPPER_STAGE_IDS.map((id, i) => {
+        {stageIds.map((id, i) => {
           const isDone = completedStageIds.includes(id) && id !== stage.id;
           const isActive = id === stage.id;
           const cls = isDone ? ' done' : isActive ? ' active' : '';
           return (
-            <div key={id} className={`ws-stepper-item${cls}`}>
+            <div key={id} className={`ws-stepper-item${cls}`} aria-current={isActive ? 'step' : undefined}>
               {i > 0 && <div className="ws-stepper-connector" />}
               <div className="ws-stepper-step">
                 <div className="ws-stepper-dot" />
@@ -125,7 +135,7 @@ export function StageWorkspace({
       </div>
 
       <div className="ws-header">
-        <div className="ws-eyebrow">Stage {num} of {tot} · {STEPPER_LABELS[index] ?? stage.label}</div>
+        <div className="ws-eyebrow">{sequenceLabel} · {currentStepLabel}</div>
         {isDeveloper ? (
           <button
             className={`badge badge-status badge-status-${status}`}
@@ -139,8 +149,8 @@ export function StageWorkspace({
         )}
       </div>
 
-      <div className="ws-title">{STEPPER_LABELS[index] ?? stage.label}</div>
-      <div className="ws-desc">{stage.description}</div>
+      <div className="ws-title">{currentStepLabel}</div>
+      <div className="ws-desc">{displayDescription}</div>
 
       {stage.guidance && (
         <details className="ws-guidance">
@@ -148,19 +158,19 @@ export function StageWorkspace({
           <div className="ws-guidance-grid">
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">Purpose</span>
-              <div className="ws-guidance-value">{stage.guidance.what}</div>
+              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.what : participantCopy(stage.guidance.what)}</div>
             </div>
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">You provide</span>
-              <div className="ws-guidance-value">{stage.guidance.provides}</div>
+              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.provides : participantCopy(stage.guidance.provides)}</div>
             </div>
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">VALOUR prepares</span>
-              <div className="ws-guidance-value">{stage.guidance.generates}</div>
+              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.generates : participantCopy(stage.guidance.generates)}</div>
             </div>
             <div className="ws-guidance-item">
               <span className="ws-guidance-label">Next movement</span>
-              <div className="ws-guidance-value">{stage.guidance.next}</div>
+              <div className="ws-guidance-value">{isDeveloper ? stage.guidance.next : participantCopy(stage.guidance.next)}</div>
             </div>
           </div>
         </details>
@@ -219,7 +229,7 @@ export function StageWorkspace({
                 <button className="btn btn-ghost ws-action-btn" onClick={startEdit}>Edit</button>
                 {canGenerate && (
                   <button className="btn btn-ghost ws-action-btn" onClick={handleGenerate} disabled={generating}>
-                    {generating ? '…' : 'Regenerate'}
+                    {generating ? 'Preparing...' : isRehearsal ? 'Prepare new questions' : 'Prepare again'}
                   </button>
                 )}
               </div>
@@ -249,7 +259,7 @@ export function StageWorkspace({
       {canGenerate && !output && !generating && (
         <button className="btn btn-generate" onClick={handleGenerate}>
           <span className="btn-generate-icon">✦</span>
-          {isRehearsal ? 'Prepare rehearsal questions' : 'Generate with VALOUR™'}
+          {isRehearsal ? 'Prepare my rehearsal questions' : isLanguage ? 'Refine my response' : 'Prepare this step'}
         </button>
       )}
 
@@ -268,7 +278,9 @@ export function StageWorkspace({
             {output && <span className="ws-saved-dot" title="Output saved" />}
           </div>
         )}
-        <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1}>Continue →</button>
+        <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1}>
+          {nextStepLabel ? `Continue to ${nextStepLabel}` : 'Continue'}
+        </button>
       </div>
     </div>
   );
@@ -346,7 +358,12 @@ function RehearsalFlow({ output, rehearsal, readOnly, onSave }: {
   onSave: (rehearsal: RehearsalState) => void;
 }) {
   const parsedQuestions = output ? parseQuestions(output.content) : [];
-  const questions = rehearsal?.questions?.length ? rehearsal.questions : parsedQuestions;
+  const fallbackQuestions: RehearsalQuestion[] = [{
+    id: 'question-fallback',
+    topic: 'Decision clarity',
+    text: 'What decision do you need from this audience, and what trade-off are you asking them to accept?',
+  }];
+  const questions = rehearsal?.questions?.length ? rehearsal.questions : parsedQuestions.length ? parsedQuestions : fallbackQuestions;
   const [selectedQuestionId, setSelectedQuestionId] = useState(rehearsal?.selectedQuestionId ?? questions[0]?.id ?? '');
   const [responseText, setResponseText] = useState(rehearsal?.response?.responseText ?? '');
   const [preferredResponse, setPreferredResponse] = useState(rehearsal?.preferredResponse ?? '');
@@ -408,7 +425,7 @@ function RehearsalFlow({ output, rehearsal, readOnly, onSave }: {
   return (
     <div className="ws-rehearsal-panel rehearsal-flow">
       <div className="ws-rehearsal-panel-label">Practise one real response</div>
-      {!output && <p className="ws-rehearsal-hint-text">Prepare rehearsal questions, then answer the one most likely to challenge your recommendation.</p>}
+      {!output && <p className="ws-rehearsal-hint-text">Use the starter question below or prepare tailored rehearsal questions for this practice session.</p>}
       {questions.length > 0 && (
         <>
           <label className="ws-guidance-label" htmlFor="rehearsal-question">Choose one question</label>
