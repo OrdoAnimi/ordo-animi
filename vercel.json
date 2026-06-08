@@ -1,5 +1,16 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite"
+  "buildCommand": "cd app && npm install && npm run build",
+  "outputDirectory": "app/dist",
+  "framework": "vite",
+  "functions": {
+    "app/api/ai.ts": {
+      "runtime": "edge"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/ai",
+      "destination": "/app/api/ai"
+    }
+  ]
 }
