@@ -1,0 +1,220 @@
+@media (min-width: 1600px) {
+  .shell.mode-participant {
+    width: min(1800px, 96vw);
+  }
+}
+
+@media (min-width: 2400px) {
+  .shell.mode-participant {
+    width: min(2800px, 94vw);
+  }
+
+  .participant-main {
+    display: grid;
+    grid-template-columns: minmax(220px, .28fr) minmax(760px, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+
+  .participant-main::before {
+    content: 'Current practice\A Context -> Scenario -> Prepare -> Rehearse -> Refine -> Reflect -> Report';
+    white-space: pre-line;
+    position: sticky;
+    top: 28px;
+    padding: 24px;
+    border-left: 4px solid var(--valour-orange);
+    background: rgba(255, 253, 248, .7);
+    color: #344054;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+}
+
+@media (max-width: 1199px) {
+  .valour-hero-slide,
+  .participant-landscape-grid,
+  .valour-featured-grid,
+  .valour-output-grid,
+  .valour-scenarios-page .scenarios-list {
+    grid-template-columns: 1fr;
+  }
+
+  .valour-hero-slide {
+    min-height: auto;
+  }
+
+  .valour-insight-panel {
+    min-height: auto;
+  }
+
+  .shell.mode-participant {
+    width: min(100%, 100vw);
+    margin: 0;
+  }
+
+  .participant-main {
+    padding: 24px;
+  }
+
+  .mode-participant .workspace {
+    min-height: 0;
+  }
+
+  .custos-shell {
+    border-left: 0;
+    border-top: 2px solid var(--valour-orange);
+  }
+
+  .custos-mobile-trigger {
+    display: flex;
+    width: 100%;
+    min-height: 56px;
+    padding: 0 22px;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--valour-navy);
+    color: #fff;
+    border: 0;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .custos-shell:not(.is-open) .custos-panel-landscape {
+    display: none;
+  }
+
+  .custos-panel-landscape {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    top: 16px;
+    bottom: auto;
+    z-index: 90;
+    width: auto;
+    min-height: 0;
+    max-height: min(58vh, 520px);
+    overflow-y: auto;
+    border: 1px solid rgba(242, 106, 33, .42);
+    box-shadow: 0 18px 48px rgba(11, 18, 32, .32);
+  }
+
+  .custos-floating-trigger {
+    right: 18px;
+    bottom: 18px;
+  }
+}
+
+@media (max-width: 900px) {
+  .mode-participant .topbar {
+    flex-wrap: wrap;
+  }
+
+  .topbar-participant-status {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .mode-participant .ws-guidance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scenario-card-button,
+  .scenario-card-featured {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .valour-landscape-nav,
+  .valour-nav-actions,
+  .valour-hero-actions {
+    align-items: stretch;
+  }
+
+  .valour-landscape-nav {
+    position: static;
+    flex-direction: column;
+  }
+
+  .valour-nav-actions,
+  .valour-hero-actions {
+    flex-direction: column;
+  }
+
+  .valour-btn,
+  .mode-participant .btn,
+  .mode-participant .btn-generate {
+    width: 100%;
+  }
+
+  .valour-slide {
+    padding: 48px 22px;
+  }
+
+  .valour-hero-copy h1,
+  .valour-scenarios-page .pattern-heading {
+    font-size: 52px;
+  }
+
+  .valour-hero-proof {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shell.mode-participant {
+    border: 0;
+  }
+
+  .participant-main {
+    padding: 18px;
+  }
+
+  .mode-participant .workspace {
+    padding: 24px;
+  }
+
+  .mode-participant .ws-nav,
+  .mode-participant .ws-user-input-actions,
+  .mode-participant .ws-edit-actions,
+  .custos-preview-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .valour-scenarios-page {
+    width: 100%;
+    padding: 22px 18px 72px;
+  }
+
+  .custos-panel-landscape {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: auto;
+    max-height: 62vh;
+    border-right: 0;
+    border-top: 0;
+    border-left: 0;
+  }
+
+  .custos-floating-trigger {
+    right: 14px;
+    bottom: 14px;
+    min-height: 48px;
+    padding-right: 14px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
