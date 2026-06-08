@@ -1868,42 +1868,44 @@ details[open] .ws-guidance-summary::before { transform: rotate(90deg); }
   z-index: 9000;
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 16px 8px 12px;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
+  gap: 9px;
+  padding: 12px 22px 12px 16px;
+  background: var(--surface-raised);
+  border: 1.5px solid rgba(232,99,10,0.35);
   border-radius: 999px;
-  color: var(--text-muted);
-  font-size: 12px;
+  color: var(--text);
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
-  box-shadow: var(--shadow-md);
-  transition: border-color .15s, color .15s, box-shadow .15s;
-  letter-spacing: .04em;
+  box-shadow: 0 4px 20px rgba(232,99,10,0.15), var(--shadow-md);
+  transition: border-color .15s, color .15s, box-shadow .15s, background .15s;
+  letter-spacing: .02em;
 }
 .custos-trigger:hover {
-  border-color: rgba(232,99,10,.4);
+  border-color: rgba(232,99,10,.7);
   color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 4px 24px rgba(232,99,10,0.25), var(--shadow-md);
 }
 .custos-trigger-open {
-  border-color: rgba(232,99,10,.4);
+  border-color: rgba(232,99,10,.7);
   color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(232,99,10,.1), var(--shadow-md);
+  box-shadow: 0 0 0 4px rgba(232,99,10,.12), var(--shadow-md);
 }
 .custos-trigger-icon {
   color: var(--accent);
-  font-size: 13px;
+  font-size: 18px;
   line-height: 1;
 }
 
 .custos-panel {
   position: fixed;
-  bottom: 76px;
+  bottom: 82px;
   right: 24px;
   z-index: 9001;
-  width: 320px;
-  max-height: 540px;
+  width: 380px;
+  max-height: 620px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;

@@ -55,7 +55,8 @@ export function App() {
       <>
         <LandingPage
           onEnterConsole={nav('#console')}
-          onJoinPilot={nav('#console')}
+          onStartNew={nav('#console?new=1')}
+          onJoinPilot={nav('#console?new=1')}
           onViewScenarios={nav('#scenarios')}
         />
         <CustosPanel page="landing" />
@@ -104,16 +105,18 @@ export function App() {
   if (page === 'comparison') return <ComparisonPage onBack={nav('#console')} />;
 
   const activePilotId = getParam('pilot') ?? 'PILOT-001';
+  const isNewSession = getParam('new') === '1';
   return (
     <Console
       pilotId={activePilotId}
       mode={getMode()}
+      isNewSession={isNewSession}
       onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
     />
   );
 }
 
-function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppMode; onViewPattern: () => void }) {
+function Console({ pilotId, mode, isNewSession, onViewPattern }: { pilotId: string; mode: AppMode; isNewSession: boolean; onViewPattern: () => void }) {
   const pilot = getPilotById(pilotId);
   const { state, setOutput, setStatus, setUserInput, setRehearsal, appendLog, resetPilot } = usePilotState(pilot.id, pilot.stages);
 
@@ -122,7 +125,16 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
     if (id === 'stage-04-rehearsal') return state.rehearsal?.status !== 'complete';
     return !state.entries[id]?.output && state.entries[id]?.status !== 'complete';
   });
-  const [activeIndex, setActiveIndex] = useState(Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending));
+  const [activeIndex, setActiveIndex] = useState(isNewSession ? 0 : Math.max(0, firstPending === -1 ? stageIds.length - 1 : firstPending));
+
+  useEffect(() => {
+    if (isNewSession) {
+      resetPilot();
+      setActiveIndex(0);
+      window.history.replaceState(null, '', window.location.pathname + '#console');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const nextPending = stageIds.findIndex(id => {
@@ -187,6 +199,7 @@ function Console({ pilotId, mode, onViewPattern }: { pilotId: string; mode: AppM
       <div className={`shell mode-${mode}`}>
         <TopBar
           pilot={{ ...pilot, stages: liveStages }}
+          mode={mode}
           onViewPattern={onViewPattern}
           onViewReadiness={() => { window.location.hash = '#readiness'; }}
           onViewComparison={() => { window.location.hash = '#comparison'; }}

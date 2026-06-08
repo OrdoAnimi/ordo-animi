@@ -25,7 +25,7 @@ export function Sidebar({ stages, pilotId, scenario, activeIndex, onSelect, allP
 
       {allPilots.length > 1 && (
         <div className="sidebar-pilot-switcher">
-          <div className="sidebar-pilot-label">Pilots</div>
+          <div className="sidebar-pilot-label">Sessions</div>
           {allPilots.map(p => (
             <div
               key={p.id}
@@ -40,9 +40,8 @@ export function Sidebar({ stages, pilotId, scenario, activeIndex, onSelect, allP
       )}
 
       <div className="sidebar-pilot">
-        <div className="sidebar-pilot-label">Active pilot</div>
-        <div className="sidebar-pilot-name">{pilotId}</div>
-        <div className="sidebar-pilot-sub">{scenario.replace('.', '')}</div>
+        <div className="sidebar-pilot-label">Your session</div>
+        <div className="sidebar-pilot-name">{scenario.replace('.', '')}</div>
       </div>
 
       <div className="sidebar-section-label">Workflow</div>

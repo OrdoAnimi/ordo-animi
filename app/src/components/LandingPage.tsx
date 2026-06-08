@@ -1,4 +1,4 @@
-type Props = { onEnterConsole: () => void; onJoinPilot: () => void; onViewScenarios: () => void };
+type Props = { onEnterConsole: () => void; onStartNew: () => void; onJoinPilot: () => void; onViewScenarios: () => void };
 
 const FEATURED_SCENARIOS = [
   {
@@ -22,7 +22,7 @@ const COPILOT_ACTIONS = [
   'Refine responses into concise leadership language',
 ];
 
-export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
+export function LandingPage({ onEnterConsole, onStartNew, onViewScenarios }: Props) {
   return (
     <>
       <nav className="ecosystem-strip" aria-label="Ecosystem navigation">
@@ -307,7 +307,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         <div className="landing-nav-links landing-nav-links-reset">
           <button className="landing-nav-link" onClick={onViewScenarios}>Scenarios</button>
           <button className="landing-nav-link" onClick={onEnterConsole}>Resume session</button>
-          <button className="btn btn-primary landing-cta-nav landing-cta-nav-reset" onClick={onEnterConsole}>
+          <button className="btn btn-primary landing-cta-nav landing-cta-nav-reset" onClick={onStartNew}>
             Start practice session
           </button>
         </div>
@@ -331,7 +331,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
           </p>
 
           <div className="landing-hero-actions landing-hero-actions-reset">
-            <button className="btn btn-primary landing-btn-xl" onClick={onEnterConsole}>
+            <button className="btn btn-primary landing-btn-xl" onClick={onStartNew}>
               Start a practice session
             </button>
 
@@ -378,7 +378,7 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
             <button
               key={scenario.title}
               className="landing-scenario-card"
-              onClick={onEnterConsole}
+              onClick={onStartNew}
             >
               <div className="landing-scenario-card-title">{scenario.title}</div>
               <div className="landing-scenario-card-description">{scenario.description}</div>

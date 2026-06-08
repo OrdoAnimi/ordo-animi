@@ -37,6 +37,17 @@ export function CustosPanel({ page, activeStage, activeEntry, onApplyOutput }: C
   const [quickActionResult, setQuickActionResult]   = useState('');
   const [quickActionLoading, setQuickActionLoading] = useState(false);
 
+  // Auto-open when user first enters the console
+  useEffect(() => {
+    if (page === 'console') {
+      const key = 'custos:console-opened';
+      if (!sessionStorage.getItem(key)) {
+        sessionStorage.setItem(key, '1');
+        setIsOpen(true);
+      }
+    }
+  }, [page]);
+
   // Reset to guide when stage changes so stale quick-result is never shown
   useEffect(() => {
     setActiveView('guide');
