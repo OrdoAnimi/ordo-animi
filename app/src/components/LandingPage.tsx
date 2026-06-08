@@ -6,27 +6,9 @@ type Props = {
 };
 
 const FEATURED_SCENARIOS = [
-  {
-    title: 'Architecture Review Board',
-    scenarioId: 'VALOUR-S01',
-    description: 'Defend a design recommendation under scrutiny from delivery, risk, and executive stakeholders.',
-    role: 'Chief Architect',
-    duration: '12 min',
-  },
-  {
-    title: 'Executive Briefing',
-    scenarioId: 'VALOUR-S02',
-    description: 'Explain a consequential technology decision with clarity, brevity, and commercial relevance.',
-    role: 'Technology Leader',
-    duration: '8 min',
-  },
-  {
-    title: 'Delivery Conflict',
-    scenarioId: 'VALOUR-S06',
-    description: 'Navigate disagreement, delivery pressure, and competing priorities without losing alignment.',
-    role: 'Architecture Lead',
-    duration: '10 min',
-  },
+  { title: 'Architecture Review Board', scenarioId: 'VALOUR-S01', description: 'Defend a design recommendation under scrutiny from delivery, risk, and executive stakeholders.', role: 'Chief Architect', duration: '12 min' },
+  { title: 'Executive Briefing', scenarioId: 'VALOUR-S02', description: 'Explain a consequential technology decision with clarity, brevity, and commercial relevance.', role: 'Technology Leader', duration: '8 min' },
+  { title: 'Delivery Conflict', scenarioId: 'VALOUR-S06', description: 'Navigate disagreement, delivery pressure, and competing priorities without losing alignment.', role: 'Architecture Lead', duration: '10 min' },
 ];
 
 const PATHWAYS = [
@@ -35,7 +17,12 @@ const PATHWAYS = [
   { number: '03', title: 'Debrief', body: 'Review the critical moments, refine the response, and leave with a stronger next move.' },
 ];
 
-export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
+export function LandingPage({ onViewScenarios }: Props) {
+  function resumeLastSession() {
+    const scenarioId = localStorage.getItem('valour:last-scenario');
+    window.location.hash = scenarioId ? `#console?scenario=${encodeURIComponent(scenarioId)}` : '#scenarios';
+  }
+
   return (
     <div className="exec-site">
       <style>{`
@@ -112,38 +99,13 @@ export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
         @media (max-width:640px) { .exec-shell{width:min(100% - 28px,1440px)}.exec-ecosystem{padding:10px 14px;align-items:flex-start;gap:10px;flex-direction:column}.exec-ecosystem-links{gap:12px;flex-wrap:wrap}.exec-nav{min-height:72px}.exec-nav-actions .exec-btn-ghost{display:none}.exec-btn{min-height:44px;padding:0 16px}.exec-hero h1{font-size:50px}.exec-hero-copy p{font-size:16px}.exec-room-card{padding:24px}.exec-room-quote{font-size:24px}.exec-intro,.exec-pathways,.exec-scenarios,.exec-final{padding-top:68px;padding-bottom:68px}.exec-footer{align-items:flex-start;flex-direction:column} }
       `}</style>
 
-      <div className="exec-ecosystem">
-        <span>ZenCloud ecosystem</span>
-        <div className="exec-ecosystem-links"><a href="https://www.zencloud.com.au">ZenCloud™</a><a href="https://studiosix.com.au">StudioSix™</a><a href="https://velocityarchitectureframework.com">Velocity™</a></div>
-      </div>
-
-      <div className="exec-shell">
-        <nav className="exec-nav" aria-label="Primary navigation">
-          <div className="exec-brand">VALOUR™<small>by Ordo Animi</small></div>
-          <div className="exec-nav-links"><button className="exec-nav-link" onClick={onViewScenarios}>Scenarios</button><button className="exec-nav-link" onClick={onEnterConsole}>Resume session</button></div>
-          <div className="exec-nav-actions"><button className="exec-btn exec-btn-ghost" onClick={onEnterConsole}>Resume</button><button className="exec-btn exec-btn-dark" onClick={onViewScenarios}>Choose scenario</button></div>
-        </nav>
-      </div>
-
-      <section className="exec-hero">
-        <div className="exec-hero-copy">
-          <div className="exec-eyebrow">Agentic AI leadership rehearsal</div>
-          <h1>Rehearse the room <em>before it decides.</em></h1>
-          <p>VALOUR places architecture and technology leaders inside realistic, high-stakes conversations so they can test decisions, practise responses, and prepare a stronger next move.</p>
-          <div className="exec-hero-actions"><button className="exec-btn exec-btn-primary" onClick={onViewScenarios}>Choose a scenario</button><button className="exec-btn exec-btn-ghost" onClick={onEnterConsole}>Resume session</button></div>
-          <div className="exec-hero-proof"><span>Private practice</span><span>Responsive AI stakeholders</span><span>Structured debrief</span></div>
-        </div>
-        <div className="exec-room" aria-label="Product preview"><div className="exec-room-card"><div className="exec-room-kicker"><span>Live rehearsal</span><span>07:42 remaining</span></div><div className="exec-room-title">Review Board Chair</div><p className="exec-room-quote">“You are asking us to approve significant delivery risk without proving the commercial return. Why should we support this?”</p><div className="exec-objective"><div className="exec-objective-label">Your objective</div><p>Secure conditional endorsement while addressing cost, accountability, and delivery confidence.</p></div></div></div>
-      </section>
-
+      <div className="exec-ecosystem"><span>ZenCloud ecosystem</span><div className="exec-ecosystem-links"><a href="https://www.zencloud.com.au">ZenCloud™</a><a href="https://studiosix.com.au">StudioSix™</a><a href="https://velocityarchitectureframework.com">Velocity™</a></div></div>
+      <div className="exec-shell"><nav className="exec-nav" aria-label="Primary navigation"><div className="exec-brand">VALOUR™<small>by Ordo Animi</small></div><div className="exec-nav-links"><button className="exec-nav-link" onClick={onViewScenarios}>Scenarios</button><button className="exec-nav-link" onClick={resumeLastSession}>Resume session</button></div><div className="exec-nav-actions"><button className="exec-btn exec-btn-ghost" onClick={resumeLastSession}>Resume</button><button className="exec-btn exec-btn-dark" onClick={onViewScenarios}>Choose scenario</button></div></nav></div>
+      <section className="exec-hero"><div className="exec-hero-copy"><div className="exec-eyebrow">Agentic AI leadership rehearsal</div><h1>Rehearse the room <em>before it decides.</em></h1><p>VALOUR places architecture and technology leaders inside realistic, high-stakes conversations so they can test decisions, practise responses, and prepare a stronger next move.</p><div className="exec-hero-actions"><button className="exec-btn exec-btn-primary" onClick={onViewScenarios}>Choose a scenario</button><button className="exec-btn exec-btn-ghost" onClick={resumeLastSession}>Resume session</button></div><div className="exec-hero-proof"><span>Private practice</span><span>Responsive AI stakeholders</span><span>Structured debrief</span></div></div><div className="exec-room" aria-label="Product preview"><div className="exec-room-card"><div className="exec-room-kicker"><span>Live rehearsal</span><span>07:42 remaining</span></div><div className="exec-room-title">Review Board Chair</div><p className="exec-room-quote">“You are asking us to approve significant delivery risk without proving the commercial return. Why should we support this?”</p><div className="exec-objective"><div className="exec-objective-label">Your objective</div><p>Secure conditional endorsement while addressing cost, accountability, and delivery confidence.</p></div></div></div></section>
       <section className="exec-intro"><div className="exec-shell exec-intro-grid"><div><div className="exec-section-label">The leadership reality</div></div><div className="exec-intro-copy"><h2>Leadership is rarely difficult because information is absent.</h2><p>It is difficult because time is limited, interests conflict, and the quality of the decision depends on how it is communicated.</p><p>VALOUR creates a private place to practise what happens next—before the real conversation carries consequences.</p></div></div></section>
-
       <section className="exec-pathways"><div className="exec-shell"><div className="exec-section-head"><div><div className="exec-section-label">The rehearsal method</div><h2>Prepare. Rehearse. Debrief.</h2></div><p>A focused experience that moves from context to live pressure, then converts the session into a stronger real-world response.</p></div><div className="exec-path-grid">{PATHWAYS.map(path => <article className="exec-path-card" key={path.number}><div className="exec-path-number">{path.number}</div><h3>{path.title}</h3><p>{path.body}</p></article>)}</div></div></section>
-
       <section className="exec-scenarios"><div className="exec-shell"><div className="exec-section-head"><div><div className="exec-section-label">Executive case library</div><h2>Start with one real leadership moment.</h2></div><p>Review a situation that resembles the pressure you are preparing to face. No session begins until you confirm the scenario and preparation path.</p></div><div className="exec-scenario-grid">{FEATURED_SCENARIOS.map(scenario => <button className="exec-scenario" key={scenario.scenarioId} onClick={onViewScenarios}><div className="exec-scenario-meta"><span>{scenario.role}</span><span>{scenario.duration}</span></div><h3>{scenario.title}</h3><p>{scenario.description}</p><div className="exec-scenario-action">Review scenario →</div></button>)}</div><div className="exec-scenario-footer"><button className="exec-btn exec-btn-ghost" onClick={onViewScenarios}>View all scenarios</button></div></div></section>
-
       <section className="exec-final"><div className="exec-shell"><h2>The real conversation should not be your first attempt.</h2><p>Choose a leadership scenario, review the context, prepare your position, then enter the live rehearsal when you are ready.</p><button className="exec-btn exec-btn-primary" onClick={onViewScenarios}>Choose a scenario</button></div></section>
-
       <footer className="exec-shell exec-footer"><div className="exec-brand">VALOUR™<small>by Ordo Animi</small></div><div>Architecture leadership rehearsal · ZenCloud Global Consultants</div></footer>
     </div>
   );
