@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SCENARIOS, type Scenario } from '../data/scenarios';
 import '../styles/journey-flow.css';
 
@@ -21,12 +21,21 @@ const PILOT_BY_SCENARIO: Record<string, string> = {
   'VALOUR-S10': 'PILOT-S10',
 };
 
-type Props = { onBack: () => void; onSelectScenario: (id: string) => void };
+type Props = { onBack: () => void; onSelectScenario: (id: string) => void; initialScenarioId?: string };
 type View = 'library' | 'brief' | 'overview';
 
-export function ScenariosPage({ onBack }: Props) {
-  const [selected, setSelected] = useState<Scenario | null>(null);
-  const [view, setView] = useState<View>('library');
+export function ScenariosPage({ onBack, initialScenarioId }: Props) {
+  const [selected, setSelected] = useState<Scenario | null>(() =>
+    initialScenarioId ? (SCENARIOS.find(s => s.id === initialScenarioId) ?? null) : null
+  );
+  const [view, setView] = useState<View>(initialScenarioId ? 'brief' : 'library');
+
+  useEffect(() => {
+    if (initialScenarioId) {
+      const scenario = SCENARIOS.find(s => s.id === initialScenarioId);
+      if (scenario) { setSelected(scenario); setView('brief'); }
+    }
+  }, [initialScenarioId]);
 
   const hasProgress = useMemo(() => {
     if (!selected) return false;

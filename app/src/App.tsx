@@ -112,10 +112,12 @@ export function App() {
   }
 
   if (page === 'scenarios') {
+    const initialScenarioId = getParam('scenario') ?? undefined;
     return (
       <ScenariosPage
         onBack={nav('')}
         onSelectScenario={id => { window.location.hash = `#console?new=1&scenario=${encodeURIComponent(id)}`; }}
+        initialScenarioId={initialScenarioId}
       />
     );
   }
