@@ -43,7 +43,10 @@ body:has(.landing) {
 }
 
 body:has(.landing) #root {
-  display: contents;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 /* ── Ecosystem strip ────────────────────── */
@@ -751,6 +754,12 @@ body:has(.landing) #root {
   max-width: min(1800px, 96vw);
   padding: 24px 24px 48px;
 }
+
+/* ── Reset old landing CSS conflicts for wide-card design ── */
+.landing-nav.landing-nav-reset       { margin-bottom: 0; border-bottom: none; }
+.landing-hero.landing-hero-reset      { margin: 0; background: none; }
+.landing-section.landing-section-reset { margin-bottom: 0; }
+.landing-footer.landing-footer-reset  { border-top: none; padding-top: 0; }
 
 .landing-nav {
   display: flex;
