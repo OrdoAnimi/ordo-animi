@@ -1,140 +1,115 @@
 type Props = { onEnterConsole: () => void; onJoinPilot: () => void; onViewScenarios: () => void };
 
-const SCENARIOS = [
-  'Architecture review board',
-  'Executive briefing',
-  'Discovery workshop',
-  'Challenging a poor solution',
-  'Security or risk pushback',
-  'Delivery conflict',
-  'Architecture trade-off explanation',
-  'Strategy-to-architecture translation',
-  'First meeting with a new team',
-  'End-of-day handover',
+const FEATURED_SCENARIOS = [
+  {
+    title: 'Architecture Review Board',
+    description: 'Prepare a recommendation, defend the trade-offs, and secure a clear decision.',
+  },
+  {
+    title: 'Executive Design Challenge',
+    description: 'Turn technical detail into executive language without losing architectural integrity.',
+  },
+  {
+    title: 'Stakeholder Conflict Meeting',
+    description: 'Navigate disagreement, delivery pressure, and competing priorities with clarity.',
+  },
 ];
 
 export function LandingPage({ onEnterConsole, onViewScenarios }: Props) {
   return (
-    <div className="landing">
-
-      <nav className="landing-nav">
-        <span className="landing-logo">VALOUR™</span>
-        <div className="landing-nav-links">
-          <button className="landing-nav-link" onClick={onViewScenarios}>Scenarios</button>
-          <button className="landing-nav-link" onClick={onEnterConsole}>Console</button>
-          <button className="btn btn-primary landing-cta-nav" onClick={onEnterConsole}>
-            Enter VALOUR™ →
-          </button>
+    <div className="valour-landscape">
+      <header className="valour-landscape-nav">
+        <div>
+          <div className="valour-wordmark">VALOUR™</div>
+          <div className="valour-tagline">Architecture Leadership Co-pilot</div>
         </div>
-      </nav>
+        <nav className="valour-nav-actions" aria-label="Primary navigation">
+          <button className="valour-nav-link" onClick={onViewScenarios}>Scenarios</button>
+          <button className="valour-nav-link" onClick={onEnterConsole}>Resume</button>
+          <button className="valour-btn valour-btn-primary" onClick={onEnterConsole}>Start practice</button>
+        </nav>
+      </header>
 
-      <section className="landing-hero">
-        <div className="landing-eyebrow">Architecture Leadership · AI Rehearsal</div>
-        <h1 className="landing-headline">
-          Prepare for the architecture conversations that decide trust.
-        </h1>
-        <p className="landing-subheadline">
-          VALOUR™ is an AI-assisted leadership rehearsal system for architects and technical leaders.
-          Prepare for review boards, executive briefings, workshops, stakeholder conflict,
-          and trade-off conversations — before the real meeting happens.
-        </p>
-        <div className="landing-hero-actions">
-          <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
-            Enter VALOUR™ →
-          </button>
-          <button className="btn btn-ghost landing-btn-lg" onClick={onViewScenarios}>
-            View scenarios
-          </button>
-        </div>
-      </section>
-
-      <section className="landing-section">
-        <h2 className="landing-section-heading">
-          Architecture leadership fails in conversation before it fails in documentation.
-        </h2>
-        <p className="landing-section-body">
-          Architects are trained to produce frameworks, diagrams, decisions, and artefacts.
-          But the hardest moments are often human. Brief executives without drowning them in detail.
-          Challenge poor decisions without becoming the blocker. Explain risk without sounding negative.
-          Translate complexity into decisions others can act on. That leadership layer is rarely trained directly.
-        </p>
-      </section>
-
-      <section className="landing-loop">
-        <div className="landing-eyebrow">The VALOUR™ loop</div>
-        {['Prepare', 'Rehearse', 'Perform', 'Review', 'Improve'].map((step, i) => (
-          <div key={step} className="loop-step">
-            <span className="loop-num">{String(i + 1).padStart(2, '0')}</span>
-            <span className="loop-label">{step}</span>
+      <main>
+        <section className="valour-slide valour-slide-light valour-hero-slide">
+          <div className="valour-hero-copy">
+            <div className="valour-kicker">Guided preparation for high-stakes architecture moments</div>
+            <h1>Prepare the conversation before it decides trust.</h1>
+            <p>
+              VALOUR helps architects frame the decision, rehearse difficult questions,
+              and refine the language they will use with executives, review boards, and stakeholders.
+            </p>
+            <div className="valour-hero-actions">
+              <button className="valour-btn valour-btn-primary" onClick={onEnterConsole}>Start a practice session</button>
+              <button className="valour-btn valour-btn-secondary" onClick={onViewScenarios}>Explore scenarios</button>
+            </div>
+            <div className="valour-hero-proof">
+              <span>Prepare</span><span>Rehearse</span><span>Refine</span><span>Apply</span>
+            </div>
           </div>
-        ))}
-      </section>
 
-      <section className="landing-section">
-        <div className="landing-eyebrow">What you get</div>
-        <h2 className="landing-section-heading">Leave with something concrete.</h2>
-        <div className="outcomes-grid">
-          <div className="outcome-card">
-            <div className="outcome-num">5 → 8</div>
-            <div className="outcome-title">Confidence shift</div>
-            <p className="outcome-desc">A measurable confidence improvement from intake to completion, validated against your real situation.</p>
+          <aside className="valour-insight-panel">
+            <div className="valour-insight-label">CUSTOS active guide</div>
+            <h2>I help you see what is missing before the meeting does.</h2>
+            <div className="valour-insight-list">
+              <div><strong>Frame the decision.</strong><span>Clarify what you need the audience to approve.</span></div>
+              <div><strong>Challenge the recommendation.</strong><span>Surface weak assumptions and likely objections.</span></div>
+              <div><strong>Refine the language.</strong><span>Turn technical depth into concise leadership communication.</span></div>
+            </div>
+            <button className="valour-btn valour-btn-outline" onClick={onEnterConsole}>See CUSTOS in practice</button>
+          </aside>
+        </section>
+
+        <section className="valour-slide valour-slide-dark valour-statement-slide">
+          <div className="valour-statement-copy">
+            <div className="valour-kicker">Architecture leadership is conversational</div>
+            <h2>The quality of the decision often depends on the quality of the conversation.</h2>
+            <p>
+              VALOUR gives you a structured place to prepare, test, and improve the response before the pressure is real.
+            </p>
           </div>
-          <div className="outcome-card">
-            <div className="outcome-num" style={{ fontSize: '24px' }}>Better language</div>
-            <div className="outcome-title">Refined answers</div>
-            <p className="outcome-desc">Short, executive, empathetic, and decision-oriented versions of your key messages — ready to use.</p>
+        </section>
+
+        <section className="valour-slide valour-slide-light valour-scenarios-slide">
+          <div className="valour-section-heading">
+            <div className="valour-kicker">Start with one real situation</div>
+            <h2>Choose the conversation you need to handle well.</h2>
           </div>
-          <div className="outcome-card">
-            <div className="outcome-num" style={{ fontSize: '20px' }}>One pattern</div>
-            <div className="outcome-title">Leadership insight</div>
-            <p className="outcome-desc">Your primary leadership communication pattern identified and named — with one clear next focus area.</p>
+          <div className="valour-featured-grid">
+            {FEATURED_SCENARIOS.map((scenario, index) => (
+              <button
+                key={scenario.title}
+                className={`valour-scenario-card${index === 0 ? ' featured' : ''}`}
+                onClick={onEnterConsole}
+              >
+                <span className="valour-scenario-index">0{index + 1}</span>
+                <h3>{scenario.title}</h3>
+                <p>{scenario.description}</p>
+                <span className="valour-scenario-action">Practise this scenario →</span>
+              </button>
+            ))}
           </div>
-        </div>
-      </section>
+          <button className="valour-text-link" onClick={onViewScenarios}>View all scenarios →</button>
+        </section>
 
-      <section className="landing-section">
-        <div className="landing-eyebrow">Scenario library</div>
-        <h2 className="landing-section-heading">Built for real architecture leadership moments.</h2>
-        <div className="scenario-grid">
-          {SCENARIOS.map(s => (
-            <div key={s} className="scenario-chip">{s}</div>
-          ))}
-        </div>
-        <button className="btn btn-ghost" style={{ marginTop: '16px' }} onClick={onViewScenarios}>
-          View all scenarios →
-        </button>
-      </section>
+        <section className="valour-slide valour-slide-dark valour-output-slide">
+          <div className="valour-section-heading">
+            <div className="valour-kicker">Leave with something useful</div>
+            <h2>Not a generic chat. A prepared response you can use.</h2>
+          </div>
+          <div className="valour-output-grid">
+            <article><span>01</span><h3>Preparation brief</h3><p>Your recommendation, audience, decision, risks, and opening frame.</p></article>
+            <article><span>02</span><h3>Rehearsed response</h3><p>Your answer to the difficult question most likely to challenge the recommendation.</p></article>
+            <article><span>03</span><h3>Refined executive language</h3><p>A concise version built for the audience and decision in front of you.</p></article>
+          </div>
+        </section>
 
-      <section className="landing-section landing-audience">
-        <div className="landing-eyebrow">Who it is for</div>
-        <p className="landing-section-body">
-          Enterprise architects, solution architects, cloud architects, security architects,
-          domain architects, principal consultants, architecture practice leads, and technical
-          leaders moving into advisory or leadership roles.
-        </p>
-      </section>
-
-      <section className="landing-section landing-cta-section">
-        <h2 className="landing-section-heading">Start with one real leadership situation.</h2>
-        <p className="landing-section-body">
-          Bring one upcoming conversation — a review board, an executive briefing, a difficult stakeholder meeting.
-          VALOUR™ helps you prepare it, rehearse it, refine the language, and review the result.
-        </p>
-        <div className="landing-hero-actions">
-          <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
-            Enter VALOUR™ →
-          </button>
-        </div>
-      </section>
-
-      <footer className="landing-footer">
-        <span className="landing-logo">VALOUR™</span>
-        <span className="landing-footer-copy">
-          © 2026 ZenCloud Global Consultants · Proprietary and confidential ·{' '}
-          <a href="mailto:info@zencloud.com.au">info@zencloud.com.au</a>
-        </span>
-      </footer>
-
+        <section className="valour-slide valour-slide-light valour-final-slide">
+          <h2>Bring one real architecture situation.</h2>
+          <p>CUSTOS will guide the preparation. VALOUR will help you rehearse the moment.</p>
+          <button className="valour-btn valour-btn-primary" onClick={onEnterConsole}>Start practice</button>
+        </section>
+      </main>
     </div>
   );
 }
