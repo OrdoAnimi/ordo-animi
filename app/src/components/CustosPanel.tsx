@@ -7,6 +7,8 @@ type CustosPanelProps = {
   activeStage?: PilotStage;
   activeEntry?: PilotStateEntry;
   onApplyOutput?: (content: string) => void;
+  onUndoOutput?: () => void;
+  canUndo?: boolean;
   onOpen: () => void;
   onClose: () => void;
 };
@@ -21,6 +23,7 @@ const STAGE_TIPS: Record<string, string> = {
   'stage-05-language': 'Remove technical detail that does not help the audience decide.',
   'stage-06-review': 'Name what felt weak, unclear, or difficult rather than recording only what went well.',
   'stage-07-pattern': 'Use the pattern report before the next real conversation as a two-minute preparation check.',
+  'stage-08-outcome': 'Note the one thing you will do differently in the next real conversation.',
 };
 
 const DEFAULT_TIP = 'Work through the current step. VALOUR saves your progress as you go.';
@@ -39,6 +42,8 @@ export function CustosPanel({
   activeStage,
   activeEntry,
   onApplyOutput,
+  onUndoOutput,
+  canUndo,
   onOpen,
   onClose,
 }: CustosPanelProps) {
@@ -136,6 +141,12 @@ export function CustosPanel({
     if (quickActionResult && onApplyOutput) {
       onApplyOutput(quickActionResult);
       setActiveView('guide');
+    }
+  }
+
+  function handleUndo() {
+    if (onUndoOutput) {
+      onUndoOutput();
     }
   }
 
@@ -241,6 +252,9 @@ export function CustosPanel({
                 <button className="custos-qa-btn custos-qa-btn-ai" onClick={() => handleAiAction('executive')}>Make this more executive</button>
                 <button className="custos-qa-btn custos-qa-btn-ai" onClick={() => handleAiAction('shorter')}>Make this shorter</button>
               </>
+            )}
+            {canUndo && onUndoOutput && (
+              <button className="custos-qa-btn custos-qa-btn-undo" onClick={handleUndo}>↩ Undo last suggestion</button>
             )}
           </div>
         )}

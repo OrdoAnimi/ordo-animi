@@ -21,6 +21,14 @@ import type { AppMode, RehearsalState, StageOutput, StageStatus, PilotState } fr
 const SCENARIO_PILOT_MAP: Record<string, string> = {
   'VALOUR-S01': 'PILOT-001',
   'VALOUR-S02': 'PILOT-002',
+  'VALOUR-S03': 'PILOT-S03',
+  'VALOUR-S04': 'PILOT-S04',
+  'VALOUR-S05': 'PILOT-S05',
+  'VALOUR-S06': 'PILOT-S06',
+  'VALOUR-S07': 'PILOT-S07',
+  'VALOUR-S08': 'PILOT-S08',
+  'VALOUR-S09': 'PILOT-S09',
+  'VALOUR-S10': 'PILOT-S10',
 };
 
 type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison';
@@ -29,9 +37,9 @@ function getPage(): Page {
   const h = window.location.hash;
   if (h.startsWith('#console')) return 'console';
   if (h.startsWith('#pattern')) return 'pattern';
-  if (h === '#scenarios') return 'scenarios';
-  if (h === '#readiness') return 'readiness';
-  if (h === '#comparison') return 'comparison';
+  if (h.startsWith('#scenarios')) return 'scenarios';
+  if (h.startsWith('#readiness')) return 'readiness';
+  if (h.startsWith('#comparison')) return 'comparison';
   return 'landing';
 }
 
@@ -104,10 +112,12 @@ export function App() {
   }
 
   if (page === 'scenarios') {
+    const initialScenarioId = getParam('scenario') ?? undefined;
     return (
       <ScenariosPage
         onBack={nav('')}
         onSelectScenario={id => { window.location.hash = `#console?new=1&scenario=${encodeURIComponent(id)}`; }}
+        initialScenarioId={initialScenarioId}
       />
     );
   }
@@ -187,6 +197,7 @@ function Console({
   const isParticipant = mode === 'participant';
   const [custosOpen, setCustosOpen] = useState(false);
   const custosOpenerRef = useRef<HTMLElement | null>(null);
+  const [custosUndoOutput, setCustosUndoOutput] = useState<StageOutput | null>(null);
 
   const openCustos = useCallback(() => {
     if (document.activeElement instanceof HTMLElement) {
@@ -316,6 +327,8 @@ function Console({
       mode={mode}
       canContinue={canContinue}
       intakeEntry={intakeEntry}
+      pilotId={pilot.id}
+      scenarioLabel={pilot.title.includes(':') ? pilot.title.split(':')[1].trim() : pilot.title}
       onGenerate={handleGenerate}
       onSaveOutput={handleSaveOutput}
       onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
@@ -346,7 +359,19 @@ function Console({
             isOpen={custosOpen}
             activeStage={activeStage}
             activeEntry={activeEntry}
-            onApplyOutput={(content) => setOutput(activeStage.id, { content, source: 'manual', generatedAt: new Date().toISOString() })}
+            onApplyOutput={(content) => {
+              setCustosUndoOutput(activeEntry.output ?? null);
+              setOutput(activeStage.id, { content, source: 'manual', generatedAt: new Date().toISOString() });
+            }}
+            onUndoOutput={() => {
+              if (custosUndoOutput) {
+                setOutput(activeStage.id, custosUndoOutput);
+              } else {
+                setOutput(activeStage.id, { content: '', source: 'manual', generatedAt: new Date().toISOString() });
+              }
+              setCustosUndoOutput(null);
+            }}
+            canUndo={!!custosUndoOutput}
             onOpen={openCustos}
             onClose={closeCustos}
           />

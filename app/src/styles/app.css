@@ -460,6 +460,24 @@ body:has(.landing) #root {
 .ws-intake-actions  { display: flex; align-items: center; gap: 12px; }
 .ws-saved-label     { color: var(--green); font-size: 12px; font-weight: 600; }
 .ws-intake-hint     { color: var(--text-faint); font-size: 11px; line-height: 1.5; }
+.intake-required    { color: var(--red, #c0392b); font-weight: 700; margin-left: 2px; }
+.intake-input-error { border-color: var(--red, #c0392b) !important; }
+.intake-field-error { color: var(--red, #c0392b); font-size: 11px; margin-top: 4px; display: block; }
+.intake-input-narrow { max-width: 100px; }
+.intake-saved-confirm { color: var(--green, #27ae60); font-size: 12px; font-weight: 600; }
+
+/* Session completion screen */
+.ws-completion { display: flex; flex-direction: column; gap: 16px; padding: 32px; background: var(--surface-raised, #1a201a); border: 1px solid var(--border); border-radius: 8px; margin-top: 8px; }
+.ws-completion-badge { display: inline-block; padding: 4px 10px; background: var(--green, #27ae60); color: #fff; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; width: fit-content; }
+.ws-completion-title { font-size: 22px; font-weight: 700; margin: 0; }
+.ws-completion-scenario { font-size: 14px; color: var(--text-secondary); margin: 0; }
+.ws-completion-phases { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.ws-completion-phases-label { color: var(--text-faint); }
+.ws-completion-phases-value { font-weight: 700; }
+.ws-completion-response { display: flex; flex-direction: column; gap: 6px; }
+.ws-completion-response-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.ws-completion-quote { border-left: 3px solid var(--accent); margin: 0; padding: 8px 16px; font-style: italic; color: var(--text-secondary); line-height: 1.6; }
+.ws-completion-actions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
 
 /* Nav bar */
 .ws-nav {
@@ -2022,6 +2040,8 @@ details[open] .ws-guidance-summary::before { transform: rotate(90deg); }
 .custos-qa-btn:hover { border-color: var(--accent); color: var(--accent); }
 .custos-qa-btn-ai { border-color: rgba(232,99,10,.18); }
 .custos-qa-btn-ai:hover { background: rgba(232,99,10,.04); }
+.custos-qa-btn-undo { border-color: rgba(100,160,100,.25); color: var(--green, #27ae60); }
+.custos-qa-btn-undo:hover { background: rgba(39,174,96,.06); border-color: rgba(39,174,96,.4); }
 
 .custos-preview { display: flex; flex-direction: column; gap: 10px; }
 .custos-preview-loading {

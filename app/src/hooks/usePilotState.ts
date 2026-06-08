@@ -19,7 +19,7 @@ function emptyRehearsal(): RehearsalState {
 function makeDefault(pilotId: string, stages: PilotStage[]): PilotState {
   const entries: Record<string, PilotStateEntry> = {};
   stages.forEach(s => {
-    entries[s.id] = { stageId: s.id, status: s.status };
+    entries[s.id] = { stageId: s.id, status: 'not-started' };
   });
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
