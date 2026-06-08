@@ -195,6 +195,7 @@ function Console({
   const isParticipant = mode === 'participant';
   const [custosOpen, setCustosOpen] = useState(false);
   const custosOpenerRef = useRef<HTMLElement | null>(null);
+  const [custosUndoOutput, setCustosUndoOutput] = useState<StageOutput | null>(null);
 
   const openCustos = useCallback(() => {
     if (document.activeElement instanceof HTMLElement) {
@@ -356,7 +357,19 @@ function Console({
             isOpen={custosOpen}
             activeStage={activeStage}
             activeEntry={activeEntry}
-            onApplyOutput={(content) => setOutput(activeStage.id, { content, source: 'manual', generatedAt: new Date().toISOString() })}
+            onApplyOutput={(content) => {
+              setCustosUndoOutput(activeEntry.output ?? null);
+              setOutput(activeStage.id, { content, source: 'manual', generatedAt: new Date().toISOString() });
+            }}
+            onUndoOutput={() => {
+              if (custosUndoOutput) {
+                setOutput(activeStage.id, custosUndoOutput);
+              } else {
+                setOutput(activeStage.id, { content: '', source: 'manual', generatedAt: new Date().toISOString() });
+              }
+              setCustosUndoOutput(null);
+            }}
+            canUndo={!!custosUndoOutput}
             onOpen={openCustos}
             onClose={closeCustos}
           />

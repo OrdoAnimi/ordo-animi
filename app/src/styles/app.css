@@ -2040,6 +2040,8 @@ details[open] .ws-guidance-summary::before { transform: rotate(90deg); }
 .custos-qa-btn:hover { border-color: var(--accent); color: var(--accent); }
 .custos-qa-btn-ai { border-color: rgba(232,99,10,.18); }
 .custos-qa-btn-ai:hover { background: rgba(232,99,10,.04); }
+.custos-qa-btn-undo { border-color: rgba(100,160,100,.25); color: var(--green, #27ae60); }
+.custos-qa-btn-undo:hover { background: rgba(39,174,96,.06); border-color: rgba(39,174,96,.4); }
 
 .custos-preview { display: flex; flex-direction: column; gap: 10px; }
 .custos-preview-loading {
