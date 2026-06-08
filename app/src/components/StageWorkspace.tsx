@@ -1,11 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
-import type { PilotStage, PilotStateEntry, StageOutput, StageStatus, GenerationSource } from '../data/types';
+import type {
+  AppMode,
+  GenerationSource,
+  PilotStage,
+  PilotStateEntry,
+  RehearsalQuestion,
+  RehearsalState,
+  StageOutput,
+  StageStatus,
+} from '../data/types';
 import type { DependencyCheck } from '../services/agents';
 
 const STATUS_LABELS: Record<StageStatus, string> = {
-  'complete':    'Complete',
-  'draft':       'Draft',
-  'to-confirm':  'To confirm',
+  complete: 'Complete',
+  draft: 'Draft',
+  'to-confirm': 'To confirm',
   'not-started': 'Not started',
 };
 
@@ -15,22 +24,22 @@ function nextStatus(s: StageStatus): StageStatus {
 }
 
 const SOURCE_LABELS: Record<GenerationSource, string> = {
-  ai:     'AI',
-  local:  'Local template',
-  manual: 'Manual edit',
+  ai: 'Generated with VALOUR AI',
+  local: 'Structured VALOUR guidance',
+  manual: 'Your edited version',
 };
 
 const PROVIDER_LABELS: Record<string, string> = {
   anthropic: 'Anthropic · Claude',
-  openai:    'OpenAI · GPT',
-  local:     'Local fallback',
+  openai: 'OpenAI · GPT',
+  local: 'Local fallback',
 };
 
 const STEPPER_STAGE_IDS = [
   'stage-01-intake', 'stage-02-scenario', 'stage-03-prep',
   'stage-04-rehearsal', 'stage-05-language', 'stage-06-review', 'stage-07-pattern',
 ];
-const STEPPER_LABELS = ['Context', 'Scenario', 'Prepare', 'Rehearse', 'Refine', 'Review', 'Report'];
+const STEPPER_LABELS = ['Context', 'Scenario', 'Prepare', 'Rehearse', 'Refine', 'Reflect', 'Report'];
 
 type Props = {
   stage: PilotStage;
@@ -41,9 +50,12 @@ type Props = {
   dependency: DependencyCheck;
   completedStageIds: string[];
   rehearsalAnswer?: string;
+  rehearsal?: RehearsalState;
+  mode: AppMode;
   onGenerate: () => Promise<void>;
   onSaveOutput: (output: StageOutput) => void;
   onSaveUserInput: (input: string) => void;
+  onSaveRehearsal: (rehearsal: RehearsalState) => void;
   onCycleStatus: (status: StageStatus) => void;
   onPrev: () => void;
   onNext: () => void;
@@ -51,25 +63,29 @@ type Props = {
 
 export function StageWorkspace({
   stage, entry, index, total, hasAgent, dependency,
-  completedStageIds, rehearsalAnswer,
-  onGenerate, onSaveOutput, onSaveUserInput, onCycleStatus,
+  completedStageIds, rehearsalAnswer, rehearsal, mode,
+  onGenerate, onSaveOutput, onSaveUserInput, onSaveRehearsal, onCycleStatus,
   onPrev, onNext,
 }: Props) {
   const num = String(index + 1).padStart(2, '0');
   const tot = String(total).padStart(2, '0');
-
   const [generating, setGenerating] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
   const textRef = useRef<HTMLTextAreaElement>(null);
 
-  // Sync local draft when entry changes (e.g. pilot switch)
   useEffect(() => {
     setEditing(false);
   }, [stage.id]);
 
   const output = entry.output;
   const status = entry.status;
+  const isDeveloper = mode === 'developer';
+  const isFacilitator = mode === 'facilitator';
+  const isIntake = stage.id === 'stage-01-intake';
+  const isRehearsal = stage.id === 'stage-04-rehearsal';
+  const isLanguage = stage.id === 'stage-05-language';
+  const canGenerate = hasAgent && dependency.ok && !isIntake && !isFacilitator;
 
   async function handleGenerate() {
     setGenerating(true);
@@ -89,16 +105,8 @@ export function StageWorkspace({
     setEditing(false);
   }
 
-  const isIntake    = stage.id === 'stage-01-intake';
-  const isRehearsal = stage.id === 'stage-04-rehearsal';
-  const isLanguage  = stage.id === 'stage-05-language';
-
-  const canGenerate = hasAgent && dependency.ok && !isIntake;
-
   return (
     <div className="workspace">
-
-      {/* Stepper */}
       <div className="ws-stepper">
         {STEPPER_STAGE_IDS.map((id, i) => {
           const isDone = completedStageIds.includes(id) && id !== stage.id;
@@ -116,28 +124,30 @@ export function StageWorkspace({
         })}
       </div>
 
-      {/* Header */}
       <div className="ws-header">
-        <div className="ws-eyebrow">Stage {num} of {tot} · {stage.label}</div>
-        <button
-          className={`badge badge-status badge-status-${status}`}
-          onClick={() => onCycleStatus(nextStatus(status))}
-          title="Click to cycle status"
-        >
-          {STATUS_LABELS[status]}
-        </button>
+        <div className="ws-eyebrow">Stage {num} of {tot} · {STEPPER_LABELS[index] ?? stage.label}</div>
+        {isDeveloper ? (
+          <button
+            className={`badge badge-status badge-status-${status}`}
+            onClick={() => onCycleStatus(nextStatus(status))}
+            title="Developer control: cycle status"
+          >
+            {STATUS_LABELS[status]}
+          </button>
+        ) : (
+          <span className={`badge badge-status badge-status-${status}`}>{STATUS_LABELS[status]}</span>
+        )}
       </div>
 
-      <div className="ws-title">{stage.label}</div>
+      <div className="ws-title">{STEPPER_LABELS[index] ?? stage.label}</div>
       <div className="ws-desc">{stage.description}</div>
 
-      {/* Stage guidance */}
       {stage.guidance && (
         <details className="ws-guidance">
-          <summary className="ws-guidance-summary">About this stage</summary>
+          <summary className="ws-guidance-summary">What happens here</summary>
           <div className="ws-guidance-grid">
             <div className="ws-guidance-item">
-              <span className="ws-guidance-label">What this stage does</span>
+              <span className="ws-guidance-label">Purpose</span>
               <div className="ws-guidance-value">{stage.guidance.what}</div>
             </div>
             <div className="ws-guidance-item">
@@ -145,18 +155,17 @@ export function StageWorkspace({
               <div className="ws-guidance-value">{stage.guidance.provides}</div>
             </div>
             <div className="ws-guidance-item">
-              <span className="ws-guidance-label">VALOUR generates</span>
+              <span className="ws-guidance-label">VALOUR prepares</span>
               <div className="ws-guidance-value">{stage.guidance.generates}</div>
             </div>
             <div className="ws-guidance-item">
-              <span className="ws-guidance-label">Recommended next</span>
+              <span className="ws-guidance-label">Next movement</span>
               <div className="ws-guidance-value">{stage.guidance.next}</div>
             </div>
           </div>
         </details>
       )}
 
-      {/* Dependency warning */}
       {!dependency.ok && hasAgent && (
         <div className="ws-dependency-warn">
           <span className="ws-dependency-icon">⚠</span>
@@ -164,41 +173,31 @@ export function StageWorkspace({
         </div>
       )}
 
-      {/* Intake */}
-      {isIntake && (
+      {isIntake && !isFacilitator && (
         <IntakeCapture entry={entry} onSaveUserInput={onSaveUserInput} />
       )}
 
-      {/* Rehearsal answer panel — always visible in stage 04 */}
       {isRehearsal && (
-        <RehearsalAnswerPanel
-          key={entry.userInput ?? 'none'}
+        <RehearsalFlow
           output={output}
-          savedUserInput={entry.userInput}
-          onSave={onSaveUserInput}
+          rehearsal={rehearsal}
+          readOnly={isFacilitator}
+          onSave={onSaveRehearsal}
         />
       )}
 
-      {/* Language refinement — preview rehearsal answer */}
       {isLanguage && (
         <div className="ws-input-preview">
           <div className="ws-input-preview-label">
-            {rehearsalAnswer ? 'Your rehearsal answer' : 'No rehearsal answer yet'}
+            {rehearsalAnswer ? 'Your submitted rehearsal response' : 'No rehearsal response yet'}
           </div>
           {rehearsalAnswer
-            ? <div className="ws-input-preview-value">"{rehearsalAnswer}"</div>
-            : <div className="ws-input-preview-missing">Record your answer in Stage 04 (Rehearse) first, then return here to generate refined versions.</div>
+            ? <div className="ws-input-preview-value">“{rehearsalAnswer}”</div>
+            : <div className="ws-input-preview-missing">Return to Rehearse and submit one response before refining your language.</div>
           }
-          {rehearsalAnswer && (
-            <p style={{ color: 'var(--text-faint)', fontSize: '11px', marginTop: '4px' }}>
-              To edit your answer, return to Stage 04.
-            </p>
-          )}
         </div>
       )}
 
-
-      {/* Generated output */}
       {output && !editing && (
         <div className="ws-output">
           <div className="ws-output-header">
@@ -206,30 +205,31 @@ export function StageWorkspace({
               <span className={`ws-output-source source-icon-${output.source}`}>
                 {SOURCE_LABELS[output.source]}
               </span>
-              {output.provider && output.provider !== 'local' && (
+              {isDeveloper && output.provider && (
                 <span className="ws-output-provider">
                   {PROVIDER_LABELS[output.provider] ?? output.provider}
                 </span>
               )}
-              {output.durationMs && (
+              {isDeveloper && output.durationMs && (
                 <span className="ws-output-duration">{(output.durationMs / 1000).toFixed(1)}s</span>
               )}
             </div>
-            <div className="ws-output-actions">
-              <button className="btn btn-ghost ws-action-btn" onClick={startEdit}>Edit</button>
-              {canGenerate && (
-                <button className="btn btn-ghost ws-action-btn" onClick={handleGenerate} disabled={generating}>
-                  {generating ? '…' : 'Regenerate'}
-                </button>
-              )}
-            </div>
+            {!isFacilitator && (
+              <div className="ws-output-actions">
+                <button className="btn btn-ghost ws-action-btn" onClick={startEdit}>Edit</button>
+                {canGenerate && (
+                  <button className="btn btn-ghost ws-action-btn" onClick={handleGenerate} disabled={generating}>
+                    {generating ? '…' : 'Regenerate'}
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <div className="ws-output-content markdown-content"
                dangerouslySetInnerHTML={{ __html: simpleMarkdown(output.content) }} />
         </div>
       )}
 
-      {/* Edit mode */}
       {editing && (
         <div className="ws-edit">
           <textarea
@@ -240,42 +240,39 @@ export function StageWorkspace({
             rows={22}
           />
           <div className="ws-edit-actions">
-            <button className="btn btn-primary" onClick={saveEdit}>Save changes</button>
+            <button className="btn btn-primary" onClick={saveEdit}>Save preferred response</button>
             <button className="btn btn-ghost" onClick={() => setEditing(false)}>Cancel</button>
           </div>
         </div>
       )}
 
-      {/* Generate button */}
       {canGenerate && !output && !generating && (
         <button className="btn btn-generate" onClick={handleGenerate}>
           <span className="btn-generate-icon">✦</span>
-          Generate with VALOUR™
+          {isRehearsal ? 'Prepare rehearsal questions' : 'Generate with VALOUR™'}
         </button>
       )}
 
       {generating && (
         <div className="ws-generating">
           <div className="ws-generating-spinner" />
-          <span>VALOUR™ is generating…</span>
+          <span>VALOUR™ is preparing your next step…</span>
         </div>
       )}
 
-      {/* Nav */}
       <div className="ws-nav">
-        <button className="btn btn-ghost" onClick={onPrev} disabled={index === 0}>← Prev</button>
-        <div className="ws-source-badge">
-          <span className="badge badge-source">{stage.sourceFile}</span>
-          {output && <span className="ws-saved-dot" title="Output saved" />}
-        </div>
-        <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1}>Next →</button>
+        <button className="btn btn-ghost" onClick={onPrev} disabled={index === 0}>← Previous</button>
+        {isDeveloper && (
+          <div className="ws-source-badge">
+            <span className="badge badge-source">{stage.sourceFile}</span>
+            {output && <span className="ws-saved-dot" title="Output saved" />}
+          </div>
+        )}
+        <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1}>Continue →</button>
       </div>
-
     </div>
   );
 }
-
-// ── Intake capture ─────────────────────────────────────────────────────────────
 
 function IntakeCapture({ entry, onSaveUserInput }: {
   entry: PilotStateEntry;
@@ -312,20 +309,169 @@ function IntakeCapture({ entry, onSaveUserInput }: {
     <div className="ws-intake">
       {field('role', 'Your role', 'e.g. Senior Solution Architect')}
       {field('organisation', 'Organisation or program', 'e.g. Enterprise cloud transformation')}
-      {field('situation', 'Describe the situation you are preparing for', 'e.g. Presenting a cloud integration design to the architecture review board…', 4)}
-      {field('outcome', 'Desired outcome', 'e.g. Board endorses the design with documented conditions')}
-      {field('confidence', 'Confidence before VALOUR™ (1–10)', '5')}
+      {field('situation', 'Describe the leadership situation', 'e.g. Presenting a cloud integration design to the architecture review board…', 4)}
+      {field('outcome', 'What decision or outcome do you need?', 'e.g. Board endorses the design with documented conditions')}
+      {field('confidence', 'Current confidence (1–10)', '5')}
       <div className="ws-intake-actions">
         <button className="btn btn-primary" onClick={save}>
-          {saved ? 'Saved ✓' : 'Save context'}
+          {saved ? 'Context saved ✓' : 'Save context'}
         </button>
-        {!saved && values.role && <span className="ws-intake-hint">Save to enable generation in later stages.</span>}
       </div>
     </div>
   );
 }
 
-// ── Markdown renderer (no external dep) ───────────────────────────────────────
+function parseQuestions(content: string): RehearsalQuestion[] {
+  const questions: RehearsalQuestion[] = [];
+  const lines = content.split('\n');
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i].trim();
+    const quoted = line.match(/^>\s*["“](.+?)["”]?$/);
+    if (quoted?.[1]) {
+      questions.push({ id: `question-${questions.length + 1}`, topic: `Question ${questions.length + 1}`, text: quoted[1] });
+      continue;
+    }
+    const numbered = line.match(/^(?:\d+\.|[-*]|Q\d+:)\s+(.{10,})$/i);
+    if (numbered?.[1] && numbered[1].includes('?')) {
+      questions.push({ id: `question-${questions.length + 1}`, topic: `Question ${questions.length + 1}`, text: numbered[1].replace(/\*\*/g, '') });
+    }
+  }
+  return questions.slice(0, 4);
+}
+
+function RehearsalFlow({ output, rehearsal, readOnly, onSave }: {
+  output?: StageOutput;
+  rehearsal?: RehearsalState;
+  readOnly: boolean;
+  onSave: (rehearsal: RehearsalState) => void;
+}) {
+  const parsedQuestions = output ? parseQuestions(output.content) : [];
+  const questions = rehearsal?.questions?.length ? rehearsal.questions : parsedQuestions;
+  const [selectedQuestionId, setSelectedQuestionId] = useState(rehearsal?.selectedQuestionId ?? questions[0]?.id ?? '');
+  const [responseText, setResponseText] = useState(rehearsal?.response?.responseText ?? '');
+  const [preferredResponse, setPreferredResponse] = useState(rehearsal?.preferredResponse ?? '');
+
+  useEffect(() => {
+    if (!selectedQuestionId && questions[0]?.id) setSelectedQuestionId(questions[0].id);
+  }, [questions, selectedQuestionId]);
+
+  const selectedQuestion = questions.find(q => q.id === selectedQuestionId);
+  const submitted = rehearsal?.response?.status === 'submitted';
+  const complete = rehearsal?.status === 'complete';
+
+  function saveDraft() {
+    if (!selectedQuestionId || !responseText.trim()) return;
+    onSave({
+      ...(rehearsal ?? { questions, status: 'not-started' }),
+      questions,
+      selectedQuestionId,
+      response: {
+        questionId: selectedQuestionId,
+        responseText: responseText.trim(),
+        inputMethod: 'typed',
+        startedAt: rehearsal?.response?.startedAt ?? new Date().toISOString(),
+        status: 'draft',
+      },
+      status: 'response-draft',
+    });
+  }
+
+  function submitResponse() {
+    if (!selectedQuestionId || !responseText.trim()) return;
+    onSave({
+      ...(rehearsal ?? { questions, status: 'not-started' }),
+      questions,
+      selectedQuestionId,
+      response: {
+        questionId: selectedQuestionId,
+        responseText: responseText.trim(),
+        inputMethod: 'typed',
+        startedAt: rehearsal?.response?.startedAt ?? new Date().toISOString(),
+        submittedAt: new Date().toISOString(),
+        status: 'submitted',
+      },
+      status: 'response-submitted',
+    });
+  }
+
+  function completeRehearsal() {
+    if (!submitted || !preferredResponse.trim()) return;
+    onSave({
+      ...(rehearsal ?? { questions, status: 'not-started' }),
+      questions,
+      selectedQuestionId,
+      preferredResponse: preferredResponse.trim(),
+      status: 'complete',
+    });
+  }
+
+  return (
+    <div className="ws-rehearsal-panel rehearsal-flow">
+      <div className="ws-rehearsal-panel-label">Practise one real response</div>
+      {!output && <p className="ws-rehearsal-hint-text">Prepare rehearsal questions, then answer the one most likely to challenge your recommendation.</p>}
+      {questions.length > 0 && (
+        <>
+          <label className="ws-guidance-label" htmlFor="rehearsal-question">Choose one question</label>
+          <select
+            id="rehearsal-question"
+            className="ws-select"
+            value={selectedQuestionId}
+            disabled={readOnly || complete}
+            onChange={e => setSelectedQuestionId(e.target.value)}
+          >
+            {questions.map(q => <option key={q.id} value={q.id}>{q.text}</option>)}
+          </select>
+          {selectedQuestion && <div className="ws-answer-question">{selectedQuestion.text}</div>}
+
+          <label className="ws-guidance-label" htmlFor="rehearsal-response">Your response</label>
+          <textarea
+            id="rehearsal-response"
+            className="ws-textarea"
+            value={responseText}
+            readOnly={readOnly || complete}
+            onChange={e => setResponseText(e.target.value)}
+            placeholder="Answer as you would in the real conversation…"
+            rows={7}
+          />
+
+          {!readOnly && !submitted && (
+            <div className="ws-user-input-actions">
+              <button className="btn btn-ghost" onClick={saveDraft} disabled={!responseText.trim()}>Save draft</button>
+              <button className="btn btn-primary" onClick={submitResponse} disabled={!responseText.trim()}>Submit for refinement</button>
+            </div>
+          )}
+
+          {submitted && !complete && (
+            <div className="ws-refinement-card">
+              <div className="ws-input-preview-label">Preferred refined response</div>
+              <p className="ws-rehearsal-hint-text">Generate the Refine stage, then paste or edit the version you intend to use.</p>
+              <textarea
+                className="ws-textarea"
+                value={preferredResponse}
+                readOnly={readOnly}
+                onChange={e => setPreferredResponse(e.target.value)}
+                placeholder="Save the concise, executive, empathetic, or edited response you will use…"
+                rows={6}
+              />
+              {!readOnly && (
+                <button className="btn btn-primary" onClick={completeRehearsal} disabled={!preferredResponse.trim()}>
+                  Save preferred response
+                </button>
+              )}
+            </div>
+          )}
+
+          {complete && (
+            <div className="ws-answer-preview">
+              <div className="ws-input-preview-label">Rehearsal complete</div>
+              <div className="ws-answer-text">“{rehearsal?.preferredResponse}”</div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
 
 export function simpleMarkdown(md: string): string {
   const escaped = md
@@ -338,16 +484,13 @@ export function simpleMarkdown(md: string): string {
   let inList = false;
   let inBlockquote = false;
 
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i += 1) {
     let line = lines[i];
-
-    // Apply inline formatting
     line = line
       .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/`([^`]+)`/g, '<code>$1</code>');
 
-    // Headings
     if (/^#{1,4} /.test(line)) {
       if (inList) { out.push('</ul>'); inList = false; }
       if (inBlockquote) { out.push('</blockquote>'); inBlockquote = false; }
@@ -357,14 +500,12 @@ export function simpleMarkdown(md: string): string {
       continue;
     }
 
-    // HR
     if (/^---+$/.test(line.trim())) {
       if (inList) { out.push('</ul>'); inList = false; }
       out.push('<hr />');
       continue;
     }
 
-    // Blockquote
     if (/^&gt; /.test(line)) {
       if (inList) { out.push('</ul>'); inList = false; }
       if (!inBlockquote) { out.push('<blockquote>'); inBlockquote = true; }
@@ -373,7 +514,6 @@ export function simpleMarkdown(md: string): string {
     }
     if (inBlockquote) { out.push('</blockquote>'); inBlockquote = false; }
 
-    // List items
     if (/^[-*] /.test(line)) {
       if (!inList) { out.push('<ul>'); inList = true; }
       out.push(`<li>${line.replace(/^[-*] /, '')}</li>`);
@@ -381,125 +521,11 @@ export function simpleMarkdown(md: string): string {
     }
     if (inList) { out.push('</ul>'); inList = false; }
 
-    // Paragraph
-    if (line.trim() === '') {
-      out.push('');
-    } else {
-      out.push(`<p>${line}</p>`);
-    }
+    if (line.trim() === '') out.push('');
+    else out.push(`<p>${line}</p>`);
   }
 
   if (inList) out.push('</ul>');
   if (inBlockquote) out.push('</blockquote>');
-
   return out.join('\n');
-}
-
-// ── Rehearsal helpers ─────────────────────────────────────────────────────────
-
-function parseQuestions(content: string): string[] {
-  const questions: string[] = [];
-  for (const line of content.split('\n')) {
-    const t = line.trim();
-    if (/^(\d+\.|[-*]|\*\*Q\d+\*\*:?|Q\d+:|\*\*Question \d+:\*\*)\s+.{10,}/.test(t)) {
-      const text = t
-        .replace(/^(\d+\.|[-*]|\*\*Q\d+\*\*:?\s*|Q\d+:\s*|\*\*Question \d+:\*\*\s*)/, '')
-        .replace(/\*\*/g, '')
-        .trim();
-      if (text.length > 10) questions.push(text);
-    }
-  }
-  return questions;
-}
-
-function parseRehearsalUserInput(raw: string | undefined): { question: string; answer: string } | null {
-  if (!raw?.trim()) return null;
-  try {
-    const parsed = JSON.parse(raw) as { question?: string; answer?: string };
-    if (parsed.answer) return { question: parsed.question ?? '', answer: parsed.answer };
-  } catch { /* ignore */ }
-  return { question: '', answer: raw };
-}
-
-// ── RehearsalAnswerPanel ───────────────────────────────────────────────────────
-
-function RehearsalAnswerPanel({ output, savedUserInput, onSave }: {
-  output: StageOutput | undefined;
-  savedUserInput: string | undefined;
-  onSave: (value: string) => void;
-}) {
-  const saved = parseRehearsalUserInput(savedUserInput);
-  const questions = output ? parseQuestions(output.content) : [];
-
-  const [editing, setEditing] = useState(!saved?.answer);
-  const [selectedQuestion, setSelectedQuestion] = useState(saved?.question ?? '');
-  const [answer, setAnswer] = useState(saved?.answer ?? '');
-  const [justSaved, setJustSaved] = useState(!!saved?.answer);
-
-  function handleSave() {
-    if (!answer.trim()) return;
-    onSave(JSON.stringify({ question: selectedQuestion, answer: answer.trim() }));
-    setJustSaved(true);
-    setEditing(false);
-  }
-
-  return (
-    <div className="ws-rehearsal-panel">
-      <div className="ws-rehearsal-panel-label">Record your answer</div>
-
-      {!output && (
-        <p className="ws-rehearsal-hint-text">
-          Generate rehearsal questions above, then record your answer here.
-        </p>
-      )}
-
-      {output && justSaved && !editing && (
-        <div className="ws-answer-preview">
-          {selectedQuestion && (
-            <div className="ws-answer-question">Q: {selectedQuestion}</div>
-          )}
-          <div className="ws-answer-text">"{answer}"</div>
-          <button className="link-btn" onClick={() => setEditing(true)}>Edit answer</button>
-        </div>
-      )}
-
-      {output && (editing || !justSaved) && (
-        <>
-          {questions.length > 0 && (
-            <div className="ws-question-selector">
-              <span className="ws-guidance-label">Select a question to practise</span>
-              <select
-                className="ws-select"
-                value={selectedQuestion}
-                onChange={e => setSelectedQuestion(e.target.value)}
-              >
-                <option value="">— Choose a question —</option>
-                {questions.map((q, i) => (
-                  <option key={q || i} value={q}>
-                    {q.length > 90 ? q.slice(0, 90) + '…' : q}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          <textarea
-            className="ws-textarea"
-            value={answer}
-            onChange={e => { setAnswer(e.target.value); setJustSaved(false); }}
-            placeholder="Type your answer here…"
-            rows={6}
-            autoFocus
-          />
-          <div className="ws-user-input-actions">
-            <button className="btn btn-primary" onClick={handleSave} disabled={!answer.trim()}>
-              Save answer
-            </button>
-            {justSaved && (
-              <button className="btn btn-ghost" onClick={() => setEditing(false)}>Cancel</button>
-            )}
-          </div>
-        </>
-      )}
-    </div>
-  );
 }
