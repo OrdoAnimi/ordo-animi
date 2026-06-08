@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ALL_PILOTS, getPilotById } from './data/pilots';
 import { usePilotState } from './hooks/usePilotState';
 import { STAGE_AGENTS, checkDependency } from './services/agents';
@@ -44,13 +44,6 @@ function getMode(): AppMode {
   return mode === 'developer' || mode === 'facilitator' ? mode : 'participant';
 }
 
-function consoleHashWithoutNew() {
-  const params = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
-  params.delete('new');
-  const query = params.toString();
-  return `${window.location.pathname}#console${query ? `?${query}` : ''}`;
-}
-
 export function App() {
   const [page, setPage] = useState<Page>(getPage);
 
@@ -64,14 +57,15 @@ export function App() {
 
   if (page === 'landing') {
     return (
-      <LandingPage
-        onEnterConsole={nav('#console')}
-        onStartNew={(sid) => {
-          window.location.hash = sid ? `#console?new=1&scenario=${sid}` : '#console?new=1';
-        }}
-        onJoinPilot={nav('#console?new=1')}
-        onViewScenarios={nav('#scenarios')}
-      />
+      <>
+        <LandingPage
+          onEnterConsole={nav('#console')}
+          onStartNew={(sid) => { window.location.hash = sid ? `#console?new=1&scenario=${sid}` : '#console?new=1'; }}
+          onJoinPilot={nav('#console?new=1')}
+          onViewScenarios={nav('#scenarios')}
+        />
+        <CustosPanel page="landing" />
+      </>
     );
   }
 
@@ -115,13 +109,13 @@ export function App() {
   if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
   if (page === 'comparison') return <ComparisonPage onBack={nav('#console')} />;
 
-  const scenarioId = getParam('scenario');
+  const scenarioId    = getParam('scenario');
   const activePilotId = getParam('pilot') ?? (scenarioId ? (SCENARIO_PILOT_MAP[scenarioId] ?? 'PILOT-001') : 'PILOT-001');
   const isNewSession = getParam('new') === '1';
-
   return (
     <Console
       pilotId={activePilotId}
+      scenarioId={scenarioId}
       mode={getMode()}
       isNewSession={isNewSession}
       onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
@@ -129,17 +123,7 @@ export function App() {
   );
 }
 
-function Console({
-  pilotId,
-  mode,
-  isNewSession,
-  onViewPattern,
-}: {
-  pilotId: string;
-  mode: AppMode;
-  isNewSession: boolean;
-  onViewPattern: () => void;
-}) {
+function Console({ pilotId, scenarioId, mode, isNewSession, onViewPattern }: { pilotId: string; scenarioId?: string | null; mode: AppMode; isNewSession: boolean; onViewPattern: () => void }) {
   const pilot = getPilotById(pilotId);
   const { state, setOutput, setStatus, setUserInput, setRehearsal, appendLog, resetPilot } = usePilotState(pilot.id, pilot.stages);
 
@@ -167,7 +151,7 @@ function Console({
     if (isNewSession && !hasExistingProgress) {
       resetPilot();
       setActiveIndex(0);
-      window.history.replaceState(null, '', consoleHashWithoutNew());
+      window.history.replaceState(null, '', window.location.pathname + '#console');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -184,35 +168,6 @@ function Console({
   const activeEntry = state.entries[activeStage.id] ?? { stageId: activeStage.id, status: 'not-started' as StageStatus };
   const isDeveloper = mode === 'developer';
   const isFacilitator = mode === 'facilitator';
-  const isParticipant = mode === 'participant';
-  const [custosOpen, setCustosOpen] = useState(false);
-  const custosOpenerRef = useRef<HTMLElement | null>(null);
-
-  const openCustos = useCallback(() => {
-    if (document.activeElement instanceof HTMLElement) {
-      custosOpenerRef.current = document.activeElement;
-    }
-    setCustosOpen(true);
-  }, []);
-
-  const closeCustos = useCallback(() => {
-    const returnTarget = custosOpenerRef.current?.isConnected
-      ? custosOpenerRef.current
-      : document.querySelector<HTMLElement>('.custos-floating-trigger');
-    returnTarget?.focus();
-    setCustosOpen(false);
-  }, []);
-
-  useEffect(() => {
-    if (!isParticipant) {
-      setCustosOpen(false);
-      return;
-    }
-    if (sessionStorage.getItem('custos:console-opened') !== 'true') {
-      sessionStorage.setItem('custos:console-opened', 'true');
-      setCustosOpen(true);
-    }
-  }, [isParticipant]);
 
   const liveStages = pilot.stages.map(s => ({
     ...s,
@@ -251,7 +206,11 @@ function Console({
   function handleSaveOutput(output: StageOutput) {
     setOutput(activeStage.id, output);
     if (activeStage.id === 'stage-05-language' && state.rehearsal?.response?.status === 'submitted') {
-      setRehearsal({ ...state.rehearsal, preferredResponse: output.content, status: 'complete' });
+      setRehearsal({
+        ...state.rehearsal,
+        preferredResponse: output.content,
+        status: 'complete',
+      });
       setStatus('stage-04-rehearsal', 'complete');
     }
   }
@@ -280,7 +239,7 @@ function Console({
               className="btn btn-primary resume-btn"
               onClick={() => {
                 setShowResumeDialog(false);
-                window.history.replaceState(null, '', consoleHashWithoutNew());
+                window.history.replaceState(null, '', '#console');
               }}
             >
               Resume session
@@ -291,7 +250,7 @@ function Console({
                 resetPilot();
                 setActiveIndex(0);
                 setShowResumeDialog(false);
-                window.history.replaceState(null, '', consoleHashWithoutNew());
+                window.history.replaceState(null, '', '#console');
               }}
             >
               Start fresh — clear my progress
@@ -302,56 +261,16 @@ function Console({
     );
   }
 
-  const workspace = (
-    <StageWorkspace
-      stage={activeStage}
-      entry={activeEntry}
-      index={activeIndex}
-      total={pilot.stages.length}
-      hasAgent={activeStage.id in STAGE_AGENTS}
-      dependency={dependency}
-      completedStageIds={completedStageIds}
-      rehearsalAnswer={rehearsalAnswer}
-      rehearsal={state.rehearsal}
-      mode={mode}
-      canContinue={canContinue}
-      intakeEntry={intakeEntry}
-      onGenerate={handleGenerate}
-      onSaveOutput={handleSaveOutput}
-      onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
-      onSaveRehearsal={saveRehearsal}
-      onCycleStatus={(status) => setStatus(activeStage.id, status)}
-      onPrev={() => setActiveIndex(i => Math.max(0, i - 1))}
-      onNext={() => setActiveIndex(i => Math.min(pilot.stages.length - 1, i + 1))}
-    />
-  );
-
   return (
-    <div className={`shell mode-${mode}`}>
-      <TopBar
-        pilot={{ ...pilot, stages: liveStages }}
-        mode={mode}
-        custosOpen={custosOpen}
-        onOpenCustos={isParticipant ? openCustos : undefined}
-        onViewPattern={onViewPattern}
-        onViewReadiness={() => { window.location.hash = '#readiness'; }}
-        onViewComparison={() => { window.location.hash = '#comparison'; }}
-      />
-
-      {isParticipant ? (
-        <div className={`participant-landscape-grid${custosOpen ? '' : ' custos-collapsed'}`}>
-          <main className="main participant-main">{workspace}</main>
-          <CustosPanel
-            page="console"
-            isOpen={custosOpen}
-            activeStage={activeStage}
-            activeEntry={activeEntry}
-            onApplyOutput={(content) => setOutput(activeStage.id, { content, source: 'manual', generatedAt: new Date().toISOString() })}
-            onOpen={openCustos}
-            onClose={closeCustos}
-          />
-        </div>
-      ) : (
+    <>
+      <div className={`shell mode-${mode}`}>
+        <TopBar
+          pilot={{ ...pilot, stages: liveStages }}
+          mode={mode}
+          onViewPattern={onViewPattern}
+          onViewReadiness={() => { window.location.hash = '#readiness'; }}
+          onViewComparison={() => { window.location.hash = '#comparison'; }}
+        />
         <div className="body">
           <Sidebar
             stages={liveStages}
@@ -375,7 +294,27 @@ function Console({
                 <span>Review progress and evidence without changing participant content.</span>
               </div>
             )}
-            {workspace}
+            <StageWorkspace
+              stage={activeStage}
+              entry={activeEntry}
+              index={activeIndex}
+              total={pilot.stages.length}
+              hasAgent={activeStage.id in STAGE_AGENTS}
+              dependency={dependency}
+              completedStageIds={completedStageIds}
+              rehearsalAnswer={rehearsalAnswer}
+              rehearsal={state.rehearsal}
+              mode={mode}
+              canContinue={canContinue}
+              intakeEntry={intakeEntry}
+              onGenerate={handleGenerate}
+              onSaveOutput={handleSaveOutput}
+              onSaveUserInput={(input) => setUserInput(activeStage.id, input)}
+              onSaveRehearsal={saveRehearsal}
+              onCycleStatus={(status) => setStatus(activeStage.id, status)}
+              onPrev={() => setActiveIndex(i => Math.max(0, i - 1))}
+              onNext={() => setActiveIndex(i => Math.min(pilot.stages.length - 1, i + 1))}
+            />
             {(isDeveloper || isFacilitator) && (
               <div className="bottom-row">
                 <EvidencePanel evidence={pilot.evidence} />
@@ -386,7 +325,21 @@ function Console({
             {isDeveloper && <ExportPanel pilot={pilot} state={state} onReset={resetPilot} />}
           </main>
         </div>
+      </div>
+      {mode === 'participant' && (
+        <CustosPanel
+          page="console"
+          activeStage={activeStage}
+          activeEntry={activeEntry}
+          onApplyOutput={(content) =>
+            setOutput(activeStage.id, {
+              content,
+              source: 'manual',
+              generatedAt: new Date().toISOString(),
+            })
+          }
+        />
       )}
-    </div>
+    </>
   );
 }

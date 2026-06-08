@@ -1,35 +1,13 @@
 import type { AppMode, PilotRun } from '../data/types';
 
-type Props = {
-  pilot: PilotRun;
-  mode: AppMode;
-  custosOpen?: boolean;
-  onOpenCustos?: () => void;
-  onViewPattern: () => void;
-  onViewReadiness: () => void;
-  onViewComparison: () => void;
-};
+type Props = { pilot: PilotRun; mode: AppMode; onViewPattern: () => void; onViewReadiness: () => void; onViewComparison: () => void };
 
-function participantTitle(title: string) {
-  return title
-    .replace(/^Pilot\s+\d+:\s*/i, 'Scenario: ')
-    .replace('Executive Briefing', 'Executive Design Challenge');
-}
-
-export function TopBar({
-  pilot,
-  mode,
-  custosOpen,
-  onOpenCustos,
-  onViewPattern,
-  onViewReadiness,
-  onViewComparison,
-}: Props) {
+export function TopBar({ pilot, mode, onViewPattern, onViewReadiness, onViewComparison }: Props) {
   const isParticipant = mode === 'participant';
+
   const pillClass =
-    pilot.status === 'complete' ? 'pill-complete' :
-    pilot.status === 'in-progress' ? 'pill-azure' : 'pill-paused';
-  const completed = pilot.stages.filter(stage => stage.status === 'complete' || stage.evidenceCaptured).length;
+    pilot.status === 'complete'    ? 'pill-complete' :
+    pilot.status === 'in-progress' ? 'pill-azure'    : 'pill-paused';
 
   return (
     <header className="topbar">
@@ -43,25 +21,7 @@ export function TopBar({
       </a>
       <span className="topbar-logo">VALOUR™</span>
       <div className="topbar-divider" />
-      <span className="topbar-title">{isParticipant ? participantTitle(pilot.title) : pilot.scenario}</span>
-
-      {isParticipant && (
-        <div className="topbar-participant-status" aria-label="Practice session progress">
-          <span>Saved</span>
-          <span>{completed}/{pilot.stages.length} steps</span>
-          <button
-            type="button"
-            className="topbar-custos-btn"
-            onClick={onOpenCustos}
-            aria-label="Open CUSTOS guide"
-            aria-controls="custos-guide-panel"
-            aria-expanded={!!custosOpen}
-          >
-            CUSTOS
-          </button>
-        </div>
-      )}
-
+      <span className="topbar-title">{pilot.scenario}</span>
       {!isParticipant && (
         <div className="topbar-meta">
           {pilot.evidence.startingConfidence != null && (
