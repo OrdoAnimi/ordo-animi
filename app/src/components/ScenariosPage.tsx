@@ -11,19 +11,26 @@ const DIFFICULTY_LABEL = {
 const PILOT_BY_SCENARIO: Record<string, string> = {
   'VALOUR-S01': 'PILOT-001',
   'VALOUR-S02': 'PILOT-002',
+  'VALOUR-S03': 'PILOT-S03',
+  'VALOUR-S04': 'PILOT-S04',
+  'VALOUR-S05': 'PILOT-S05',
+  'VALOUR-S06': 'PILOT-S06',
+  'VALOUR-S07': 'PILOT-S07',
+  'VALOUR-S08': 'PILOT-S08',
+  'VALOUR-S09': 'PILOT-S09',
+  'VALOUR-S10': 'PILOT-S10',
 };
 
 type Props = { onBack: () => void; onSelectScenario: (id: string) => void };
 type View = 'library' | 'brief' | 'overview';
 
-export function ScenariosPage({ onBack, onSelectScenario }: Props) {
+export function ScenariosPage({ onBack }: Props) {
   const [selected, setSelected] = useState<Scenario | null>(null);
   const [view, setView] = useState<View>('library');
 
   const hasProgress = useMemo(() => {
     if (!selected) return false;
     const pilotId = PILOT_BY_SCENARIO[selected.id];
-    if (!pilotId) return false;
     try {
       const saved = localStorage.getItem(`valour:state:${pilotId}`);
       if (!saved) return false;
@@ -40,16 +47,11 @@ export function ScenariosPage({ onBack, onSelectScenario }: Props) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function resumeSelected() {
+  function openSession(newSession: boolean) {
     if (!selected) return;
+    const pilotId = PILOT_BY_SCENARIO[selected.id];
     localStorage.setItem('valour:last-scenario', selected.id);
-    window.location.hash = `#console?scenario=${encodeURIComponent(selected.id)}`;
-  }
-
-  function startSelected() {
-    if (!selected) return;
-    localStorage.setItem('valour:last-scenario', selected.id);
-    onSelectScenario(selected.id);
+    window.location.hash = `#console?pilot=${encodeURIComponent(pilotId)}&scenario=${encodeURIComponent(selected.id)}${newSession ? '&new=1' : ''}`;
   }
 
   if (selected && view === 'brief') {
@@ -75,28 +77,13 @@ export function ScenariosPage({ onBack, onSelectScenario }: Props) {
           </section>
 
           <section className="scenario-brief-grid">
-            <article className="journey-card">
-              <div className="journey-card-label">Your role</div>
-              <h2>{selected.yourRole ?? 'Participant'}</h2>
-              <p>Create clarity, maintain trust, and move the conversation toward a decision.</p>
-            </article>
-            <article className="journey-card">
-              <div className="journey-card-label">The tension</div>
-              <h2>{selected.tension ?? 'A consequential decision under pressure'}</h2>
-              <p>{selected.userRisk}</p>
-            </article>
-            <article className="journey-card">
-              <div className="journey-card-label">Your objective</div>
-              <h2>Move the room forward</h2>
-              <p>{selected.desiredOutcome}</p>
-            </article>
+            <article className="journey-card"><div className="journey-card-label">Your role</div><h2>{selected.yourRole ?? 'Participant'}</h2><p>Create clarity, maintain trust, and move the conversation toward a decision.</p></article>
+            <article className="journey-card"><div className="journey-card-label">The tension</div><h2>{selected.tension ?? 'A consequential decision under pressure'}</h2><p>{selected.userRisk}</p></article>
+            <article className="journey-card"><div className="journey-card-label">Your objective</div><h2>Move the room forward</h2><p>{selected.desiredOutcome}</p></article>
           </section>
 
           <section className="scenario-brief-process">
-            <div>
-              <div className="journey-eyebrow">What happens next</div>
-              <h2>Prepare before the pressure begins.</h2>
-            </div>
+            <div><div className="journey-eyebrow">What happens next</div><h2>Prepare before the pressure begins.</h2></div>
             <div className="scenario-brief-steps">
               <div><strong>01</strong><span>Frame your context and intended outcome.</span></div>
               <div><strong>02</strong><span>Generate a concise preparation brief.</span></div>
@@ -126,15 +113,8 @@ export function ScenariosPage({ onBack, onSelectScenario }: Props) {
 
         <main className="journey-shell session-overview">
           <section className="session-overview-header">
-            <div>
-              <div className="journey-eyebrow">Your practice session</div>
-              <h1>{selected.title}</h1>
-              <p>{selected.situation}</p>
-            </div>
-            <div className="session-overview-status">
-              <span>{hasProgress ? 'Session in progress' : 'New session'}</span>
-              <strong>{hasProgress ? 'Saved work available' : 'Ready to prepare'}</strong>
-            </div>
+            <div><div className="journey-eyebrow">Your practice session</div><h1>{selected.title}</h1><p>{selected.situation}</p></div>
+            <div className="session-overview-status"><span>{hasProgress ? 'Session in progress' : 'New session'}</span><strong>{hasProgress ? 'Saved work available' : 'Ready to prepare'}</strong></div>
           </section>
 
           <section className="session-phase-grid">
@@ -143,17 +123,14 @@ export function ScenariosPage({ onBack, onSelectScenario }: Props) {
             <article><span>03</span><h2>Debrief</h2><p>Review the critical moment and refine the response.</p></article>
           </section>
 
-          <section className="session-overview-note">
-            <div><strong>CUSTOS is available throughout</strong><p>Your embedded guide helps clarify context, challenge weak reasoning, and suggest the next best action.</p></div>
-            <span>Private · Auto-saved · Resume anytime</span>
-          </section>
+          <section className="session-overview-note"><div><strong>CUSTOS is available throughout</strong><p>Your embedded guide helps clarify context, challenge weak reasoning, and suggest the next best action.</p></div><span>Private · Auto-saved · Resume anytime</span></section>
 
           <section className="journey-action-bar">
             <button className="journey-secondary" onClick={() => setView('brief')}>Back to brief</button>
             <div className="journey-action-copy"><strong>{hasProgress ? 'Continue your saved work' : 'Begin with preparation'}</strong><span>You will not enter live rehearsal until preparation is complete.</span></div>
             <div className="journey-action-pair">
-              {hasProgress && <button className="journey-secondary" onClick={resumeSelected}>Resume session</button>}
-              <button className="journey-primary" onClick={startSelected}>{hasProgress ? 'Start a new session' : 'Start preparation'} →</button>
+              {hasProgress && <button className="journey-secondary" onClick={() => openSession(false)}>Resume session</button>}
+              <button className="journey-primary" onClick={() => openSession(true)}>{hasProgress ? 'Start a new session' : 'Start preparation'} →</button>
             </div>
           </section>
         </main>
@@ -163,32 +140,15 @@ export function ScenariosPage({ onBack, onSelectScenario }: Props) {
 
   return (
     <div className="scenarios-page">
-      <nav className="pattern-nav">
-        <button className="btn btn-ghost pattern-back" onClick={onBack}>← Home</button>
-        <span className="landing-logo">VALOUR™</span>
-        <span className="pattern-nav-title">Scenario library</span>
-      </nav>
-
-      <div className="scenarios-hero">
-        <div className="landing-eyebrow">10 scenarios · Architecture leadership</div>
-        <h1 className="pattern-heading">Choose your leadership moment.</h1>
-        <p className="scenarios-sub">Review the situation before starting. No session begins until you confirm the scenario and preparation path.</p>
-      </div>
-
+      <nav className="pattern-nav"><button className="btn btn-ghost pattern-back" onClick={onBack}>← Home</button><span className="landing-logo">VALOUR™</span><span className="pattern-nav-title">Scenario library</span></nav>
+      <div className="scenarios-hero"><div className="landing-eyebrow">10 scenarios · Architecture leadership</div><h1 className="pattern-heading">Choose your leadership moment.</h1><p className="scenarios-sub">Review the situation before starting. No session begins until you confirm the scenario and preparation path.</p></div>
       <div className="scenarios-grid-2col">
-        {SCENARIOS.map((s) => (
-          <div key={s.id} className="scenario-card-v2">
-            <div className="scenario-card-v2-header">
-              <h3 className="scenario-card-v2-title">{s.title}</h3>
-              <span className="badge badge-difficulty-neutral">{DIFFICULTY_LABEL[s.difficulty]}</span>
-            </div>
-            {s.tension && <p className="scenario-card-v2-tension">{s.tension}</p>}
-            <div className="scenario-card-v2-meta">
-              {s.yourRole && <span className="scenario-meta-chip">You: {s.yourRole}</span>}
-              {s.counterpart && <span className="scenario-meta-chip">With: {s.counterpart}</span>}
-              {s.duration && <span className="scenario-meta-chip">{s.duration}</span>}
-            </div>
-            <button className="btn btn-primary scenario-card-v2-cta" onClick={() => chooseScenario(s)}>Review scenario →</button>
+        {SCENARIOS.map((scenario) => (
+          <div key={scenario.id} className="scenario-card-v2">
+            <div className="scenario-card-v2-header"><h3 className="scenario-card-v2-title">{scenario.title}</h3><span className="badge badge-difficulty-neutral">{DIFFICULTY_LABEL[scenario.difficulty]}</span></div>
+            {scenario.tension && <p className="scenario-card-v2-tension">{scenario.tension}</p>}
+            <div className="scenario-card-v2-meta">{scenario.yourRole && <span className="scenario-meta-chip">You: {scenario.yourRole}</span>}{scenario.counterpart && <span className="scenario-meta-chip">With: {scenario.counterpart}</span>}{scenario.duration && <span className="scenario-meta-chip">{scenario.duration}</span>}</div>
+            <button className="btn btn-primary scenario-card-v2-cta" onClick={() => chooseScenario(scenario)}>Review scenario →</button>
           </div>
         ))}
       </div>
