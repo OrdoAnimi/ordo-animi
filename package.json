@@ -1,0 +1,15 @@
+{
+  "name": "ordo-animi",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "install:app": "npm --prefix app install",
+    "build": "npm --prefix app install && npm --prefix app run build",
+    "dev": "npm --prefix app run dev",
+    "preview": "npm --prefix app run preview",
+    "typecheck": "npm --prefix app run typecheck"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
