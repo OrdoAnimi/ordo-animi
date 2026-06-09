@@ -109,7 +109,7 @@ export function StageWorkspace({
   const rehearsalSubmitted = rehearsal?.response?.status === 'submitted' || rehearsal?.status === 'complete';
   const participantBlocked = mode === 'participant' && (!canContinue || (kind.rehearsal && !rehearsalSubmitted));
   const phase = PARTICIPANT_STEPS.find(step => step.indices.includes(index))?.label ?? stage.label;
-  const nextLabel = kind.rehearsal ? 'Continue to debrief' : index === 2 ? 'Enter rehearsal' : index >= 4 ? 'Continue debrief' : 'Continue preparation';
+  const nextLabel = kind.rehearsal ? 'Continue to debrief' : index === 2 ? 'Enter session' : index >= 4 ? 'Continue debrief' : 'Continue preparation';
 
   const isLastStage = index === total - 1;
   const isParticipantComplete = mode === 'participant' && isLastStage && !!entry.output;
@@ -199,7 +199,7 @@ export function StageWorkspace({
       {kind.language && (
         <div className="ws-input-preview">
           <div className="ws-input-preview-label">{rehearsalAnswer ? 'Your submitted rehearsal response' : 'No rehearsal response yet'}</div>
-          {rehearsalAnswer ? <div className="ws-input-preview-value">“{rehearsalAnswer}”</div> : <div className="ws-input-preview-missing">Return to Rehearse and submit one response before refining your language.</div>}
+          {rehearsalAnswer ? <div className="ws-input-preview-value">{`"${rehearsalAnswer}"`}</div> : <div className="ws-input-preview-missing">Return to Engage and submit a response before refining your language.</div>}
         </div>
       )}
 
@@ -224,7 +224,7 @@ export function StageWorkspace({
         </div>
       )}
 
-      {canGenerate && !output && !generating && <button className="btn btn-generate" onClick={handleGenerate}><span className="btn-generate-icon">✦</span>{kind.rehearsal ? 'Prepare rehearsal questions' : 'Generate with VALOUR™'}</button>}
+      {canGenerate && !output && !generating && <button className="btn btn-generate" onClick={handleGenerate}><span className="btn-generate-icon">✦</span>{kind.rehearsal ? 'Prepare session questions' : 'Generate with VALOUR™'}</button>}
       {generating && <div className="ws-generating"><div className="ws-generating-spinner" /><span>VALOUR™ is preparing your next step…</span></div>}
 
       {isParticipantComplete ? (
@@ -255,7 +255,7 @@ export function StageWorkspace({
           <button className="btn btn-ghost" onClick={onPrev} disabled={index === 0}>← Previous</button>
           {isDeveloper && <div className="ws-source-badge"><span className="badge badge-source">{stage.sourceFile}</span>{completedStageIds.includes(stage.id) && <span className="ws-saved-dot" title="Output saved" />}</div>}
           <button className="btn btn-primary" onClick={onNext} disabled={index === total - 1 || participantBlocked}>{nextLabel} →</button>
-          {participantBlocked && mode === 'participant' && index < total - 1 && <span className="ws-nav-block-hint">{kind.rehearsal ? 'Submit a rehearsal response before continuing' : 'Complete the required preparation step first'}</span>}
+          {participantBlocked && mode === 'participant' && index < total - 1 && <span className="ws-nav-block-hint">{kind.rehearsal ? 'Submit a response before continuing' : 'Complete the required preparation step first'}</span>}
         </div>
       )}
     </div>
@@ -309,6 +309,20 @@ function IntakeCapture({ entry, onSaveUserInput }: { entry: PilotStateEntry; onS
     setSaved(true);
   }
 
+  function prefill() {
+    const demo = {
+      role: 'Chief Technology Officer',
+      organisation: 'Enterprise digital transformation',
+      situation: 'I need to present a cloud infrastructure proposal to the executive review board next week. The CFO is focused on cost, the CISO is concerned about security posture, and the CEO wants to understand the commercial return.',
+      outcome: 'Board endorses the proposal and delivery proceeds to the next phase',
+      confidence: '5',
+    };
+    setValues(demo);
+    setTouched({ role: true, situation: true, outcome: true, confidence: true });
+    onSaveUserInput(JSON.stringify(demo));
+    setSaved(true);
+  }
+
   function fieldError(key: string) {
     return touched[key] && errors[key]
       ? <span className="intake-field-error">{errors[key]}</span>
@@ -317,9 +331,12 @@ function IntakeCapture({ entry, onSaveUserInput }: { entry: PilotStateEntry; onS
 
   return (
     <div className="ws-intake">
+      <div className="ws-intake-prefill">
+        <button className="btn btn-ghost ws-prefill-btn" type="button" onClick={prefill}>Pre-fill with demo data →</button>
+      </div>
       <div className="intake-field">
         <label className="intake-label">Your role <span className="intake-required">*</span></label>
-        <input className={`intake-input${touched.role && errors.role ? ' intake-input-error' : ''}`} placeholder="e.g. Senior Solution Architect" value={values.role ?? ''} onChange={e => update('role', e.target.value)} onBlur={() => blur('role')} />
+        <input className={`intake-input${touched.role && errors.role ? ' intake-input-error' : ''}`} placeholder="e.g. Chief Technology Officer" value={values.role ?? ''} onChange={e => update('role', e.target.value)} onBlur={() => blur('role')} />
         {fieldError('role')}
       </div>
       <div className="intake-field">
@@ -328,7 +345,7 @@ function IntakeCapture({ entry, onSaveUserInput }: { entry: PilotStateEntry; onS
       </div>
       <div className="intake-field">
         <label className="intake-label">Describe the leadership situation <span className="intake-required">*</span></label>
-        <textarea className={`intake-input ws-textarea${touched.situation && errors.situation ? ' intake-input-error' : ''}`} rows={4} placeholder="e.g. Presenting a design to the architecture review board…" value={values.situation ?? ''} onChange={e => update('situation', e.target.value)} onBlur={() => blur('situation')} />
+        <textarea className={`intake-input ws-textarea${touched.situation && errors.situation ? ' intake-input-error' : ''}`} rows={4} placeholder="e.g. Presenting a proposal to the executive review board next week…" value={values.situation ?? ''} onChange={e => update('situation', e.target.value)} onBlur={() => blur('situation')} />
         {fieldError('situation')}
       </div>
       <div className="intake-field">
@@ -355,7 +372,7 @@ function parseQuestions(content: string): RehearsalQuestion[] {
   const questions: RehearsalQuestion[] = [];
   content.split('\n').forEach(lineValue => {
     const line = lineValue.trim();
-    const quoted = line.match(/^>\s*["“](.+?)["”]?$/);
+    const quoted = line.match(/^>\s*[""](.+?)[""]?$/);
     const numbered = line.match(/^(?:\d+\.|[-*]|Q\d+:)\s+(.{10,})$/i);
     const text = quoted?.[1] ?? (numbered?.[1]?.includes('?') ? numbered[1].replace(/\*\*/g, '') : '');
     if (text) questions.push({ id: `question-${questions.length + 1}`, topic: `Question ${questions.length + 1}`, text });
@@ -437,7 +454,7 @@ function RehearsalFlow({ output, rehearsal, readOnly, intakeEntry, pilotScenario
             <textarea id="rehearsal-response" className="ws-textarea rehearsal-response-textarea" value={responseText} readOnly={readOnly || complete} onChange={event => setResponseText(event.target.value)} placeholder="Answer as you would in the real conversation…" rows={8} />
             {!readOnly && !submitted && <div className="ws-user-input-actions"><button className="btn btn-ghost" onClick={() => saveResponse('draft')} disabled={!responseText.trim()}>Save draft</button><button className="btn btn-primary" onClick={() => saveResponse('submitted')} disabled={!responseText.trim()}>Submit response →</button></div>}
             {submitted && !complete && <div className="ws-refinement-card"><div className="ws-input-preview-label">Preferred refined response</div><p className="ws-rehearsal-hint-text">Continue to Debrief to generate language options, then return here to save the version you will use.</p><textarea className="ws-textarea" value={preferredResponse} readOnly={readOnly} onChange={event => setPreferredResponse(event.target.value)} placeholder="Save the response you will use…" rows={5} />{!readOnly && <button className="btn btn-primary" onClick={completeRehearsal} disabled={!preferredResponse.trim()}>Save preferred response</button>}</div>}
-            {complete && <div className="ws-answer-preview"><div className="ws-input-preview-label">Rehearsal complete</div><div className="ws-answer-text">“{rehearsal?.preferredResponse}”</div></div>}
+            {complete && <div className="ws-answer-preview"><div className="ws-input-preview-label">Rehearsal complete</div><div className="ws-answer-text">"{rehearsal?.preferredResponse}"</div></div>}
           </>
         )}
       </div>
