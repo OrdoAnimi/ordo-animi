@@ -96,7 +96,7 @@ export function ScenariosPage({ onBack, initialScenarioId }: Props) {
             <div className="scenario-brief-steps">
               <div><strong>01</strong><span>Frame your context and intended outcome.</span></div>
               <div><strong>02</strong><span>Generate a concise preparation brief.</span></div>
-              <div><strong>03</strong><span>Enter the live AI stakeholder rehearsal.</span></div>
+              <div><strong>03</strong><span>Enter the live AI stakeholder session.</span></div>
               <div><strong>04</strong><span>Debrief the critical moment and refine your next move.</span></div>
             </div>
           </section>
@@ -128,7 +128,7 @@ export function ScenariosPage({ onBack, initialScenarioId }: Props) {
 
           <section className="session-phase-grid">
             <article><span>01</span><h2>Prepare</h2><p>Set the context, clarify the decision, and generate your brief.</p></article>
-            <article><span>02</span><h2>Rehearse</h2><p>Respond to a realistic AI stakeholder challenge.</p></article>
+            <article><span>02</span><h2>Engage</h2><p>Respond to a realistic AI stakeholder challenge.</p></article>
             <article><span>03</span><h2>Debrief</h2><p>Review the critical moment and refine the response.</p></article>
           </section>
 
@@ -136,7 +136,7 @@ export function ScenariosPage({ onBack, initialScenarioId }: Props) {
 
           <section className="journey-action-bar">
             <button className="journey-secondary" onClick={() => setView('brief')}>Back to brief</button>
-            <div className="journey-action-copy"><strong>{hasProgress ? 'Continue your saved work' : 'Begin with preparation'}</strong><span>You will not enter live rehearsal until preparation is complete.</span></div>
+            <div className="journey-action-copy"><strong>{hasProgress ? 'Continue your saved work' : 'Begin with preparation'}</strong><span>You will not enter the live session until preparation is complete.</span></div>
             <div className="journey-action-pair">
               {hasProgress && <button className="journey-secondary" onClick={() => openSession(false)}>Resume session</button>}
               <button className="journey-primary" onClick={() => openSession(true)}>{hasProgress ? 'Start a new session' : 'Start preparation'} →</button>
@@ -150,7 +150,7 @@ export function ScenariosPage({ onBack, initialScenarioId }: Props) {
   return (
     <div className="scenarios-page">
       <nav className="pattern-nav"><button className="btn btn-ghost pattern-back" onClick={onBack}>← Home</button><span className="landing-logo">VALOUR™</span><span className="pattern-nav-title">Scenario library</span></nav>
-      <div className="scenarios-hero"><div className="landing-eyebrow">10 scenarios · Architecture leadership</div><h1 className="pattern-heading">Choose your leadership moment.</h1><p className="scenarios-sub">Review the situation before starting. No session begins until you confirm the scenario and preparation path.</p></div>
+      <div className="scenarios-hero"><div className="landing-eyebrow">10 scenarios · Leadership preparation</div><h1 className="pattern-heading">Choose your leadership moment.</h1><p className="scenarios-sub">Review the situation before starting. No session begins until you confirm the scenario and preparation path.</p></div>
       <div className="scenarios-grid-2col">
         {SCENARIOS.map((scenario) => (
           <div key={scenario.id} className="scenario-card-v2">

@@ -148,7 +148,7 @@ export function IntakeForm({ onBack }: Props) {
               <label className="intake-label">Role</label>
               <input
                 className="intake-input"
-                placeholder="e.g. Senior Solution Architect"
+                placeholder="e.g. Senior Technology Leader"
                 value={form.role}
                 onChange={e => set('role', e.target.value)}
               />
@@ -173,7 +173,7 @@ export function IntakeForm({ onBack }: Props) {
               <label className="intake-label">Describe the situation</label>
               <textarea
                 className="intake-textarea"
-                placeholder="e.g. I need to present a cloud integration design to an architecture review board next week. The audience includes security, delivery, and the business sponsor."
+                placeholder="e.g. I need to present a cloud integration proposal to a board review next week. The audience includes security, delivery, and the business sponsor."
                 value={form.situation}
                 onChange={e => set('situation', e.target.value)}
                 rows={5}

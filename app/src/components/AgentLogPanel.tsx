@@ -6,7 +6,7 @@ const STAGE_SHORT: Record<string, string> = {
   'stage-01-intake':    'Intake',
   'stage-02-scenario':  'Scenario',
   'stage-03-prep':      'Preparation',
-  'stage-04-rehearsal': 'Rehearsal',
+  'stage-04-rehearsal': 'Engage',
   'stage-05-language':  'Language',
   'stage-06-review':    'Review',
   'stage-07-pattern':   'Pattern',

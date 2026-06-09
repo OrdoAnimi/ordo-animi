@@ -24,7 +24,7 @@ export function Sidebar({ stages, pilotId, scenario, activeIndex, onSelect, mode
   if (mode === 'participant') {
     const groups = [
       { label: 'Prepare',  indices: [0, 1, 2], targetIndex: 0 },
-      { label: 'Rehearse', indices: [3],        targetIndex: 3 },
+      { label: 'Engage',   indices: [3],        targetIndex: 3 },
       { label: 'Debrief',  indices: [4, 5, 6, 7], targetIndex: 4 },
     ];
     return (
