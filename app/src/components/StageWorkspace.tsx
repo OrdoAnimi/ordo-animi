@@ -31,10 +31,10 @@ const PROVIDER_LABELS: Record<string, string> = {
 };
 const PARTICIPANT_STEPS = [
   { label: 'Prepare', indices: [0, 1, 2] },
-  { label: 'Rehearse', indices: [3] },
+  { label: 'Engage',   indices: [3] },
   { label: 'Debrief', indices: [4, 5, 6, 7] },
 ];
-const FULL_LABELS = ['Context', 'Scenario', 'Prepare', 'Rehearse', 'Refine', 'Reflect', 'Report'];
+const FULL_LABELS = ['Context', 'Scenario', 'Prepare', 'Engage', 'Refine', 'Reflect', 'Report'];
 
 function nextStatus(status: StageStatus) {
   return STATUS_CYCLE[(STATUS_CYCLE.indexOf(status) + 1) % STATUS_CYCLE.length];

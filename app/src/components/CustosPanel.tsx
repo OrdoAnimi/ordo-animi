@@ -209,7 +209,7 @@ export function CustosPanel({
         <div className="custos-header">
           <div>
             <div id="custos-guide-title" className="custos-header-label">CUSTOS</div>
-            <div className="custos-header-subtitle">Active architecture co-pilot</div>
+            <div className="custos-header-subtitle">Active co-pilot</div>
           </div>
           <div className="custos-header-actions">
             {activeView === 'quick-result' && !quickActionLoading && (
