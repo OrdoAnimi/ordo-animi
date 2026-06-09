@@ -17,7 +17,7 @@
   }
 
   .participant-main::before {
-    content: 'Current practice\A Context -> Scenario -> Prepare -> Rehearse -> Refine -> Reflect -> Report';
+    content: 'Current practice\A Context -> Scenario -> Prepare -> Engage -> Refine -> Reflect -> Report';
     white-space: pre-line;
     position: sticky;
     top: 28px;
