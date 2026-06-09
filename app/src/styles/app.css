@@ -389,7 +389,7 @@ body:has(.landing) #root {
   text-transform: uppercase;
 }
 .ws-output-actions { display: flex; gap: 6px; }
-.ws-action-btn     { padding: 4px 10px; font-size: 11px; border-radius: 6px; }
+.ws-action-btn     { padding: 0 10px; font-size: 11px; border-radius: 6px; min-height: 44px; }
 .ws-output-content { padding: 16px 18px; }
 
 /* Markdown content styles */
