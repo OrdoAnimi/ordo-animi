@@ -1,16 +1,16 @@
 Proprietary Licence
 
-Copyright © 2026 Phil Myint / ZenCloud Global Consultants.
+Copyright © 2026 Zencloud Advisory.
 All rights reserved.
 
 This software and associated content is proprietary and confidential.
 Unauthorised copying, modification, distribution, or use of this
 software, via any medium, is strictly prohibited without the express
-written permission of ZenCloud Global Consultants.
+written permission of Zencloud Advisory.
 
 ## Trademarks
 
-The following names are trademarks of ZenCloud Global Consultants,
+The following names are trademarks of Zencloud Advisory,
 registered or pending registration (™ = pending; ® = registered):
 
 Ordo Animi™

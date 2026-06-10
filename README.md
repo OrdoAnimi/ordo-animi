@@ -1,6 +1,6 @@
 # Ordo Animi
 
-**Private — ZenCloud Global Consultants flagship AI product.**
+**Private — Zencloud Advisory flagship AI product.**
 
 *Ordo Animi* — Latin: *Order of the Mind* — is ZenCloud's agentic AI leadership platform.
 A command-and-control system for professional and personal life, built on guardrails,
@@ -92,7 +92,7 @@ is established and the VALOUR Pilot Console MVP is in progress.
 
 ## Licence
 
-Proprietary. © 2026 Phil Myint / ZenCloud Global Consultants. All rights reserved.
+Proprietary. © 2026 Zencloud Advisory. All rights reserved.
 See LICENSE.md for terms.
 
 ## Constitutional Documents
@@ -111,5 +111,5 @@ See LICENSE.md for terms.
 - [Examples](examples/README.md)
 
 ---
-© 2026 ZenCloud Global Consultants. All rights reserved. Proprietary and confidential.
+© 2026 Zencloud Advisory. All rights reserved. Proprietary and confidential.
 
