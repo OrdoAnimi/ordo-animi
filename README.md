@@ -34,30 +34,39 @@ personal domains with the discipline of enterprise architecture applied to human
 - **StudioSix** — delivery studio that will commercialise Ordo Animi for enterprise clients
 - **PMO Portal** — operational counterpart for project and programme governance
 
-## Stack
+## Application
 
-TypeScript · Node.js · Anthropic SDK · Azure
+The first user-facing product surface is the **VALOUR™ Pilot Console** (`app/`) — a
+browser application that guides architecture and technical leaders through a structured
+preparation, rehearsal, language-refinement and after-action review workflow.
 
-## Status
+- **Frontend** — React 19 + TypeScript, built with Vite (`app/src`)
+- **AI layer** — provider-agnostic edge function (`app/api/ai.ts`) calling Anthropic
+  (Claude) or OpenAI; API keys stay server-side and are never exposed to the browser
+- **Deployment** — Vercel (Vite framework preset; see `app/vercel.json`); CI build in
+  `.github/workflows/build.yml`
 
-Active development. Private repository.
+```bash
+npm run install:app   # install app dependencies
+npm run dev           # local dev server
+npm run build         # type-check and production build
+```
 
-## Licence
+### AI configuration
 
-Proprietary. © 2026 Phil Myint / ZenCloud Global Consultants. All rights reserved.
-See LICENSE.md for terms.
+The AI provider is selected at runtime from environment variables, set in the deployment
+environment (never committed):
 
----
+- `ANTHROPIC_API_KEY` — use Anthropic (Claude)
+- `OPENAI_API_KEY` — use OpenAI
+- `AI_PROVIDER` — optional explicit override
+- With no key configured, the console runs in a local-fallback mode
 
-# Ordo Animi
+## Place In The Ordo Animi Estate
 
-Primary user-facing intelligence platform and Valour product home.
-
-## Place In Ordo Animi
-
-Ordo Animi is part of the Ordo Animi institutional estate. Authoritative for the primary user experience and Valour product surface.
-
-The canonical institutional relationship is:
+Ordo Animi is part of the Ordo Animi institutional estate. It is authoritative for the
+primary user experience and the VALOUR product surface. The canonical institutional
+relationship is:
 
 - Magister Automatorum governs the estate.
 - Imperium determines what deserves investment.
@@ -76,21 +85,15 @@ The canonical institutional relationship is:
 - Forma provides shared experience and design standards.
 - Arcadium presents authorised Archivum content to clients.
 
-## Current Maturity
+## Status
 
-v0.1 Fundamentum - constitutional baseline.
+Active development. Private repository. The constitutional baseline (v0.1 Fundamentum)
+is established and the VALOUR Pilot Console MVP is in progress.
 
-## Contains
+## Licence
 
-accepted product, framework, documentation and constitutional governance files.
-
-## Does Not Contain
-
-This repository does not own estate constitution, central policy registry, client archive authority, all future products, unrelated product code. During v0.1 it must not add application code, deployment automation, dependencies, workflows, credentials, or external integrations.
-
-## v0.1 Baseline Status
-
-The v0.1 constitutional package is established when the files below exist, validate, and are marked Perfectum in KANBAN.md.
+Proprietary. © 2026 Phil Myint / ZenCloud Global Consultants. All rights reserved.
+See LICENSE.md for terms.
 
 ## Constitutional Documents
 
@@ -106,4 +109,7 @@ The v0.1 constitutional package is established when the files below exist, valid
 - [Releases](docs/releases/README.md)
 - [Schemas](schemas/README.md)
 - [Examples](examples/README.md)
+
+---
+© 2026 ZenCloud Global Consultants. All rights reserved. Proprietary and confidential.
 
