@@ -97,7 +97,7 @@ export function IntakeForm({ onBack }: Props) {
             to confirm your scenario and schedule the first session.
           </p>
           <p className="intake-submitted-body" style={{ marginTop: '8px' }}>
-            Contact: <a href="mailto:info@zencloud.com.au">info@zencloud.com.au</a>
+            Contact: <a href="mailto:info@ordoanimi.com">info@ordoanimi.com</a>
           </p>
           <button className="btn btn-primary landing-btn-lg" style={{ marginTop: '32px' }} onClick={onBack}>
             ← Back to landing

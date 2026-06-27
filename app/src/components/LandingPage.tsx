@@ -38,7 +38,7 @@ export function LandingPage({ onEnterConsole }: Props) {
           <button className="btn btn-primary landing-btn-lg" onClick={onEnterConsole}>
             Enter pilot console
           </button>
-          <a className="btn btn-ghost landing-btn-lg" href="mailto:info@zencloud.com.au">
+          <a className="btn btn-ghost landing-btn-lg" href="mailto:info@ordoanimi.com">
             Request a walkthrough
           </a>
         </div>
@@ -100,7 +100,7 @@ export function LandingPage({ onEnterConsole }: Props) {
         <span className="landing-logo">Valour&trade;</span>
         <span className="landing-footer-copy">
           © 2026 The OrdoAnimi Group · Proprietary and confidential ·{' '}
-          <a href="mailto:info@zencloud.com.au">info@zencloud.com.au</a>
+          <a href="mailto:info@ordoanimi.com">info@ordoanimi.com</a>
         </span>
       </footer>
 
