@@ -25,8 +25,8 @@ export function TopBar({ pilot, mode, custosOpen, onOpenCustos, onViewPattern, o
 
   return (
     <header className="topbar">
-      <button className="topbar-back" onClick={() => { window.location.hash = ''; }} title="Save and return home" aria-label="Save and return home">←</button>
-      <span className="topbar-logo">VALOUR™</span>
+      <button className="topbar-back" onClick={() => { window.location.hash = ''; }} title="Save and return home" aria-label="Save and return home">â</button>
+      <span className="topbar-logo">Valourâ¢</span>
       <div className="topbar-divider" />
       <span className="topbar-title">{isParticipant ? participantTitle(pilot.title) : pilot.scenario}</span>
 
@@ -45,16 +45,16 @@ export function TopBar({ pilot, mode, custosOpen, onOpenCustos, onViewPattern, o
           {pilot.evidence.startingConfidence != null && (
             <div className="topbar-metric">
               <span className="topbar-metric-label">Confidence</span>
-              <span className="topbar-metric-value azure">{pilot.evidence.startingConfidence} → {pilot.evidence.endingConfidence}</span>
+              <span className="topbar-metric-value azure">{pilot.evidence.startingConfidence} â {pilot.evidence.endingConfidence}</span>
             </div>
           )}
           <div className="topbar-metric">
             <span className="topbar-metric-label">Decision</span>
             <span className={`topbar-metric-value ${pilot.productDecision.decision === 'continue' ? 'green' : ''}`}>{pilot.productDecision.decision}</span>
           </div>
-          <button className="btn btn-ghost topbar-pattern-btn" onClick={onViewComparison}>Compare →</button>
+          <button className="btn btn-ghost topbar-pattern-btn" onClick={onViewComparison}>Compare â</button>
           <button className="btn btn-ghost topbar-pattern-btn" onClick={onViewReadiness}>Readiness</button>
-          <button className="btn btn-ghost topbar-pattern-btn" onClick={onViewPattern}>Pattern →</button>
+          <button className="btn btn-ghost topbar-pattern-btn" onClick={onViewPattern}>Pattern â</button>
           <span className={`pill ${pillClass}`}>{pilot.status}</span>
         </div>
       )}
