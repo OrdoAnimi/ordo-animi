@@ -3,7 +3,7 @@
 Date: 2026-06-05
 Status: Approved
 Release: v0.5 Custos
-Author: Phil Myint / ZenCloud Global Consultants
+Author: Phil Myint / The OrdoAnimi Group
 
 ---
 

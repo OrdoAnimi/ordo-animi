@@ -1,7 +1,7 @@
 # VALOUR™ Release Phases and UX Roadmap
 
 **Product:** VALOUR™ for Architecture Leadership  
-**Owner:** ZenCloud Global Consultants  
+**Owner:** The OrdoAnimi Group  
 **Last updated:** 2026-06-03
 
 ---

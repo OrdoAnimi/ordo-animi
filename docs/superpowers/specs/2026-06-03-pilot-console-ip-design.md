@@ -2,7 +2,7 @@
 
 Date: 2026-06-03
 Status: Approved
-Author: Phil Myint / ZenCloud Global Consultants
+Author: Phil Myint / The OrdoAnimi Group
 
 ## Scope
 
@@ -31,7 +31,7 @@ Two parallel tracks:
 VALOUR™, Ordo Animi™, VITA™, VALLUM™, VERITAS™, VIA™
 
 **All docs (45 files):** Add copyright notice line below the `# Title`:
-`> © 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.`
+`> © 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.`
 
 **Key external-facing docs:** Add ™ on first occurrence of each product name.
 Priority docs: 00, 01, 03, 05, 06, 10, 11, 14, 15, 17, 20, 21, 27, 41.

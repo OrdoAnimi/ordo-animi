@@ -560,4 +560,4 @@ Did I recover enough to start clean tomorrow?
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

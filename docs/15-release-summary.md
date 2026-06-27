@@ -20,7 +20,7 @@ The work moved the concept from personal reflection and founder conversation int
 
 ### 1. Private product repository created
 
-A private GitHub repository now exists at `ZenCloudAU/ordo-animi`.
+A private GitHub repository now exists at `OrdoAnimi/ordo-animi`.
 
 The repository is the protected founder workspace for product strategy, system architecture, market positioning, pilot design, funding material, and future build planning.
 
@@ -140,4 +140,4 @@ The goal is to move from internal product definition to first external validatio
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

@@ -58,4 +58,4 @@ This is the cleanest first simulated pilot scenario because it exercises the cor
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

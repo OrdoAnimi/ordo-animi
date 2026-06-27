@@ -1,6 +1,6 @@
 # Valour v0.5 Custos — Release Notes
 
-> © 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.
+> © 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.
 
 Release: v0.5 Custos
 Date: 2026-06-05

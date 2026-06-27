@@ -17,4 +17,4 @@ After the call, record the main pain, most valuable scenario, user fit, concerns
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

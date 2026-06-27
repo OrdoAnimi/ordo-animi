@@ -2,7 +2,7 @@
 
 **Private — Zencloud Advisory flagship AI product.**
 
-*Ordo Animi* — Latin: *Order of the Mind* — is ZenCloud's agentic AI leadership platform.
+*Ordo Animi* — Latin: *Order of the Mind* — is The OrdoAnimi Group's agentic AI leadership platform.
 A command-and-control system for professional and personal life, built on guardrails,
 governance, and structured decision intelligence.
 

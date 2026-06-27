@@ -71,4 +71,4 @@ The simulated pilot proves the basic VALOUR loop. The biggest near-term product 
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

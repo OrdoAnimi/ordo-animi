@@ -43,4 +43,4 @@ VALOUR helps architects prepare for the leadership conversations that shape trus
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

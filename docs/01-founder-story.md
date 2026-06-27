@@ -86,4 +86,4 @@ Privately, Ordo Animi is the broader system that emerged from lived use of AI ac
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

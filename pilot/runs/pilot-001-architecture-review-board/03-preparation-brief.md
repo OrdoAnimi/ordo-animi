@@ -81,4 +81,4 @@ The preparation brief is strong enough for rehearsal. The main thing to test is 
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

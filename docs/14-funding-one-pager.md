@@ -80,4 +80,4 @@ VALOUR helps architects become trusted leaders before the meeting decides their 
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

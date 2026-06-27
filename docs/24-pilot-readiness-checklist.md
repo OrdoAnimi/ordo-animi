@@ -73,4 +73,4 @@ Pilot Readiness is complete when the first five target contacts can be approache
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

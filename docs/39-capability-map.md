@@ -237,4 +237,4 @@ It needs the core capability chain: identify user, choose scenario, prepare, reh
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

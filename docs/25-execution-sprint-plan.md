@@ -147,4 +147,4 @@ This will expose whether the pilot pack is operational or still only conceptual.
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

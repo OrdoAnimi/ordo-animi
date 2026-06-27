@@ -160,4 +160,4 @@ VALOUR remains the first wedge. Ordo Animi remains the parent ecosystem. Archite
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

@@ -39,4 +39,4 @@ Pilot 002 confirms that the VALOUR loop produces a consistent +3 confidence impr
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

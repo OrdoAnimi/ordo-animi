@@ -1,6 +1,6 @@
 # Limb Integration Architecture
 
-> © 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.
+> © 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.
 
 Release: 0.3
 Date: 2026-06-04
@@ -158,4 +158,4 @@ The integration sequence should be:
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

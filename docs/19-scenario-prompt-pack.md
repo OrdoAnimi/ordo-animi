@@ -162,4 +162,4 @@ Review: Did I close the loop, avoid carrying work into the evening, follow the p
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

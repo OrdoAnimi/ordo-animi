@@ -42,4 +42,4 @@ VALOUR-S04 Executive Briefing selected. Variant: cloud migration investment deci
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

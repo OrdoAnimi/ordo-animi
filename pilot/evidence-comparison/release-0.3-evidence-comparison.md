@@ -1,6 +1,6 @@
 # Release 0.3 Evidence Comparison
 
-> © 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.
+> © 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.
 
 Release: 0.3
 Date: 2026-06-04
@@ -154,4 +154,4 @@ Release 0.4 should recruit at least one real pilot user for an executive briefin
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

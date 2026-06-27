@@ -1,6 +1,6 @@
 # VALOUR™ Agentic POC — v0.3 Release
 
-> © 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.
+> © 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.
 
 Version: 0.3
 Status: POC — live on Vercel

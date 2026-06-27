@@ -149,4 +149,4 @@ Move from MLP to platform only after users show repeat intent, recommendation si
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

@@ -67,4 +67,4 @@ Move to Release 0.3: build the evidence comparison view and artefact limb integr
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

@@ -160,4 +160,4 @@ The product should be pilot-ready before it is platform-heavy.
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

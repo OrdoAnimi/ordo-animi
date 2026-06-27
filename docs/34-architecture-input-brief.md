@@ -154,4 +154,4 @@ At that point, compare Microsoft, Google, Amazon, GitHub-first, and hybrid low-c
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

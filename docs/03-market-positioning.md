@@ -80,4 +80,4 @@ Most architects are trained to design systems, not lead the conversations that d
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

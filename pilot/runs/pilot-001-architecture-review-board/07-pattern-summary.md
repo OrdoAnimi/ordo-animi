@@ -69,4 +69,4 @@ Build the first VALOUR Pilot Console around intake, scenario selection, preparat
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

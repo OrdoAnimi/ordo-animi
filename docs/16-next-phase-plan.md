@@ -161,4 +161,4 @@ The next proof is not theoretical. The next proof is whether real architecture l
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

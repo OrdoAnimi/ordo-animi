@@ -83,4 +83,4 @@ Move to the next phase in a new thread: VALOUR Pilot Console v0.1 planning and b
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

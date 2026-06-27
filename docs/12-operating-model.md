@@ -163,4 +163,4 @@ Run the first manual pilot with a small number of users and produce enough evide
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

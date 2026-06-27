@@ -56,4 +56,4 @@ Primary pattern: executive translation gap. Next focus: enter every executive br
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*

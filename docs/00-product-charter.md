@@ -106,4 +106,4 @@ Within 90 days, validate whether five to ten users or one small architecture tea
 
 ---
 
-*© 2026 ZenCloud Global Consultants. Proprietary and confidential. All rights reserved.*
+*© 2026 The OrdoAnimi Group. Proprietary and confidential. All rights reserved.*
