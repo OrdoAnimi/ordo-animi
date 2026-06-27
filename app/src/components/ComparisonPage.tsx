@@ -219,7 +219,7 @@ export function ComparisonPage({ onBack }: Props) {
       </section>
 
       <footer className="comparison-footer">
-        © 2026 ZenCloud Global Consultants. Proprietary and confidential.
+        © 2026 The OrdoAnimi Group. Proprietary and confidential.
       </footer>
     </div>
   );

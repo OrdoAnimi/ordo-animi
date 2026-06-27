@@ -283,14 +283,14 @@ Practice this: before your next answer, ask yourself — "What decision am I hel
 
 ---
 
-*© 2026 ZenCloud Global Consultants. VALOUR\u2122 is a trademark of ZenCloud Global Consultants.*
+*© 2026 The OrdoAnimi Group. VALOUR\u2122 is a trademark of The OrdoAnimi Group.*
 `);
 }
 
-// ── VALLUM handover ────────────────────────────────────────────────────────────
+// ── VALOUR handover ────────────────────────────────────────────────────────────
 
 export function generateVallumHandover(ctx: AgentContext): StageOutput {
-  return local(`# VALLUM\u2122 Outcome Record
+  return local(`# VALOUR\u2122 Outcome Record
 
 ## Pilot complete
 The VALOUR\u2122 loop for **${ctx.scenarioTitle}** is complete.
