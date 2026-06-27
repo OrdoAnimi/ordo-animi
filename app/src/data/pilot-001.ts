@@ -15,7 +15,7 @@ export const pilot001: PilotRun = {
       id: 'stage-01-intake',
       label: 'Context',
       description:
-        'Capture your role, the leadership situation you are preparing for, and your desired outcome. VALOUR™ uses this to personalise every stage.',
+        'Capture your role, the leadership situation you are preparing for, and your desired outcome. VALOUR\u2122 uses this to personalise every stage.',
       sourceFile: '01-intake.md',
       status: 'complete',
       evidenceCaptured: true,

@@ -74,7 +74,7 @@ export function ReadinessPage({ onBack }: Props) {
 
       <nav className="pattern-nav">
         <button className="btn btn-ghost pattern-back" onClick={onBack}>← Back</button>
-        <span className="landing-logo">VALOUR™</span>
+        <span className="landing-logo">VALOUR&trade;</span>
         <span className="pattern-nav-title">Pilot readiness</span>
       </nav>
 
@@ -117,7 +117,7 @@ export function ReadinessPage({ onBack }: Props) {
       <div className="readiness-blockers">
         <div className="landing-eyebrow">Do not proceed if</div>
         {[
-          'Product being explained as full Ordo Animi instead of VALOUR™',
+          'Product being explained as full Ordo Animi instead of VALOUR\u2122',
           'Offer sounds like generic leadership training',
           'User is unclear what they need to bring',
           'No real upcoming scenario to test',

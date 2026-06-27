@@ -65,7 +65,7 @@ export function IntakeForm({ onBack }: Props) {
             outcome: form.outcome,
             pattern: form.pattern,
             confidence: form.confidence,
-            _subject: `VALOUR™ pilot intake — ${form.name} (${form.role})`,
+            _subject: `VALOUR\u2122 pilot intake — ${form.name} (${form.role})`,
           }),
         });
       }
@@ -87,13 +87,13 @@ export function IntakeForm({ onBack }: Props) {
     return (
       <div className="intake-page">
         <nav className="pattern-nav">
-          <span className="landing-logo">VALOUR™</span>
+          <span className="landing-logo">VALOUR&trade;</span>
         </nav>
         <div className="intake-submitted">
           <div className="landing-eyebrow">Intake received</div>
           <h1 className="pattern-heading">You're on the list.</h1>
           <p className="intake-submitted-body">
-            Your intake has been recorded. The VALOUR™ pilot operator will be in touch
+            Your intake has been recorded. The VALOUR&trade; pilot operator will be in touch
             to confirm your scenario and schedule the first session.
           </p>
           <p className="intake-submitted-body" style={{ marginTop: '8px' }}>
@@ -111,7 +111,7 @@ export function IntakeForm({ onBack }: Props) {
     <div className="intake-page">
       <nav className="pattern-nav">
         <button className="btn btn-ghost pattern-back" onClick={onBack}>← Back</button>
-        <span className="landing-logo">VALOUR™</span>
+        <span className="landing-logo">VALOUR&trade;</span>
         <span className="pattern-nav-title">Pilot intake · Step {step + 1} of 4</span>
       </nav>
 

@@ -7,7 +7,7 @@ export function TopBar({ pilot }: { pilot: PilotRun }) {
 
   return (
     <header className="topbar">
-      <span className="topbar-logo">Valour™</span>
+      <span className="topbar-logo">Valour&trade;</span>
       <div className="topbar-divider" />
       <span className="topbar-title">{pilot.title.replace(': ', ' · ')}</span>
       <div className="topbar-meta">

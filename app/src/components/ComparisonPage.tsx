@@ -131,7 +131,7 @@ export function ComparisonPage({ onBack }: Props) {
     <div className="comparison-page">
       <nav className="comparison-nav no-print">
         <button className="btn btn-ghost comparison-back" onClick={onBack}>← Console</button>
-        <span className="comparison-nav-eyebrow">VALOUR™</span>
+        <span className="comparison-nav-eyebrow">VALOUR&trade;</span>
         <span className="comparison-nav-title">Evidence Comparison · Release 0.3</span>
       </nav>
 

@@ -281,7 +281,7 @@ function Console({
     return (
       <div className="resume-overlay">
         <div className="resume-dialog">
-          <div className="resume-dialog-logo">VALOUR™</div>
+          <div className="resume-dialog-logo">VALOUR&trade;</div>
           <h2 className="resume-dialog-title">You have a session in progress</h2>
           <p className="resume-dialog-body">
             Resume where you left off, or start fresh. Starting fresh permanently clears your current progress.

@@ -68,7 +68,7 @@ export function ScenariosPage({ onBack, initialScenarioId }: Props) {
       <div className="journey-page">
         <nav className="journey-nav">
           <button className="journey-nav-back" onClick={() => setView('library')}>← Scenario library</button>
-          <button className="journey-brand" onClick={onBack}>VALOUR™<small>by Ordo Animi</small></button>
+          <button className="journey-brand" onClick={onBack}>VALOUR&trade;<small>by Ordo Animi</small></button>
           <span className="journey-nav-location">Scenario brief</span>
         </nav>
 
@@ -116,7 +116,7 @@ export function ScenariosPage({ onBack, initialScenarioId }: Props) {
       <div className="journey-page">
         <nav className="journey-nav">
           <button className="journey-nav-back" onClick={() => setView('brief')}>← Scenario brief</button>
-          <button className="journey-brand" onClick={onBack}>VALOUR™<small>by Ordo Animi</small></button>
+          <button className="journey-brand" onClick={onBack}>VALOUR&trade;<small>by Ordo Animi</small></button>
           <span className="journey-nav-location">Session overview</span>
         </nav>
 
@@ -149,7 +149,7 @@ export function ScenariosPage({ onBack, initialScenarioId }: Props) {
 
   return (
     <div className="scenarios-page">
-      <nav className="pattern-nav"><button className="btn btn-ghost pattern-back" onClick={onBack}>← Home</button><span className="landing-logo">VALOUR™</span><span className="pattern-nav-title">Scenario library</span></nav>
+      <nav className="pattern-nav"><button className="btn btn-ghost pattern-back" onClick={onBack}>← Home</button><span className="landing-logo">VALOUR&trade;</span><span className="pattern-nav-title">Scenario library</span></nav>
       <div className="scenarios-hero"><div className="landing-eyebrow">10 scenarios · Leadership preparation</div><h1 className="pattern-heading">Choose your leadership moment.</h1><p className="scenarios-sub">Review the situation before starting. No session begins until you confirm the scenario and preparation path.</p></div>
       <div className="scenarios-grid-2col">
         {SCENARIOS.map((scenario) => (

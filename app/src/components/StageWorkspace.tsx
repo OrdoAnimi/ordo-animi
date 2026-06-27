@@ -224,8 +224,8 @@ export function StageWorkspace({
         </div>
       )}
 
-      {canGenerate && !output && !generating && <button className="btn btn-generate" onClick={handleGenerate}><span className="btn-generate-icon">✦</span>{kind.rehearsal ? 'Prepare session questions' : 'Generate with VALOUR™'}</button>}
-      {generating && <div className="ws-generating"><div className="ws-generating-spinner" /><span>VALOUR™ is preparing your next step…</span></div>}
+      {canGenerate && !output && !generating && <button className="btn btn-generate" onClick={handleGenerate}><span className="btn-generate-icon">✦</span>{kind.rehearsal ? 'Prepare session questions' : 'Generate with VALOUR\u2122'}</button>}
+      {generating && <div className="ws-generating"><div className="ws-generating-spinner" /><span>VALOUR&trade; is preparing your next step…</span></div>}
 
       {isParticipantComplete ? (
         <div className="ws-completion">

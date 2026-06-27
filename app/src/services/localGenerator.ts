@@ -18,7 +18,7 @@ export function generateScenarioSelection(ctx: AgentContext): StageOutput {
 **Why this scenario fits:**
 ${ctx.situation
   ? `The situation described — "${ctx.situation}" — maps directly to the ${ctx.scenarioTitle} scenario. The leadership risk here is not the technical content but whether the architect can frame the conversation at the right altitude.`
-  : `The ${ctx.scenarioTitle} scenario matches this situation because it exercises the core VALOUR™ promise: helping a leader turn technical complexity into a decision conversation.`
+  : `The ${ctx.scenarioTitle} scenario matches this situation because it exercises the core VALOUR\u2122 promise: helping a leader turn technical complexity into a decision conversation.`
 }
 
 **User risk:**
@@ -134,7 +134,7 @@ Practice your responses to these questions. Aim for answers under 90 seconds eac
 ---
 
 **Your answer goes here:**
-Type your response to any of these questions below. VALOUR™ will help you refine it in the next stage.
+Type your response to any of these questions below. VALOUR\u2122 will help you refine it in the next stage.
 `);
 }
 
@@ -222,7 +222,7 @@ Cadence improved when the answer led with the concern acknowledgement before the
 - Practise the closing statement until it feels natural.
 - Reduce the number of options presented. One clear recommendation is stronger than three balanced options.
 
-## Confidence after VALOUR™
+## Confidence after VALOUR\u2122
 Record your updated confidence score in the Outcome Record stage.
 
 ## Operator note
@@ -249,8 +249,8 @@ ${ctx.situation
   : `The leader risked over-explaining the technical design and failing to make the decision frame explicit before the audience lost attention.`
 }
 
-## What VALOUR™ helped prepare
-The VALOUR™ loop clarified audience, decision, key message, likely questions, risks to avoid, opening frame, and closing statement — before the real conversation.
+## What VALOUR\u2122 helped prepare
+The VALOUR\u2122 loop clarified audience, decision, key message, likely questions, risks to avoid, opening frame, and closing statement — before the real conversation.
 
 ## Main improvement observed
 ${hasOutputs
@@ -283,17 +283,17 @@ Practice this: before your next answer, ask yourself — "What decision am I hel
 
 ---
 
-*© 2026 ZenCloud Global Consultants. VALOUR™ is a trademark of ZenCloud Global Consultants.*
+*© 2026 ZenCloud Global Consultants. VALOUR\u2122 is a trademark of ZenCloud Global Consultants.*
 `);
 }
 
 // ── VALLUM handover ────────────────────────────────────────────────────────────
 
 export function generateVallumHandover(ctx: AgentContext): StageOutput {
-  return local(`# VALLUM™ Outcome Record
+  return local(`# VALLUM\u2122 Outcome Record
 
 ## Pilot complete
-The VALOUR™ loop for **${ctx.scenarioTitle}** is complete.
+The VALOUR\u2122 loop for **${ctx.scenarioTitle}** is complete.
 
 ## Confidence summary
 Review your confidence before and after the pilot. Record the shift in the evidence panel.
@@ -306,19 +306,19 @@ Based on the pilot outcomes, what is the product decision?
 - **Revise** — the workflow needs adjustment before the next run.
 - **Pause** — gather more user evidence before the next cycle.
 
-## What VALOUR™ helped with
+## What VALOUR\u2122 helped with
 The workflow converted a technical preparation session into a leadership decision conversation. The language refinement step produced immediately usable executive-ready answers.
 
-## Next VALOUR™ scenario
+## Next VALOUR\u2122 scenario
 Choose one of the following for the next pilot run:
 - Executive Briefing — translate a technical decision into business language for senior stakeholders
 - Challenging a Poor Solution — raise a concern without becoming a blocker
 - Delivery Conflict — handle tension with a delivery lead under time pressure
 
-## VITA™ handover
+## VITA\u2122 handover
 Work is closed enough for today. The next professional action is scheduled. Personal mode is active.
 
-> *This outcome was recorded by VALOUR™ Pilot Console v0.2. Pattern data is stored locally in your browser.*
+> *This outcome was recorded by VALOUR\u2122 Pilot Console v0.2. Pattern data is stored locally in your browser.*
 `);
 }
 

@@ -6,7 +6,7 @@ export const pilot002: PilotRun = {
   status: 'complete',
   scenario: 'Briefing CFO and CIO on a cloud migration decision — lift-and-shift versus re-platform.',
   productQuestion:
-    'Does VALOUR™ help a solution architect translate a technical migration decision into executive language?',
+    'Does VALOUR\u2122 help a solution architect translate a technical migration decision into executive language?',
   runObjective:
     'Prove the VALOUR loop is repeatable with an executive briefing scenario — different audience, different pattern, same confidence improvement signal.',
   sourcePath: 'pilot/runs/pilot-002-executive-briefing',
@@ -14,7 +14,7 @@ export const pilot002: PilotRun = {
     {
       id: 'p2-s01',
       label: 'Context',
-      description: 'Capture user role, context, and leadership situation. VALOUR™ uses this to personalise every stage.',
+      description: 'Capture user role, context, and leadership situation. VALOUR\u2122 uses this to personalise every stage.',
       sourceFile: '01-intake.md',
       status: 'complete',
       evidenceCaptured: true,
