@@ -26,7 +26,7 @@ export function TopBar({ pilot, mode, custosOpen, onOpenCustos, onViewPattern, o
   return (
     <header className="topbar">
       <button className="topbar-back" onClick={() => { window.location.hash = ''; }} title="Save and return home" aria-label="Save and return home">â</button>
-      <span className="topbar-logo">Valourâ¢</span>
+      <span className="topbar-logo">Valour™</span>
       <div className="topbar-divider" />
       <span className="topbar-title">{isParticipant ? participantTitle(pilot.title) : pilot.scenario}</span>
 
