@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { ALL_PILOTS, getPilotById } from './data/pilots';
 import { usePilotState } from './hooks/usePilotState';
 import { STAGE_AGENTS, checkDependency } from './services/agents';
@@ -72,14 +73,17 @@ export function App() {
 
   if (page === 'landing') {
     return (
-      <LandingPage
-        onEnterConsole={nav('#console')}
-        onStartNew={(sid) => {
-          window.location.hash = sid ? `#console?new=1&scenario=${sid}` : '#console?new=1';
-        }}
-        onJoinPilot={nav('#console?new=1')}
-        onViewScenarios={nav('#scenarios')}
-      />
+      <>
+        <LandingPage
+          onEnterConsole={nav('#console')}
+          onStartNew={(sid) => {
+            window.location.hash = sid ? `#console?new=1&scenario=${sid}` : '#console?new=1';
+          }}
+          onJoinPilot={nav('#console?new=1')}
+          onViewScenarios={nav('#scenarios')}
+        />
+        <Analytics />
+      </>
     );
   }
 
@@ -97,45 +101,64 @@ export function App() {
       }
     } catch { /* ignore */ }
     return (
-      <PatternPage
-        pilot={pilot}
-        liveContent={liveContent}
-        liveState={liveState}
-        onBack={nav('#console')}
-        onReset={() => {
-          localStorage.removeItem(`valour:state:${pid}`);
-          window.location.hash = `#console?pilot=${pid}`;
-        }}
-        onStartNew={() => { window.location.hash = '#console'; }}
-      />
+      <>
+        <PatternPage
+          pilot={pilot}
+          liveContent={liveContent}
+          liveState={liveState}
+          onBack={nav('#console')}
+          onReset={() => {
+            localStorage.removeItem(`valour:state:${pid}`);
+            window.location.hash = `#console?pilot=${pid}`;
+          }}
+          onStartNew={() => { window.location.hash = '#console'; }}
+        />
+        <Analytics />
+      </>
     );
   }
 
   if (page === 'scenarios') {
     const initialScenarioId = getParam('scenario') ?? undefined;
     return (
-      <ScenariosPage
-        onBack={nav('')}
-        onSelectScenario={id => { window.location.hash = `#console?new=1&scenario=${encodeURIComponent(id)}`; }}
-        initialScenarioId={initialScenarioId}
-      />
+      <>
+        <ScenariosPage
+          onBack={nav('')}
+          onSelectScenario={id => { window.location.hash = `#console?new=1&scenario=${encodeURIComponent(id)}`; }}
+          initialScenarioId={initialScenarioId}
+        />
+        <Analytics />
+      </>
     );
   }
 
-  if (page === 'readiness') return <ReadinessPage onBack={nav('#console')} />;
-  if (page === 'comparison') return <ComparisonPage onBack={nav('#console')} />;
+  if (page === 'readiness') return (
+    <>
+      <ReadinessPage onBack={nav('#console')} />
+      <Analytics />
+    </>
+  );
+  if (page === 'comparison') return (
+    <>
+      <ComparisonPage onBack={nav('#console')} />
+      <Analytics />
+    </>
+  );
 
   const scenarioId = getParam('scenario');
   const activePilotId = getParam('pilot') ?? (scenarioId ? (SCENARIO_PILOT_MAP[scenarioId] ?? 'PILOT-001') : 'PILOT-001');
   const isNewSession = getParam('new') === '1';
 
   return (
-    <Console
-      pilotId={activePilotId}
-      mode={getMode()}
-      isNewSession={isNewSession}
-      onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
-    />
+    <>
+      <Console
+        pilotId={activePilotId}
+        mode={getMode()}
+        isNewSession={isNewSession}
+        onViewPattern={() => { window.location.hash = `#pattern?pilot=${activePilotId}`; }}
+      />
+      <Analytics />
+    </>
   );
 }
 
