@@ -58,17 +58,6 @@ const LIMBS: LimbEntry[] = [
     evidenceSignals: ['delivery-risk-and-action'],
     description: 'Generates PM artefacts: RAID, project initiation, steering reporting, and delivery planning.',
   },
-  {
-    id: 'pmi-portal',
-    label: 'PMI Portal',
-    url: 'https://zencloudau.github.io/pmi-portal/',
-    discipline: 'Programme Delivery & Client Transparency',
-    maturity: 'prototype',
-    maturityLabel: 'Prototype',
-    artefacts: ['Executive Snapshot', 'Business Case Summary', 'Governance Model', 'Handover Pack'],
-    evidenceSignals: ['executive-translation', 'programme-communication'],
-    description: 'Governed delivery workspace: architecture framing, artefact catalogue, governance, RAID, milestones, executive snapshot, and client visibility.',
-  },
 ];
 
 const COMPARISON_ROWS = [
