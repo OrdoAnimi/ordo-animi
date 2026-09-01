@@ -1,7 +1,7 @@
 .shell.mode-participant {
   width: min(1800px, 96vw);
   margin: 22px auto;
-  border: 1px solid rgba(16, 24, 40, .16);
+  border: 1px solid rgba(11,14,17, .16);
   border-radius: 0;
   background: var(--valour-ivory);
   box-shadow: none;
@@ -12,7 +12,7 @@
   padding: 18px clamp(22px, 2.8vw, 44px);
   background: var(--valour-ivory);
   border-top: 4px solid var(--valour-orange);
-  border-bottom: 1px solid rgba(16, 24, 40, .14);
+  border-bottom: 1px solid rgba(11,14,17, .14);
 }
 
 .mode-participant .topbar-logo {
@@ -42,7 +42,7 @@
 .topbar-custos-btn {
   min-height: 40px;
   padding: 0 14px;
-  border: 1px solid rgba(242, 106, 33, .42);
+  border: 1px solid rgba(184,146,78, .42);
   border-radius: 999px;
   background: var(--valour-navy);
   color: #fff;
@@ -59,7 +59,7 @@
   background: var(--valour-orange);
   border-color: var(--valour-orange);
   outline: none;
-  box-shadow: 0 0 0 4px rgba(242, 106, 33, .18);
+  box-shadow: 0 0 0 4px rgba(184,146,78, .18);
 }
 
 .participant-landscape-grid {
@@ -90,7 +90,7 @@
 .mode-participant .workspace {
   min-height: calc(100vh - 190px);
   padding: clamp(32px, 4vw, 64px);
-  border: 1px solid rgba(16, 24, 40, .14);
+  border: 1px solid rgba(11,14,17, .14);
   border-radius: 0;
   background: var(--valour-white);
   gap: 24px;
@@ -98,11 +98,11 @@
 
 .mode-participant .ws-stepper {
   padding-bottom: 22px;
-  border-bottom-color: rgba(16, 24, 40, .14);
+  border-bottom-color: rgba(11,14,17, .14);
 }
 
 .mode-participant .ws-stepper-label {
-  color: #667085;
+  color: #8c9184;
   font-size: 12px;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .mode-participant .ws-stepper-item.active .ws-stepper-dot {
-  box-shadow: 0 0 0 5px rgba(242, 106, 33, .18);
+  box-shadow: 0 0 0 5px rgba(184,146,78, .18);
 }
 
 .mode-participant .ws-eyebrow,
@@ -140,14 +140,14 @@
 
 .mode-participant .ws-desc {
   max-width: 72ch;
-  color: #344054;
+  color: #6e7460;
   font-size: 18px;
   line-height: 1.65;
 }
 
 .mode-participant .ws-guidance {
-  background: #fff7ed;
-  border-color: rgba(242, 106, 33, .22);
+  background: #faf7ef;
+  border-color: rgba(184,146,78, .22);
 }
 
 .mode-participant .ws-guidance-summary {
@@ -158,7 +158,7 @@
 
 .mode-participant .ws-guidance-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  background: rgba(242, 106, 33, .16);
+  background: rgba(184,146,78, .16);
 }
 
 .mode-participant .ws-guidance-item,
@@ -173,7 +173,7 @@
 .mode-participant .ws-input-preview-missing,
 .mode-participant .ws-rehearsal-hint-text,
 .mode-participant .intake-label {
-  color: #344054;
+  color: #6e7460;
   font-size: 16px;
   line-height: 1.65;
 }
@@ -184,7 +184,7 @@
 .mode-participant .ws-refinement-card,
 .mode-participant .ws-answer-preview {
   border-radius: 0;
-  border-color: rgba(16, 24, 40, .14);
+  border-color: rgba(11,14,17, .14);
   background: #fff;
 }
 
@@ -192,7 +192,7 @@
 .mode-participant .intake-input,
 .mode-participant .ws-select {
   min-height: 52px;
-  border: 1px solid rgba(16, 24, 40, .28);
+  border: 1px solid rgba(11,14,17, .28);
   border-radius: 0;
   background: #fff;
   color: var(--valour-ink);
@@ -213,7 +213,7 @@
 .mode-participant .intake-input:focus,
 .mode-participant .ws-select:focus {
   border-color: var(--valour-orange);
-  box-shadow: 0 0 0 4px rgba(242, 106, 33, .16);
+  box-shadow: 0 0 0 4px rgba(184,146,78, .16);
 }
 
 .mode-participant .btn,
@@ -239,7 +239,7 @@
 
 .mode-participant .btn-ghost {
   background: transparent;
-  border-color: rgba(16, 24, 40, .26);
+  border-color: rgba(11,14,17, .26);
   color: var(--valour-ink);
 }
 

@@ -23,8 +23,8 @@
     top: 28px;
     padding: 24px;
     border-left: 4px solid var(--valour-orange);
-    background: rgba(255, 253, 248, .7);
-    color: #344054;
+    background: rgba(250,247,239, .7);
+    color: #6e7460;
     font-size: 16px;
     line-height: 1.55;
   }
@@ -96,8 +96,8 @@
     min-height: 0;
     max-height: min(58vh, 520px);
     overflow-y: auto;
-    border: 1px solid rgba(242, 106, 33, .42);
-    box-shadow: 0 18px 48px rgba(11, 18, 32, .32);
+    border: 1px solid rgba(184,146,78, .42);
+    box-shadow: 0 18px 48px rgba(7,9,11, .32);
   }
 
   .custos-floating-trigger {

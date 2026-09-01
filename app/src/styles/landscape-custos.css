@@ -25,11 +25,11 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid rgba(242, 106, 33, .72);
+  border: 1px solid rgba(184,146,78, .72);
   border-radius: 999px;
   background: var(--valour-navy);
   color: #fff;
-  box-shadow: 0 18px 38px rgba(11, 18, 32, .28), 0 0 0 4px rgba(242, 106, 33, .14);
+  box-shadow: 0 18px 38px rgba(7,9,11, .28), 0 0 0 4px rgba(184,146,78, .14);
   font-family: inherit;
   font-size: 14px;
   font-weight: 900;
@@ -44,7 +44,7 @@
   border-color: var(--valour-orange);
   outline: none;
   transform: translateY(-2px);
-  box-shadow: 0 22px 42px rgba(11, 18, 32, .3), 0 0 0 5px rgba(242, 106, 33, .22);
+  box-shadow: 0 22px 42px rgba(7,9,11, .3), 0 0 0 5px rgba(184,146,78, .22);
 }
 
 .custos-floating-mark {
@@ -113,7 +113,7 @@
 .custos-context-label,
 .custos-section-label,
 .custos-observation span {
-  color: #98a2b3;
+  color: #8c9184;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: .1em;
@@ -140,7 +140,7 @@
 .custos-preview-content,
 .custos-observation p,
 .custos-lead {
-  color: #eaecf0;
+  color: #ebe4d2;
   font-size: 16px;
   line-height: 1.65;
 }
@@ -179,19 +179,19 @@
 
 .custos-qa-btn:hover {
   border-color: var(--valour-orange);
-  background: rgba(242, 106, 33, .12);
+  background: rgba(184,146,78, .12);
   transform: translateX(2px);
 }
 
 .custos-qa-btn-ai {
-  border-color: rgba(242, 106, 33, .42);
+  border-color: rgba(184,146,78, .42);
 }
 
 .custos-back-btn {
   min-height: 44px;
   padding: 0 10px;
   background: transparent;
-  border: 1px solid rgba(242, 106, 33, .44);
+  border: 1px solid rgba(184,146,78, .44);
   color: var(--valour-orange);
   font-family: inherit;
   font-size: 14px;
@@ -218,7 +218,7 @@
 .custos-close-btn:focus-visible {
   border-color: var(--valour-orange);
   outline: none;
-  box-shadow: 0 0 0 4px rgba(242, 106, 33, .18);
+  box-shadow: 0 0 0 4px rgba(184,146,78, .18);
 }
 
 .custos-preview {
@@ -230,7 +230,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #eaecf0;
+  color: #ebe4d2;
   font-size: 16px;
 }
 
