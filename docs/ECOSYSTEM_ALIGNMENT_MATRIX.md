@@ -2,7 +2,7 @@
 
 ## Objective
 
-Bring all ZenCloud / Velocity ecosystem limbs to the same maturity baseline as EA Artefact Generator.
+Bring all OrdoAnimi ecosystem limbs to the same maturity baseline as EA Artefact Generator.
 
 ## Reference maturity pattern
 

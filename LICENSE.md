@@ -1,16 +1,16 @@
 Proprietary Licence
 
-Copyright © 2026 Zencloud Advisory.
+Copyright © 2026 Phil Myint / The OrdoAnimi Group.
 All rights reserved.
 
 This software and associated content is proprietary and confidential.
 Unauthorised copying, modification, distribution, or use of this
 software, via any medium, is strictly prohibited without the express
-written permission of Zencloud Advisory.
+written permission of Phil Myint / The OrdoAnimi Group.
 
 ## Trademarks
 
-The following names are trademarks of Zencloud Advisory,
+The following names are trademarks of Phil Myint / The OrdoAnimi Group,
 registered or pending registration (™ = pending; ® = registered):
 
 Ordo Animi™
@@ -27,4 +27,4 @@ materials is prohibited.
 
 ## Contact
 
-info@ordoanimi.com
+informatio@ordoanimi.com

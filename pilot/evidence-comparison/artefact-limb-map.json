@@ -6,7 +6,7 @@
     "ea-artefact-generator": {
       "id": "ea-artefact-generator",
       "label": "EA Artefact Generator",
-      "repo": "ZenCloudAU/ea-artefact-generator",
+      "repo": null,
       "url": "https://ea.velocityarchitecture.com.au/",
       "discipline": "Enterprise Architecture",
       "maturity": "usable",
@@ -17,7 +17,7 @@
     "sa-artefact-generator": {
       "id": "sa-artefact-generator",
       "label": "SA Artefact Generator",
-      "repo": "ZenCloudAU/sa-artefact-generator",
+      "repo": null,
       "url": null,
       "discipline": "Solution Architecture",
       "maturity": "minimal",
@@ -28,7 +28,7 @@
     "ba-artefact-generator": {
       "id": "ba-artefact-generator",
       "label": "BA Artefact Generator",
-      "repo": "ZenCloudAU/ba-artefact-generator",
+      "repo": null,
       "url": "https://ba.velocityarchitecture.com.au/",
       "discipline": "Business Analysis and Business Architecture",
       "maturity": "mvp-alpha",
@@ -47,7 +47,7 @@
     "pm-artefact-generator": {
       "id": "pm-artefact-generator",
       "label": "PM Artefact Generator",
-      "repo": "ZenCloudAU/pm-artefact-generator",
+      "repo": null,
       "url": "https://pm.velocityarchitecture.com.au/",
       "discipline": "Project and Programme Management",
       "maturity": "uat",
@@ -58,10 +58,10 @@
     "pmi-portal": {
       "id": "pmi-portal",
       "label": "PMI Portal",
-      "repo": "ZenCloudAU/pmi-portal",
-      "url": "https://zencloudau.github.io/pmi-portal/",
+      "repo": null,
+      "url": null,
       "discipline": "Programme Delivery and Client Transparency",
-      "maturity": "prototype",
+      "maturity": "retired",
       "invocation": "browser-ui",
       "apiContract": null,
       "description": "Governed delivery workspace: client mandate intake, architecture framing, scale assessment, artefact catalogue, governance model, RAID and decisions, milestones, executive snapshot, client visibility, and handover pack."

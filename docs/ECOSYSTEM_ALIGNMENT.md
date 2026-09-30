@@ -2,7 +2,7 @@
 
 ## Role in the system
 
-SA Artefact Generator is the solution architecture limb of the ZenCloud / Velocity ecosystem.
+SA Artefact Generator is the solution architecture limb of the OrdoAnimi ecosystem.
 
 It owns delivery-level solution architecture outputs: solution overview, ADRs, interfaces, dependencies, trade-offs, solution risks, TRA readiness, and handover material.
 

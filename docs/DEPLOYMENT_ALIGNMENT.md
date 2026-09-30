@@ -27,7 +27,7 @@ sa-artefact-generator
 Repository:
 
 ```text
-ZenCloudAU/sa-artefact-generator
+sa-artefact-generator (repository not public)
 ```
 
 Production branch:

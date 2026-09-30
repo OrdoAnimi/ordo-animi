@@ -1,6 +1,6 @@
 # Ordo Animi
 
-**Private — Zencloud Advisory flagship AI product.**
+**Proprietary — The OrdoAnimi Group flagship AI product.** Source is public for transparency; it is not open source.
 
 *Ordo Animi* — Latin: *Order of the Mind* — is The OrdoAnimi Group's agentic AI leadership platform.
 A command-and-control system for professional and personal life, built on guardrails,
@@ -31,7 +31,6 @@ personal domains with the discipline of enterprise architecture applied to human
 ## How It Fits the Ecosystem
 
 - **VAF™** — decision governance method that underpins Ordo Animi's architecture
-- **StudioSix** — delivery studio that will commercialise Ordo Animi for enterprise clients
 - **PMO Portal** — operational counterpart for project and programme governance
 
 ## Application
@@ -87,12 +86,12 @@ relationship is:
 
 ## Status
 
-Active development. Private repository. The constitutional baseline (v0.1 Fundamentum)
+Active development. Public repository, proprietary licence. The constitutional baseline (v0.1 Fundamentum)
 is established and the VALOUR Pilot Console MVP is in progress.
 
 ## Licence
 
-Proprietary. © 2026 Zencloud Advisory. All rights reserved.
+Proprietary. © 2026 Phil Myint / The OrdoAnimi Group. All rights reserved.
 See LICENSE.md for terms.
 
 ## Constitutional Documents
@@ -111,5 +110,5 @@ See LICENSE.md for terms.
 - [Examples](examples/README.md)
 
 ---
-© 2026 Zencloud Advisory. All rights reserved. Proprietary and confidential.
+© 2026 Phil Myint / The OrdoAnimi Group. All rights reserved. Proprietary.
 
