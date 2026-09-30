@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
 const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
+const CONTACT_EMAIL = 'informatio@ordoanimi.com';
+
+type Status = 'editing' | 'sending' | 'sent' | 'mailto' | 'error';
 
 type FormData = {
   name: string;
@@ -34,8 +37,7 @@ function getPrefilledScenario(): string {
 export function IntakeForm({ onBack }: Props) {
   const preScenario = getPrefilledScenario();
   const [step, setStep] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<Status>('editing');
   const [form, setForm] = useState<FormData>({
     name: '',
     role: '',
@@ -50,28 +52,47 @@ export function IntakeForm({ onBack }: Props) {
     setForm(prev => ({ ...prev, [field]: value }));
   }
 
+  function intakeBody(): string {
+    return [
+      `Name: ${form.name}`,
+      `Role: ${form.role}`,
+      `Organisation: ${form.organisation || '-'}`,
+      `Situation: ${form.situation}`,
+      `Desired outcome: ${form.outcome || '-'}`,
+      `Pattern: ${form.pattern}`,
+      `Starting confidence: ${form.confidence}/10`,
+    ].join('\n');
+  }
+
+  function subjectLine(): string {
+    return `VALOUR™ pilot intake — ${form.name} (${form.role})`;
+  }
+
+  function mailtoHref(): string {
+    return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subjectLine())}&body=${encodeURIComponent(intakeBody())}`;
+  }
+
   async function submit() {
-    setSubmitting(true);
+    // No form endpoint configured: hand the intake to the user's mail client.
+    if (!FORMSPREE_ID) {
+      window.location.href = mailtoHref();
+      setStatus('mailto');
+      return;
+    }
+    setStatus('sending');
     try {
-      if (FORMSPREE_ID) {
-        await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            name: form.name,
-            role: form.role,
-            organisation: form.organisation,
-            situation: form.situation,
-            outcome: form.outcome,
-            pattern: form.pattern,
-            confidence: form.confidence,
-            _subject: `VALOUR\u2122 pilot intake — ${form.name} (${form.role})`,
-          }),
-        });
-      }
-    } finally {
-      setSubmitting(false);
-      setSubmitted(true);
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          _subject: subjectLine(),
+        }),
+        signal: AbortSignal.timeout(15_000),
+      });
+      setStatus(res.ok ? 'sent' : 'error');
+    } catch {
+      setStatus('error');
     }
   }
 
@@ -83,22 +104,32 @@ export function IntakeForm({ onBack }: Props) {
     return true;
   }
 
-  if (submitted) {
+  if (status === 'sent' || status === 'mailto') {
+    const sent = status === 'sent';
     return (
       <div className="intake-page">
         <nav className="pattern-nav">
           <span className="landing-logo">VALOUR&trade;</span>
         </nav>
         <div className="intake-submitted">
-          <div className="landing-eyebrow">Intake received</div>
-          <h1 className="pattern-heading">You're on the list.</h1>
+          <div className="landing-eyebrow">{sent ? 'Intake received' : 'One more step'}</div>
+          <h1 className="pattern-heading">{sent ? "You're on the list." : 'Send your intake to finish.'}</h1>
           <p className="intake-submitted-body">
-            Your intake has been recorded. The VALOUR&trade; pilot operator will be in touch
-            to confirm your scenario and schedule the first session.
+            {sent
+              ? 'Your intake has been recorded. The VALOUR™ pilot operator will be in touch to confirm your scenario and schedule the first session.'
+              : 'Your email app should have opened with your intake filled in. Press send to join the pilot — nothing is recorded until that email arrives.'}
           </p>
-          <p className="intake-submitted-body" style={{ marginTop: '8px' }}>
-            Contact: <a href="mailto:info@ordoanimi.com">info@ordoanimi.com</a>
-          </p>
+          {!sent && (
+            <p className="intake-submitted-body" style={{ marginTop: '8px' }}>
+              Email app didn't open? <a href={mailtoHref()}>Open it again</a>, or email your
+              details to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+            </p>
+          )}
+          {sent && (
+            <p className="intake-submitted-body" style={{ marginTop: '8px' }}>
+              Contact: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+            </p>
+          )}
           <button className="btn btn-primary landing-btn-lg" style={{ marginTop: '32px' }} onClick={onBack}>
             ← Back to landing
           </button>
@@ -232,6 +263,13 @@ export function IntakeForm({ onBack }: Props) {
           </div>
         )}
 
+        {status === 'error' && (
+          <p className="intake-submitted-body" role="alert" style={{ marginTop: '16px' }}>
+            Your intake could not be sent. Nothing was recorded. Try again, or{' '}
+            <a href={mailtoHref()}>send it by email</a> to {CONTACT_EMAIL}.
+          </p>
+        )}
+
         <div className="intake-actions">
           {step > 0 && (
             <button className="btn btn-ghost" onClick={() => setStep(s => s - 1)}>← Back</button>
@@ -247,10 +285,10 @@ export function IntakeForm({ onBack }: Props) {
           ) : (
             <button
               className="btn btn-primary"
-              disabled={!canNext() || submitting}
+              disabled={!canNext() || status === 'sending'}
               onClick={submit}
             >
-              {submitting ? 'Sending…' : 'Submit intake'}
+              {status === 'sending' ? 'Sending…' : FORMSPREE_ID ? 'Submit intake' : 'Email my intake'}
             </button>
           )}
         </div>

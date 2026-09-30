@@ -16,6 +16,7 @@ import { PatternPage } from './components/PatternPage';
 import { ScenariosPage } from './components/ScenariosPage';
 import { ReadinessPage } from './components/ReadinessPage';
 import { ComparisonPage } from './components/ComparisonPage';
+import { IntakeForm } from './components/IntakeForm';
 import type { AppMode, RehearsalState, StageOutput, StageStatus, PilotState } from './data/types';
 
 const SCENARIO_PILOT_MAP: Record<string, string> = {
@@ -31,7 +32,7 @@ const SCENARIO_PILOT_MAP: Record<string, string> = {
   'VALOUR-S10': 'PILOT-S10',
 };
 
-type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison';
+type Page = 'landing' | 'console' | 'pattern' | 'scenarios' | 'readiness' | 'comparison' | 'intake';
 
 function getPage(): Page {
   const h = window.location.hash;
@@ -40,6 +41,7 @@ function getPage(): Page {
   if (h.startsWith('#scenarios')) return 'scenarios';
   if (h.startsWith('#readiness')) return 'readiness';
   if (h.startsWith('#comparison')) return 'comparison';
+  if (h.startsWith('#intake')) return 'intake';
   return 'landing';
 }
 
@@ -77,10 +79,14 @@ export function App() {
         onStartNew={(sid) => {
           window.location.hash = sid ? `#console?new=1&scenario=${sid}` : '#console?new=1';
         }}
-        onJoinPilot={nav('#console?new=1')}
+        onJoinPilot={nav('#intake')}
         onViewScenarios={nav('#scenarios')}
       />
     );
+  }
+
+  if (page === 'intake') {
+    return <IntakeForm onBack={nav('')} />;
   }
 
   if (page === 'pattern') {

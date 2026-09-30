@@ -248,3 +248,16 @@
   .scenarios-page .scenarios-grid-2col { grid-template-columns: 1fr; }
   .resume-dialog-actions { grid-template-columns: 1fr !important; }
 }
+
+/* Intake sits on the ivory page like .scenarios-page; re-scope the dark-console text tokens */
+.intake-page {
+  --text: #0b0e11;
+  --text-muted: #5a6354;
+  --text-dim: #6e7460;
+  --text-faint: rgba(11,14,17, .45);
+  --border: rgba(11,14,17, .16);
+  --border-strong: rgba(11,14,17, .28);
+  --surface: #fff;
+  --surface-raised: #fff;
+  color: var(--text);
+}
