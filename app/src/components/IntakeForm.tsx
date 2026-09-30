@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { OAStrip } from './OAStrip';
 
 const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
 const CONTACT_EMAIL = 'informatio@ordoanimi.com';
@@ -107,6 +108,8 @@ export function IntakeForm({ onBack }: Props) {
   if (status === 'sent' || status === 'mailto') {
     const sent = status === 'sent';
     return (
+      <>
+      <OAStrip />
       <div className="intake-page">
         <nav className="pattern-nav">
           <span className="landing-logo">VALOUR&trade;</span>
@@ -135,10 +138,13 @@ export function IntakeForm({ onBack }: Props) {
           </button>
         </div>
       </div>
+      </>
     );
   }
 
   return (
+    <>
+    <OAStrip />
     <div className="intake-page">
       <nav className="pattern-nav">
         <button className="btn btn-ghost pattern-back" onClick={onBack}>← Back</button>
@@ -295,5 +301,6 @@ export function IntakeForm({ onBack }: Props) {
 
       </div>
     </div>
+    </>
   );
 }

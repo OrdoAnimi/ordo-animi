@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
+import './styles/oa-tokens.css';
 import './styles/app.css';
 import './styles/landscape.css';
 import './styles/executive-flow.css';

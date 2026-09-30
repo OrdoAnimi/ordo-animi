@@ -1,0 +1,57 @@
+/* OrdoAnimi design tokens - v1.0 (2026-10-01)
+   Canonical source: github.com/OrdoAnimi/framework/design-system/
+   Every OrdoAnimi surface loads a copy of this file first and maps its
+   local variables onto these. Change values here, then re-copy.
+   Decisions: ink #0b0e11 and gold #b8924e are the brand (spec updated to
+   the as-built surfaces); pages #f2ede0, cards #faf7ef; controls 6px. */
+:root {
+  /* Brand */
+  --oa-ink: #0b0e11;          /* text, nav, footer, dark sections */
+  --oa-ink-rgb: 11, 14, 17;
+  --oa-gold: #b8924e;         /* solid fills, borders, focus rings */
+  --oa-gold-rgb: 184, 146, 78;
+  --oa-gold-deep: #7b6030;    /* gold text/links on light grounds (WCAG AA) */
+  --oa-gold-light: #d4b36a;   /* hover; gold text on dark grounds */
+  --oa-gold-tint: #f7f0dc;    /* subtle gold wash (active items, callouts) */
+
+  /* Grounds */
+  --oa-page: #f2ede0;         /* page background */
+  --oa-card: #faf7ef;         /* cards, panels, inputs */
+  --oa-card-rgb: 250, 247, 239;
+  --oa-sunken: #ebe4d2;       /* alternate band, chips */
+
+  /* Text */
+  --oa-text: #0b0e11;
+  --oa-body: #3d4536;
+  --oa-muted: #5a6354;
+  --oa-on-dark: #faf7ef;
+
+  /* Lines */
+  --oa-border: #ded7c4;
+  --oa-border-strong: #c9bfa6;
+
+  /* Type */
+  --oa-font-display: 'Playfair Display', Georgia, serif;
+  --oa-font-body: 'DM Sans', system-ui, sans-serif;
+  --oa-font-mono: 'DM Mono', ui-monospace, monospace;
+
+  /* Shape */
+  --oa-radius: 6px;           /* buttons and controls, everywhere */
+  --oa-radius-card: 8px;
+
+  /* Wayfinding strip (product apps) */
+  --oa-strip-height: 28px;
+}
+
+/* Thin estate wayfinding strip for product apps (VALOUR, EFT):
+   a strip, not a second nav. Markup:
+   <div class="oa-strip"><a href="https://www.ordoanimi.com/">OrdoAnimi</a><span>Product name</span></div> */
+.oa-strip {
+  display: flex; align-items: center; gap: 10px;
+  height: var(--oa-strip-height); padding: 0 24px;
+  background: var(--oa-ink); color: rgba(var(--oa-card-rgb), .6);
+  font: 500 11px/1 var(--oa-font-mono); letter-spacing: .08em;
+}
+.oa-strip a { color: var(--oa-gold-light); text-decoration: none; }
+.oa-strip a:hover, .oa-strip a:focus-visible { color: var(--oa-on-dark); text-decoration: underline; }
+.oa-strip span::before { content: '/'; margin-right: 10px; opacity: .45; }

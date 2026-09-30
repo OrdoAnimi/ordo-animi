@@ -9,7 +9,7 @@
 }
 
 .scenarios-page {
-  --paper: #faf7ef;
+  --paper: var(--oa-page);
   --paper-2: #f2ede0;
   --ink: #0b0e11;
   --muted: #6e7460;
@@ -37,7 +37,7 @@
   background: rgba(255,255,255,.45);
   color: var(--ink);
   border: 1px solid rgba(11,14,17,.22);
-  border-radius: 3px;
+  border-radius: var(--oa-radius);
   padding: 10px 16px;
   box-shadow: 0 6px 16px rgba(11,14,17,.07), inset 0 1px 0 rgba(255,255,255,.72);
 }
@@ -143,7 +143,7 @@
   width: 100%;
   min-height: 48px;
   margin-top: auto;
-  border-radius: 3px;
+  border-radius: var(--oa-radius);
   border: 1px solid #96753a;
   background: linear-gradient(180deg, #d4b36a 0%, #b8924e 100%);
   color: #0b0e11;
@@ -211,7 +211,7 @@
 }
 .resume-dialog .resume-btn {
   min-height: 50px;
-  border-radius: 3px !important;
+  border-radius: var(--oa-radius) !important;
   font-weight: 700;
 }
 .resume-dialog .btn-primary {
