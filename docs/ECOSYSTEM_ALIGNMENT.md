@@ -47,7 +47,7 @@ The current app already includes:
 To match EA maturity, SA needs:
 
 - Cloudflare Pages deployment route.
-- Custom domain target: `sa.velocityarchitecture.com.au`.
+- Custom domain target: `sa.ordoanimi.com`.
 - Deployment documentation.
 - Formal artefact lifecycle controls.
 - Artefact library or output management view.

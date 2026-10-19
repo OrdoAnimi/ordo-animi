@@ -44,10 +44,10 @@ Limbs (Execution Layer — independent repositories)
 
 | Limb | URL | Stack | Maturity | Invocation | API Contract |
 |---|---|---|---|---|---|
-| ea-artefact-generator | ea.velocityarchitecture.com.au | React 19, Vite, Cloudflare Pages | Usable | Browser UI | None — browser only |
+| ea-artefact-generator | ea.ordoanimi.com | React 19, Vite, Cloudflare Pages | Usable | Browser UI | None — browser only |
 | sa-artefact-generator | Cloudflare Pages | JS, Vite | Minimal | Browser UI | None — browser only |
-| ba-artefact-generator | ba.velocityarchitecture.com.au | React 19, Vite, Cloudflare Workers | MVP 0.1.0 Alpha | Browser UI + `/api/generate` Worker route | `/api/generate` exists but not yet documented as external contract |
-| pm-artefact-generator | pm.velocityarchitecture.com.au | React+JSX, Vite, Cloudflare Pages | v0.1.0-uat | Browser UI | None — browser only |
+| ba-artefact-generator | ba.ordoanimi.com | React 19, Vite, Cloudflare Workers | MVP 0.1.0 Alpha | Browser UI + `/api/generate` Worker route | `/api/generate` exists but not yet documented as external contract |
+| pm-artefact-generator | pm.ordoanimi.com | React+JSX, Vite, Cloudflare Pages | v0.1.0-uat | Browser UI | None — browser only |
 | pmi-portal | GitHub Pages | React 18, TypeScript, Vite, Tailwind | Prototype | Browser UI | Anthropic API path configured but no external API surface |
 
 **Key finding:** No limb repository exposes a stable, documented external API contract in Release 0.3. `ba-artefact-generator` has a Cloudflare Worker with `/api/generate`, making it the most integration-ready. All others are browser-only surfaces.
@@ -67,7 +67,7 @@ A VALOUR pilot evidence record can generate an artefact request using the follow
   "evidenceSignals": ["architecture-decision-framing"],
   "requestedArtefacts": ["Architecture Decision Record", "Governance Brief"],
   "targetLimb": "ea-artefact-generator",
-  "targetLimbUrl": "https://ea.velocityarchitecture.com.au/",
+  "targetLimbUrl": "https://ea.ordoanimi.com/",
   "requestedAt": "2026-06-04T00:00:00Z",
   "requestVersion": "0.3.0"
 }

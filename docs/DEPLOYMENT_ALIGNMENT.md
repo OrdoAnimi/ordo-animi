@@ -7,7 +7,7 @@ SA Artefact Generator should be deployed to match the EA and PM generator maturi
 Production route:
 
 ```text
-https://sa.velocityarchitecture.com.au/
+https://sa.ordoanimi.com/
 ```
 
 Cloudflare fallback route:
@@ -73,7 +73,7 @@ npm run preview
 SA is considered live-aligned when:
 
 - Cloudflare Pages deploy succeeds.
-- `sa.velocityarchitecture.com.au` resolves.
+- `sa.ordoanimi.com` resolves.
 - The fallback Pages URL resolves.
 - README contains live route and deployment instructions.
 - Security note warns against entering confidential client data into unsecured demo environments.

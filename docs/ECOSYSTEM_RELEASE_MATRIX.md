@@ -41,8 +41,8 @@ All build checks run on push to main and pull_request to main. Deploy workflows 
 | Field | Value |
 |-------|-------|
 | **Role** | Torso / governed engagement workspace and artefact lifecycle control |
-| **Current route** | https://pmo.velocityarchitecture.com.au/ |
-| **Target route** | https://pmo.velocityarchitecture.com.au/ |
+| **Current route** | https://pmo.ordoanimi.com/ |
+| **Target route** | https://pmo.ordoanimi.com/ |
 | **CI status** | ✅ GitHub Actions CI workflow active |
 | **Deployment method** | Cloudflare Pages via GitHub integration |
 | **Deployment status** | ✅ Platform setup completed by operator; deployment verification pending |
@@ -57,8 +57,8 @@ All build checks run on push to main and pull_request to main. Deploy workflows 
 | Field | Value |
 |-------|-------|
 | **Role** | Enterprise architecture limb — maturity reference baseline |
-| **Current route** | https://ea.velocityarchitecture.com.au/ |
-| **Target route** | https://ea.velocityarchitecture.com.au/ |
+| **Current route** | https://ea.ordoanimi.com/ |
+| **Target route** | https://ea.ordoanimi.com/ |
 | **CI status** | ✅ GitHub Actions build workflow active |
 | **Deployment method** | Cloudflare Worker via GitHub Actions deploy workflow using repo secrets |
 | **Deployment status** | ✅ Deploy workflow added; platform secrets reported complete; deployment verification pending |
@@ -72,8 +72,8 @@ All build checks run on push to main and pull_request to main. Deploy workflows 
 | Field | Value |
 |-------|-------|
 | **Role** | Business architecture and business analysis limb |
-| **Current route** | https://ba.velocityarchitecture.com.au/ |
-| **Target route** | https://ba.velocityarchitecture.com.au/ |
+| **Current route** | https://ba.ordoanimi.com/ |
+| **Target route** | https://ba.ordoanimi.com/ |
 | **CI status** | ✅ GitHub Actions build workflow active |
 | **Deployment method** | Cloudflare Worker via GitHub Actions deploy workflow using repo secrets |
 | **Deployment status** | ✅ Deploy workflow added; platform secrets reported complete; deployment verification pending |
@@ -87,8 +87,8 @@ All build checks run on push to main and pull_request to main. Deploy workflows 
 | Field | Value |
 |-------|-------|
 | **Role** | Solution architecture limb — delivery-level solution design and handoff |
-| **Current route** | https://sa.velocityarchitecture.com.au/ |
-| **Target route** | https://sa.velocityarchitecture.com.au/ |
+| **Current route** | https://sa.ordoanimi.com/ |
+| **Target route** | https://sa.ordoanimi.com/ |
 | **CI status** | ✅ GitHub Actions build workflow active |
 | **Deployment method** | Cloudflare Pages via GitHub integration |
 | **Deployment status** | ✅ Platform setup completed by operator; deployment verification pending |
@@ -102,8 +102,8 @@ All build checks run on push to main and pull_request to main. Deploy workflows 
 | Field | Value |
 |-------|-------|
 | **Role** | Project, programme, governance, and executive delivery artefact limb |
-| **Current route** | https://pm.velocityarchitecture.com.au/ |
-| **Target route** | https://pm.velocityarchitecture.com.au/ |
+| **Current route** | https://pm.ordoanimi.com/ |
+| **Target route** | https://pm.ordoanimi.com/ |
 | **CI status** | ✅ GitHub Actions build workflow active |
 | **Deployment method** | Cloudflare Pages via GitHub integration |
 | **Deployment status** | ✅ Live / auto-deploy active |

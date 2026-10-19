@@ -174,10 +174,10 @@ Before a limb is considered ready for production or client engagement use, answe
 
 | Limb | Production Route | Fallback |
 |------|-----------------|---------|
-| EA | https://ea.velocityarchitecture.com.au/ | — |
-| BA | https://ba.velocityarchitecture.com.au/ | https://ba-artefact-generator.phil-448.workers.dev/ |
-| SA | https://sa.velocityarchitecture.com.au/ | https://sa-artefact-generator.pages.dev/ |
-| PM | https://pm.velocityarchitecture.com.au/ | https://pm-artefact-generator.pages.dev/ |
+| EA | https://ea.ordoanimi.com/ | — |
+| BA | https://ba.ordoanimi.com/ | https://ba-artefact-generator.phil-448.workers.dev/ |
+| SA | https://sa.ordoanimi.com/ | https://sa-artefact-generator.pages.dev/ |
+| PM | https://pm.ordoanimi.com/ | https://pm-artefact-generator.pages.dev/ |
 | PMO Portal | TBD — Cloudflare Pages | — |
 | Ordo Animi | https://www.ordoanimi.com | — |
 
