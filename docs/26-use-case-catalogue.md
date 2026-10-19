@@ -23,7 +23,7 @@ The execution task is to turn that material into a usable pilot flow.
 
 ### Architecture leadership
 
-These are the first commercial scenarios because they align with Velocity Architecture and the founder's strongest market credibility.
+These are the first commercial scenarios because they align with OrdoAnimi and the founder's strongest market credibility.
 
 - Architecture review board
 - Executive briefing

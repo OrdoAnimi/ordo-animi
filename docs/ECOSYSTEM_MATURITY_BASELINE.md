@@ -1,4 +1,4 @@
-# Velocity Architecture Ecosystem — Maturity Baseline
+# OrdoAnimi Ecosystem — Maturity Baseline
 
 Version: V0.1 | Date: 2026-06-05
 
@@ -103,7 +103,7 @@ A clear statement of what the tool does, who it is for, and what professional pr
 ### 2. Live / Deployable Route
 Either a live URL or a committed deployment configuration that can be executed without further code changes.
 
-### 3. VAF Ecosystem Fit
+### 3. OrdoAnimi Ecosystem Fit
 Documentation of:
 - What inputs the limb receives (from practitioners, Ordo, EA, BA)
 - What artefacts it generates
@@ -123,7 +123,7 @@ Ability to view, copy, download, or export generated artefacts.
 At least one export format (Markdown, JSON, CSV) for getting artefacts out of the browser and into governed storage.
 
 ### 8. Lifecycle Language
-The shared VAF lifecycle states (REQUIRED → DRAFT → IN REVIEW → APPROVED → SHARED → LOCKED → HANDOVER) are understood and referenced.
+The shared OrdoAnimi lifecycle states (REQUIRED → DRAFT → IN REVIEW → APPROVED → SHARED → LOCKED → HANDOVER) are understood and referenced.
 
 ### 9. Security and Data Notes
 A clear statement that:
@@ -174,10 +174,10 @@ Before a limb is considered ready for production or client engagement use, answe
 
 | Limb | Production Route | Fallback |
 |------|-----------------|---------|
-| EA | https://ea.velocityarchitecture.com.au/ | — |
-| BA | https://ba.velocityarchitecture.com.au/ | https://ba-artefact-generator.phil-448.workers.dev/ |
-| SA | https://sa.velocityarchitecture.com.au/ | https://sa-artefact-generator.pages.dev/ |
-| PM | https://pm.velocityarchitecture.com.au/ | https://pm-artefact-generator.pages.dev/ |
+| EA | https://ea.ordoanimi.com/ | — |
+| BA | https://ba.ordoanimi.com/ | https://ba-artefact-generator.phil-448.workers.dev/ |
+| SA | https://sa.ordoanimi.com/ | https://sa-artefact-generator.pages.dev/ |
+| PM | https://pm.ordoanimi.com/ | https://pm-artefact-generator.pages.dev/ |
 | PMO Portal | TBD — Cloudflare Pages | — |
 | Ordo Animi | https://www.ordoanimi.com | — |
 

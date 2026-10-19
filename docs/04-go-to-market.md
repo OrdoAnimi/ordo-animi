@@ -45,7 +45,7 @@ Early users include enterprise architects, solution architects, cloud architects
 
 The first outreach should be direct, not paid advertising.
 
-Use the existing professional network, LinkedIn, architecture and cloud contacts, recruiters, former colleagues, consulting contacts, MSP contacts, architecture communities, and Velocity Architecture ecosystem links.
+Use the existing professional network, LinkedIn, architecture and cloud contacts, recruiters, former colleagues, consulting contacts, MSP contacts, architecture communities, and OrdoAnimi ecosystem links.
 
 ## Outreach message
 
@@ -92,7 +92,7 @@ Lead with a real pain: architects need to prepare for difficult leadership conve
 
 ## Funnel
 
-Awareness: LinkedIn posts, Velocity Architecture content, direct network outreach.
+Awareness: LinkedIn posts, OrdoAnimi content, direct network outreach.
 
 Interest: short landing page and founder explainer.
 

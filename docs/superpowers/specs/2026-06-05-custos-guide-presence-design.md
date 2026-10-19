@@ -29,7 +29,7 @@ v0.5 introduces Custos: a persistent guide presence inside Valour that makes the
 ### Explicitly out of scope
 - No new database, auth, payments, or external integrations
 - No Formspree dependency
-- No changes to SA Generator, EA Velocity, or any other repo
+- No changes to SA Generator, EA Generator, or any other repo
 - No private doctrine exposed publicly
 - No broad refactor
 - No changes to: StageWorkspace, Sidebar, TopBar, PatternPage, ScenariosPage, ExportPanel, AgentLogPanel, EvidencePanel, ProductDecisionPanel, all services, all data files

@@ -17,7 +17,7 @@ const LIMBS: LimbEntry[] = [
   {
     id: 'ea-artefact-generator',
     label: 'EA Artefact Generator',
-    url: 'https://ea.velocityarchitecture.com.au/',
+    url: 'https://ea.ordoanimi.com/',
     discipline: 'Enterprise Architecture',
     maturity: 'usable',
     maturityLabel: 'Usable',
@@ -39,7 +39,7 @@ const LIMBS: LimbEntry[] = [
   {
     id: 'ba-artefact-generator',
     label: 'BA Artefact Generator',
-    url: 'https://ba.velocityarchitecture.com.au/',
+    url: 'https://ba.ordoanimi.com/',
     discipline: 'Business Analysis & Architecture',
     maturity: 'mvp-alpha',
     maturityLabel: 'MVP Alpha',
@@ -50,7 +50,7 @@ const LIMBS: LimbEntry[] = [
   {
     id: 'pm-artefact-generator',
     label: 'PM Artefact Generator',
-    url: 'https://pm.velocityarchitecture.com.au/',
+    url: 'https://pm.ordoanimi.com/',
     discipline: 'Project & Programme Management',
     maturity: 'uat',
     maturityLabel: 'UAT',

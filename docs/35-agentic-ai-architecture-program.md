@@ -72,7 +72,7 @@ The enterprise architecture view defines how VALOUR fits into the broader ecosys
 - VALLUM as governance and mode-switch layer
 - VERITAS as truth-check layer
 - VIA as journey and memory layer
-- Velocity Architecture as the first professional domain context
+- OrdoAnimi as the first professional domain context
 
 ## Business architecture lens
 

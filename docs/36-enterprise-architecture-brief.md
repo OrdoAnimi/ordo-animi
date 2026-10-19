@@ -16,7 +16,7 @@ Ordo Animi is the parent system.
 
 VALOUR is the first commercial product.
 
-Velocity Architecture is the first professional domain context.
+OrdoAnimi is the first professional domain context.
 
 The first customer pathway is architecture and technical leadership.
 

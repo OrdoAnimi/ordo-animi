@@ -26,11 +26,11 @@ personal domains with the discipline of enterprise architecture applied to human
 - Guardrails first — the system knows what you will not do before it suggests what you should
 - Decision traceability — every commitment has a record
 - Human authority — the agent advises and executes, the human decides and governs
-- Aligned to VAF™ — decision governance architecture applied to personal and professional life
+- Aligned to OrdoAnimi Framework™ — decision governance architecture applied to personal and professional life
 
 ## How It Fits the Ecosystem
 
-- **VAF™** — decision governance method that underpins Ordo Animi's architecture
+- **OrdoAnimi Framework™** — decision governance method that underpins Ordo Animi's architecture
 - **PMO Portal** — operational counterpart for project and programme governance
 
 ## Application
@@ -70,7 +70,7 @@ relationship is:
 - Magister Automatorum governs the estate.
 - Imperium determines what deserves investment.
 - Mercatus takes products to market.
-- Velocity Architecture defines the professional method.
+- OrdoAnimi defines the professional method.
 - Lex defines policy and processing rules.
 - Ordo Animi operates the intelligence and user experience.
 - Civitas manages identity, organisations, engagements and authority.

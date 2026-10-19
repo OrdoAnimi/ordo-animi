@@ -135,7 +135,7 @@ Why this exists
 
 ### Copy
 
-VALOUR began inside the Velocity Architecture ecosystem. It was created from the belief that architecture leadership is not only about producing better artefacts. It is about helping people make better technology decisions through better conversations.
+VALOUR began inside the OrdoAnimi ecosystem. It was created from the belief that architecture leadership is not only about producing better artefacts. It is about helping people make better technology decisions through better conversations.
 
 ## Final call to action
 

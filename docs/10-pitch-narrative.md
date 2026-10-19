@@ -23,7 +23,7 @@ It is the first commercial product from Ordo Animi, a broader agentic life-and-w
 
 ## Founder pitch
 
-VALOUR began inside the Velocity Architecture ecosystem.
+VALOUR began inside the OrdoAnimi ecosystem.
 
 The original insight was that architecture leadership is not only about frameworks, diagrams, artefacts, or certifications. It is about the conversations where decisions are shaped.
 
@@ -69,7 +69,7 @@ It supports authority with empathy: clear enough to lead, human enough to preser
 
 The broader system could support many types of leadership, but the first product must start where the founder has authority.
 
-Architecture leadership is the right wedge because it has a real pain, a reachable audience, and an existing founder ecosystem through Velocity Architecture.
+Architecture leadership is the right wedge because it has a real pain, a reachable audience, and an existing founder ecosystem through OrdoAnimi.
 
 ## Why not generic leadership first
 

@@ -1,4 +1,4 @@
-# Velocity Architecture Ecosystem — Shared Contract V0.1
+# OrdoAnimi Ecosystem — Shared Contract V0.1
 
 Version: V0.1 | Date: 2026-06-05 | Status: Logical contract — no API implementation required
 

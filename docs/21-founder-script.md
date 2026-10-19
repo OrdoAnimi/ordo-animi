@@ -14,7 +14,7 @@ It helps users prepare for architecture boards, executive briefings, workshops, 
 
 ## Longer version
 
-VALOUR came out of Velocity Architecture.
+VALOUR came out of OrdoAnimi.
 
 The core observation is simple: architecture leadership often succeeds or fails in conversation. Architects may have strong technical judgement, but they still need to frame the message, understand the audience, show empathy, keep the right cadence, and use clear decision language.
 

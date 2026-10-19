@@ -19,8 +19,8 @@ VITA™
 VALLUM™
 VERITAS™
 VIA™
-Velocity Architecture Framework™
-Velocity Success Factor™
+OrdoAnimi Framework™
+OrdoAnimi Success Factor™
 
 Unauthorised use of these names in commerce, product names, or marketing
 materials is prohibited.

@@ -25,7 +25,7 @@ That missing layer includes language, cadence, empathy, authority, listening, al
 
 ## Why VALOUR exists
 
-VALOUR was originally conceived as the professional layer of Velocity Architecture. It was intended to help architects and technical leaders become more effective in the rooms where architecture succeeds or fails.
+VALOUR was originally conceived as the professional layer of OrdoAnimi. It was intended to help architects and technical leaders become more effective in the rooms where architecture succeeds or fails.
 
 The product is based on a simple observation: architecture leadership happens through conversations before it becomes documentation.
 
@@ -67,7 +67,7 @@ VIA is the path layer.
 
 ## Founder-market fit
 
-The strongest first market is architecture leadership because this is where the founder has lived experience, credibility, language, proof of work, and existing ecosystem assets through Velocity Architecture.
+The strongest first market is architecture leadership because this is where the founder has lived experience, credibility, language, proof of work, and existing ecosystem assets through OrdoAnimi.
 
 The broader system can later expand to other leadership contexts, small business operators, personal operating systems, and agentic desktop companions.
 
