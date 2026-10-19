@@ -39,7 +39,7 @@ Would you be open to a short conversation? I am not looking for a big commitment
 
 ## Direct message to former colleague
 
-Hi [Name], I am working on a private pilot from the Velocity Architecture ecosystem.
+Hi [Name], I am working on a private pilot from the OrdoAnimi ecosystem.
 
 The product is called VALOUR. It helps architects prepare for high-pressure leadership conversations before they happen, using scenario rehearsal and after-action review.
 
@@ -49,7 +49,7 @@ Would you be open to a short call?
 
 ## Direct message to potential funder
 
-Hi [Name], I am formalising a product concept I have been developing through Velocity Architecture.
+Hi [Name], I am formalising a product concept I have been developing through OrdoAnimi.
 
 The first product is VALOUR, an AI-assisted architectural leadership copilot. It helps architects and technical leaders prepare for, rehearse, and review the conversations that shape technology decisions.
 
@@ -82,7 +82,7 @@ Subject: Private validation concept: VALOUR
 
 Hi [Name],
 
-I am putting structure around a product concept that came out of my Velocity Architecture work.
+I am putting structure around a product concept that came out of my OrdoAnimi work.
 
 The first product is VALOUR for Architecture Leadership. It is an AI-assisted copilot that helps architects and technical leaders prepare for, rehearse, and review high-stakes conversations: architecture boards, executive briefings, stakeholder conflict, workshops, risk discussions, and trade-off explanations.
 

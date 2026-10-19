@@ -99,7 +99,7 @@ The early moat is not only technical.
 The moat includes:
 
 - Founder-market fit in architecture leadership
-- Velocity Architecture ecosystem alignment
+- OrdoAnimi ecosystem alignment
 - Lived prototype across professional and personal modes
 - The Ordo Animi five-layer architecture
 - Scenario-based architecture leadership focus

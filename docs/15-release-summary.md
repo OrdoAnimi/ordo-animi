@@ -44,7 +44,7 @@ The five system layers are now captured:
 
 The first commercial product is VALOUR for Architecture Leadership.
 
-This restores the original vertical logic: VALOUR began from Velocity Architecture and is strongest when focused first on architecture leadership rather than generic leadership or wellness.
+This restores the original vertical logic: VALOUR began from OrdoAnimi and is strongest when focused first on architecture leadership rather than generic leadership or wellness.
 
 ### 5. Market position established
 

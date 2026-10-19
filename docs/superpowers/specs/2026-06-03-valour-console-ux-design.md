@@ -8,7 +8,7 @@ Author: Phil Myint / The OrdoAnimi Group
 
 ## Summary
 
-Replace the current single-column stacked layout and warm amber palette with a sidebar-navigator console using an azure intelligence theme. Goal: reduce information density, improve navigation clarity, and establish a visual identity distinct from the Velocity Architecture Framework warm amber palette.
+Replace the current single-column stacked layout and warm amber palette with a sidebar-navigator console using an azure intelligence theme. Goal: reduce information density, improve navigation clarity, and establish a visual identity distinct from the OrdoAnimi Framework warm amber palette.
 
 ---
 

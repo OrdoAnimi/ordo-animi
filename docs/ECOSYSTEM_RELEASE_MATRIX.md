@@ -1,4 +1,4 @@
-# Velocity Architecture Ecosystem — Release Matrix
+# OrdoAnimi Ecosystem — Release Matrix
 
 Version: V0.3 | Date: 2026-06-05 | Updated: platform setup completed, deployment workflows added
 

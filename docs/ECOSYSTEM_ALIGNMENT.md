@@ -14,7 +14,7 @@ SA must reach the same baseline:
 
 - Clear product intent.
 - Live or deployable route.
-- VAF ecosystem fit.
+- OrdoAnimi ecosystem fit.
 - Recognised professional artefact catalogue.
 - Local deterministic generation.
 - Future AI generation path.
