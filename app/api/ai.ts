@@ -20,6 +20,93 @@ interface AgentContext {
   userInput?: string;
 }
 
+// ── Request guards ─────────────────────────────────────────────────────────────
+// No user accounts exist, so access is limited by origin allowlist, per-IP rate
+// limit, agent allowlist and field caps. Origin can be spoofed outside a browser;
+// the rate limit and a provider-side spend cap are the backstop for that.
+
+const ORIGIN_ALLOW = [
+  /^https:\/\/([a-z0-9-]+\.)*ordoanimi\.com$/,
+  /^https:\/\/valour-[a-z0-9-]+-zeneithgroup\.vercel\.app$/,
+];
+const DEV_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+function originAllowed(origin: string | null): boolean {
+  if (!origin) return false;
+  if (ORIGIN_ALLOW.some(re => re.test(origin))) return true;
+  return process.env.VERCEL_ENV !== 'production' && DEV_ORIGIN.test(origin);
+}
+
+const AGENTS = new Set([
+  'scenarioSelector', 'preparation', 'rehearsal', 'languageRefinement',
+  'afterActionReview', 'patternReport', 'vallumHandover',
+  'custos-executive', 'custos-shorter',
+]);
+
+const MAX_BODY = 64_000;         // bytes, whole request
+const CAP_SHORT = 200;           // titles, role, organisation, ids
+const CAP_MEDIUM = 2_000;        // descriptions, situation, outcome
+const CAP_USER_INPUT = 12_000;   // rehearsal answer or text to refine
+const CAP_PREV_VALUE = 6_000;
+const MAX_PREV_ENTRIES = 24;
+const PREV_KEY = /^[a-z0-9-]{1,40}(:userInput)?$/;
+
+function str(v: unknown, max: number): string | undefined {
+  return typeof v === 'string' ? v.slice(0, max) : undefined;
+}
+
+function sanitiseContext(raw: unknown): AgentContext | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const c = raw as Record<string, unknown>;
+  const prev: Record<string, string> = {};
+  if (c.previousOutputs && typeof c.previousOutputs === 'object') {
+    for (const [k, v] of Object.entries(c.previousOutputs as Record<string, unknown>)) {
+      if (Object.keys(prev).length >= MAX_PREV_ENTRIES) break;
+      if (PREV_KEY.test(k) && typeof v === 'string') prev[k] = v.slice(0, CAP_PREV_VALUE);
+    }
+  }
+  const conf = typeof c.confidenceBefore === 'number' && c.confidenceBefore >= 1 && c.confidenceBefore <= 10
+    ? Math.round(c.confidenceBefore) : undefined;
+  return {
+    pilotId: str(c.pilotId, CAP_SHORT) ?? '',
+    scenarioTitle: str(c.scenarioTitle, CAP_SHORT) ?? '',
+    scenarioDescription: str(c.scenarioDescription, CAP_MEDIUM) ?? '',
+    role: str(c.role, CAP_SHORT),
+    organisation: str(c.organisation, CAP_SHORT),
+    situation: str(c.situation, CAP_MEDIUM),
+    outcome: str(c.outcome, CAP_MEDIUM),
+    confidenceBefore: conf,
+    previousOutputs: prev,
+    userInput: str(c.userInput, CAP_USER_INPUT),
+  };
+}
+
+// Fixed-window limiter, per edge isolate. Best effort: isolates are not shared,
+// so the effective ceiling is per region. Enough to blunt a scripted loop.
+const RATE_WINDOW_MS = 10 * 60_000;
+const RATE_PER_IP = 30;
+const hits = new Map<string, { n: number; reset: number }>();
+
+function rateLimited(ip: string): number | null {
+  const now = Date.now();
+  if (hits.size > 5_000) {
+    for (const [k, v] of hits) if (v.reset <= now) hits.delete(k);
+  }
+  const h = hits.get(ip);
+  if (!h || h.reset <= now) {
+    hits.set(ip, { n: 1, reset: now + RATE_WINDOW_MS });
+    return null;
+  }
+  h.n += 1;
+  return h.n > RATE_PER_IP ? Math.ceil((h.reset - now) / 1000) : null;
+}
+
+function clientIp(req: Request): string {
+  return req.headers.get('x-real-ip')
+    ?? req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    ?? 'unknown';
+}
+
 // ── System prompt ──────────────────────────────────────────────────────────────
 
 const SYSTEM = `You are VALOUR\u2122, an AI architectural leadership copilot built by The OrdoAnimi Group.
@@ -211,32 +298,41 @@ A short, human end-of-day note. Close the professional loop and hand over to per
 
 Keep the tone direct, supportive, and grounded in this specific pilot run.`;
 
+    case 'custos-executive':
+      return `Rewrite the following VALOUR™ output in a shorter, executive tone. Lead with the decision or outcome. Remove unnecessary technical detail. Maximum 200 words.
+
+${ctx.userInput ?? ''}`;
+
+    case 'custos-shorter':
+      return `Shorten the following VALOUR™ output to roughly half its length while preserving all key points. Return only the shortened text.
+
+${ctx.userInput ?? ''}`;
+
     default:
       return `${context}${prevSection}\n\nGenerate a VALOUR\u2122 ${agent} output for this architecture leadership scenario. Be concise, practical, and end with a next step.`;
   }
 }
 
-// ── JSON response helper (edge-safe) ──────────────────────────────────────────
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}
-
 // ── Handler ────────────────────────────────────────────────────────────────────
 
 export default async function handler(req: Request): Promise<Response> {
-  // CORS headers for same-origin Vercel deploy
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
+  // CORS: reflect only allowlisted origins; never a wildcard
+  const origin = req.headers.get('origin');
+  const allowed = originAllowed(origin);
+  const corsHeaders: Record<string, string> = {
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
+    'Vary': 'Origin',
+    ...(allowed && origin ? { 'Access-Control-Allow-Origin': origin } : {}),
   };
+  const deny = (error: string, status: number, extra: Record<string, string> = {}) =>
+    new Response(JSON.stringify({ error }), {
+      status,
+      headers: { ...corsHeaders, ...extra, 'Content-Type': 'application/json' },
+    });
 
   if (req.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders });
+    return new Response(null, { status: allowed ? 204 : 403, headers: corsHeaders });
   }
 
   const provider: string =
@@ -259,19 +355,39 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+    return deny('Method not allowed', 405);
   }
 
-  let body: { agent: string; context: AgentContext };
+  // Browsers always send Origin on POST, including same-origin fetches
+  if (!allowed) {
+    return deny('Forbidden', 403);
+  }
+
+  const retryAfter = rateLimited(clientIp(req));
+  if (retryAfter !== null) {
+    return deny('Too many requests', 429, { 'Retry-After': String(retryAfter) });
+  }
+
+  if (Number(req.headers.get('content-length') ?? 0) > MAX_BODY) {
+    return deny('Request too large', 413);
+  }
+
+  let body: { agent?: unknown; context?: unknown };
   try {
-    body = await req.json() as { agent: string; context: AgentContext };
+    const raw = await req.text();
+    if (raw.length > MAX_BODY) return deny('Request too large', 413);
+    body = JSON.parse(raw) as { agent?: unknown; context?: unknown };
   } catch {
-    return json({ error: 'Invalid JSON' }, 400);
+    return deny('Invalid JSON', 400);
   }
 
-  const { agent, context } = body;
-  if (!agent || !context) {
-    return json({ error: 'Missing agent or context' }, 400);
+  const agent = typeof body?.agent === 'string' ? body.agent : '';
+  if (!AGENTS.has(agent)) {
+    return deny('Unknown agent', 400);
+  }
+  const context = sanitiseContext(body.context);
+  if (!context) {
+    return deny('Missing context', 400);
   }
 
   // Local — return signal immediately

@@ -96,10 +96,8 @@ export function CustosPanel({
   async function handleAiAction(type: 'executive' | 'shorter') {
     if (!activeEntry?.output?.content) return;
     const label = type === 'executive' ? 'Executive version' : 'Shorter version';
-    const content = activeEntry.output.content;
-    const userInput = type === 'executive'
-      ? `Rewrite the following in a shorter, executive tone. Lead with the decision or outcome. Remove unnecessary technical detail. Maximum 200 words.\n\n${content}`
-      : `Shorten the following to roughly half its length while preserving all key points. Return only the shortened text.\n\n${content}`;
+    // Rewrite instructions live server-side; only the text to refine is sent
+    const userInput = activeEntry.output.content;
 
     setQuickActionLabel(label);
     setQuickActionResult('');
